@@ -34,19 +34,19 @@ Desenvolvimento **incremental e validado**, onde cada funcionalidade será:
 ### Backend (`/backend`)
 **Stack**: Node.js + Express.js + MySQL + Prisma/Sequelize
 
-**Status**: ⚪ Não iniciado
+**Status**: 🟡 Em desenvolvimento
 
 **Funcionalidades Planejadas**:
-- [ ] Configuração inicial do projeto (package.json, estrutura de pastas)
+- [x] Configuração inicial do projeto (package.json, estrutura de pastas)
 - [x] Configuração do banco de dados MySQL
 - [x] Modelagem e criação das tabelas (Usuários, Produtos, Lotes, Movimentações)
-- [ ] Sistema de autenticação (login/registro)
+- [x] Sistema de autenticação (login/registro/logout)
+- [x] Documentação Swagger
+- [x] Coleção Postman
 - [ ] CRUD de Produtos
 - [ ] CRUD de Lotes
 - [ ] Sistema de Movimentações (entrada/saída)
 - [ ] Lógica de alertas de validade
-- [ ] Documentação Swagger
-- [ ] Coleção Postman
 
 **Estrutura Planejada**:
 ```
@@ -193,6 +193,8 @@ frontend/
 | Jan/2024 | Criação do arquivo de status | Planejamento |
 | Jan/2024 | Criação do banco de dados MySQL | Concluído |
 | Jan/2024 | Adição de controle de usuários | Concluído |
+| Jan/2024 | Implementação de rotas de autenticação JWT | Concluído |
+| Jan/2024 | Documentação Swagger e Postman | Concluído |
 
 ---
 

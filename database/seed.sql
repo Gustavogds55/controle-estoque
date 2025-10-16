@@ -4,10 +4,10 @@
 
 USE controle_estoque;
 
--- Usuários de exemplo (senha: 123456 - deve ser hasheada no backend)
+-- Usuários de exemplo (senha: 123456)
 INSERT INTO usuarios (nome, email, senha) VALUES
-('Administrador', 'admin@estoque.com', '$2b$10$placeholder'),
-('João Silva', 'joao@estoque.com', '$2b$10$placeholder');
+('Administrador', 'admin@estoque.com', '$2b$10$kZMvFEuzbVkS1RVSlLoENe6sua2qXn/fYZritvn3ghM7pfkzDqqnW'),
+('João Silva', 'joao@estoque.com', '$2b$10$kZMvFEuzbVkS1RVSlLoENe6sua2qXn/fYZritvn3ghM7pfkzDqqnW');
 
 -- Produtos de exemplo
 INSERT INTO produtos (nome, categoria, descricao, unidade_medida) VALUES
