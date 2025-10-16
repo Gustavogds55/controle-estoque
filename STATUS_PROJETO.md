@@ -43,7 +43,7 @@ Desenvolvimento **incremental e validado**, onde cada funcionalidade será:
 - [x] Sistema de autenticação (login/registro/logout)
 - [x] Documentação Swagger
 - [x] Coleção Postman
-- [ ] CRUD de Produtos
+- [x] CRUD de Produtos
 - [ ] CRUD de Lotes
 - [ ] Sistema de Movimentações (entrada/saída)
 - [ ] Lógica de alertas de validade
@@ -195,6 +195,7 @@ frontend/
 | Jan/2024 | Adição de controle de usuários | Concluído |
 | Jan/2024 | Implementação de rotas de autenticação JWT | Concluído |
 | Jan/2024 | Documentação Swagger e Postman | Concluído |
+| Jan/2024 | CRUD de Produtos | Concluído |
 
 ---
 

@@ -32,6 +32,16 @@ export const swaggerDocument = {
           email: { type: 'string' }
         }
       },
+      Produto: {
+        type: 'object',
+        properties: {
+          id: { type: 'integer' },
+          nome: { type: 'string' },
+          categoria: { type: 'string' },
+          descricao: { type: 'string' },
+          unidade_medida: { type: 'string' }
+        }
+      },
       Error: {
         type: 'object',
         properties: {
@@ -205,6 +215,159 @@ export const swaggerDocument = {
                 schema: { $ref: '#/components/schemas/Error' }
               }
             }
+          }
+        }
+      }
+    },
+    '/produtos': {
+      get: {
+        tags: ['Produtos'],
+        summary: 'Listar todos os produtos',
+        security: [{ bearerAuth: [] }],
+        responses: {
+          200: {
+            description: 'Lista de produtos',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'array',
+                  items: { $ref: '#/components/schemas/Produto' }
+                }
+              }
+            }
+          }
+        }
+      },
+      post: {
+        tags: ['Produtos'],
+        summary: 'Criar novo produto',
+        security: [{ bearerAuth: [] }],
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                required: ['nome', 'unidade_medida'],
+                properties: {
+                  nome: { type: 'string', example: 'Paracetamol 500mg' },
+                  categoria: { type: 'string', example: 'Medicamentos' },
+                  descricao: { type: 'string', example: 'Analgésico e antitérmico' },
+                  unidade_medida: { type: 'string', example: 'UN' }
+                }
+              }
+            }
+          }
+        },
+        responses: {
+          201: {
+            description: 'Produto criado',
+            content: {
+              'application/json': {
+                schema: { $ref: '#/components/schemas/Produto' }
+              }
+            }
+          }
+        }
+      }
+    },
+    '/produtos/{id}': {
+      get: {
+        tags: ['Produtos'],
+        summary: 'Buscar produto por ID',
+        security: [{ bearerAuth: [] }],
+        parameters: [
+          {
+            name: 'id',
+            in: 'path',
+            required: true,
+            schema: { type: 'integer' }
+          }
+        ],
+        responses: {
+          200: {
+            description: 'Produto encontrado',
+            content: {
+              'application/json': {
+                schema: { $ref: '#/components/schemas/Produto' }
+              }
+            }
+          },
+          404: {
+            description: 'Produto não encontrado'
+          }
+        }
+      },
+      put: {
+        tags: ['Produtos'],
+        summary: 'Atualizar produto',
+        security: [{ bearerAuth: [] }],
+        parameters: [
+          {
+            name: 'id',
+            in: 'path',
+            required: true,
+            schema: { type: 'integer' }
+          }
+        ],
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  nome: { type: 'string' },
+                  categoria: { type: 'string' },
+                  descricao: { type: 'string' },
+                  unidade_medida: { type: 'string' }
+                }
+              }
+            }
+          }
+        },
+        responses: {
+          200: {
+            description: 'Produto atualizado',
+            content: {
+              'application/json': {
+                schema: { $ref: '#/components/schemas/Produto' }
+              }
+            }
+          },
+          404: {
+            description: 'Produto não encontrado'
+          }
+        }
+      },
+      delete: {
+        tags: ['Produtos'],
+        summary: 'Deletar produto',
+        security: [{ bearerAuth: [] }],
+        parameters: [
+          {
+            name: 'id',
+            in: 'path',
+            required: true,
+            schema: { type: 'integer' }
+          }
+        ],
+        responses: {
+          200: {
+            description: 'Produto deletado',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    message: { type: 'string' }
+                  }
+                }
+              }
+            }
+          },
+          404: {
+            description: 'Produto não encontrado'
           }
         }
       }

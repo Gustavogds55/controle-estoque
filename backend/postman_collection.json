@@ -117,6 +117,117 @@
       ]
     },
     {
+      "name": "Produtos",
+      "item": [
+        {
+          "name": "Listar Produtos",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/produtos",
+              "host": ["{{baseUrl}}"],
+              "path": ["produtos"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Buscar Produto por ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/produtos/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["produtos", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Criar Produto",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Produto Teste\",\n  \"categoria\": \"Teste\",\n  \"descricao\": \"Produto de teste\",\n  \"unidade_medida\": \"UN\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/produtos",
+              "host": ["{{baseUrl}}"],
+              "path": ["produtos"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Atualizar Produto",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Produto Atualizado\",\n  \"categoria\": \"Teste\",\n  \"descricao\": \"Produto atualizado\",\n  \"unidade_medida\": \"UN\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/produtos/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["produtos", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Deletar Produto",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/produtos/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["produtos", "1"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
       "name": "Health Check",
       "request": {
         "method": "GET",
