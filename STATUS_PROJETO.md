@@ -12,11 +12,11 @@ controle-estoque/
 
 ---
 
-## ✅ Status Atual: INICIANDO
+## ✅ Status Atual: BANCO DE DADOS CRIADO
 
 ### 📅 Última Atualização
-**Data**: [Inserir data da última modificação]  
-**Fase**: Planejamento e Estruturação Inicial
+**Data**: Janeiro 2024  
+**Fase**: Estruturação do Banco de Dados
 
 ---
 
@@ -38,8 +38,9 @@ Desenvolvimento **incremental e validado**, onde cada funcionalidade será:
 
 **Funcionalidades Planejadas**:
 - [ ] Configuração inicial do projeto (package.json, estrutura de pastas)
-- [ ] Configuração do banco de dados MySQL
-- [ ] Modelagem e criação das tabelas (Produtos, Lotes, Movimentações)
+- [x] Configuração do banco de dados MySQL
+- [x] Modelagem e criação das tabelas (Usuários, Produtos, Lotes, Movimentações)
+- [ ] Sistema de autenticação (login/registro)
 - [ ] CRUD de Produtos
 - [ ] CRUD de Lotes
 - [ ] Sistema de Movimentações (entrada/saída)
@@ -101,6 +102,14 @@ frontend/
 
 ### Tabelas Principais
 
+**usuarios**
+- id (PK)
+- nome
+- email (UNIQUE)
+- senha (hash)
+- created_at
+- updated_at
+
 **produtos**
 - id (PK)
 - nome
@@ -124,6 +133,7 @@ frontend/
 **movimentacoes**
 - id (PK)
 - lote_id (FK)
+- usuario_id (FK)
 - tipo (ENTRADA/SAIDA)
 - quantidade
 - data_movimentacao
@@ -133,6 +143,7 @@ frontend/
 **Relacionamentos**:
 - 1 Produto → N Lotes
 - 1 Lote → N Movimentações
+- 1 Usuário → N Movimentações
 
 ---
 
@@ -163,8 +174,9 @@ frontend/
 ## 📝 Notas de Desenvolvimento
 
 ### Decisões Técnicas
+- **Banco de Dados**: MySQL (controle_estoque)
 - **ORM**: [A definir - Prisma ou Sequelize]
-- **Autenticação**: Implementação opcional em fase posterior
+- **Autenticação**: JWT + bcrypt para hash de senhas
 - **Validação**: Usar biblioteca de validação (ex: Joi, Zod)
 
 ### Convenções
@@ -178,7 +190,9 @@ frontend/
 
 | Data | Descrição | Status |
 |------|-----------|--------|
-| [Data] | Criação do arquivo de status | Planejamento |
+| Jan/2024 | Criação do arquivo de status | Planejamento |
+| Jan/2024 | Criação do banco de dados MySQL | Concluído |
+| Jan/2024 | Adição de controle de usuários | Concluído |
 
 ---
 

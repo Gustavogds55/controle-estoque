@@ -18,6 +18,12 @@ Empresas, comércios e profissionais que precisam gerenciar estoques de produtos
 
 ## ⚙️ Principais Funcionalidades
 
+### 👤 Controle de Usuários
+- Sistema de autenticação com email e senha
+- Registro e login de usuários
+- Rastreamento de movimentações por usuário
+- Controle de acesso ao sistema
+
 ### 🗃️ Gestão de Produtos
 - Cadastro de produtos (nome, categoria, descrição, unidade de medida, etc.)
 - Registro de **lotes**, com data de entrada e validade
@@ -52,16 +58,17 @@ Empresas, comércios e profissionais que precisam gerenciar estoques de produtos
 ### Backend
 - **Node.js + Express.js**
   - API RESTful modular (routes, controllers, services).
-  - Autenticação JWT (opcional).
+  - Autenticação JWT + bcrypt para hash de senhas.
   - Integração com **Swagger** para documentação de endpoints.
   - Exportação de **coleções Postman** para testes e integração.
 
 ### Banco de Dados
 - **MySQL**
-  - Tabelas: Produtos, Lotes, Movimentações, Usuários (opcional).
+  - Tabelas: Usuários, Produtos, Lotes, Movimentações.
   - Relacionamentos:
     - 1 Produto → N Lotes
     - 1 Lote → N Movimentações
+    - 1 Usuário → N Movimentações
   - ORM sugerido: **Prisma** ou **Sequelize**.
 
 ---
@@ -78,5 +85,6 @@ Empresas, comércios e profissionais que precisam gerenciar estoques de produtos
 ## 🚀 Possíveis Extensões Futuras
 - Integração com notificações por e-mail ou WhatsApp.
 - Dashboard com gráficos (produtos em risco, mais movimentados, etc.).
-- Controle de usuários e permissões (admin, operador, gestor).
+- Níveis de permissões de usuários (admin, operador, gestor).
 - Relatórios exportáveis em PDF ou Excel.
+- Recuperação de senha por e-mail.
