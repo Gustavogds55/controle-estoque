@@ -42,6 +42,21 @@ export const swaggerDocument = {
           unidade_medida: { type: 'string' }
         }
       },
+      Lote: {
+        type: 'object',
+        properties: {
+          id: { type: 'integer' },
+          produto_id: { type: 'integer' },
+          numero_lote: { type: 'string' },
+          quantidade_inicial: { type: 'number' },
+          quantidade_atual: { type: 'number' },
+          data_entrada: { type: 'string', format: 'date' },
+          data_validade: { type: 'string', format: 'date' },
+          produto_nome: { type: 'string' },
+          categoria: { type: 'string' },
+          unidade_medida: { type: 'string' }
+        }
+      },
       Error: {
         type: 'object',
         properties: {
@@ -368,6 +383,189 @@ export const swaggerDocument = {
           },
           404: {
             description: 'Produto não encontrado'
+          }
+        }
+      }
+    },
+    '/lotes': {
+      get: {
+        tags: ['Lotes'],
+        summary: 'Listar todos os lotes',
+        security: [{ bearerAuth: [] }],
+        responses: {
+          200: {
+            description: 'Lista de lotes',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'array',
+                  items: { $ref: '#/components/schemas/Lote' }
+                }
+              }
+            }
+          }
+        }
+      },
+      post: {
+        tags: ['Lotes'],
+        summary: 'Criar novo lote',
+        security: [{ bearerAuth: [] }],
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                required: ['produto_id', 'numero_lote', 'quantidade_inicial', 'data_entrada', 'data_validade'],
+                properties: {
+                  produto_id: { type: 'integer', example: 1 },
+                  numero_lote: { type: 'string', example: 'LOTE001' },
+                  quantidade_inicial: { type: 'number', example: 100 },
+                  data_entrada: { type: 'string', format: 'date', example: '2024-01-15' },
+                  data_validade: { type: 'string', format: 'date', example: '2025-06-30' }
+                }
+              }
+            }
+          }
+        },
+        responses: {
+          201: {
+            description: 'Lote criado',
+            content: {
+              'application/json': {
+                schema: { $ref: '#/components/schemas/Lote' }
+              }
+            }
+          }
+        }
+      }
+    },
+    '/lotes/{id}': {
+      get: {
+        tags: ['Lotes'],
+        summary: 'Buscar lote por ID',
+        security: [{ bearerAuth: [] }],
+        parameters: [
+          {
+            name: 'id',
+            in: 'path',
+            required: true,
+            schema: { type: 'integer' }
+          }
+        ],
+        responses: {
+          200: {
+            description: 'Lote encontrado',
+            content: {
+              'application/json': {
+                schema: { $ref: '#/components/schemas/Lote' }
+              }
+            }
+          },
+          404: {
+            description: 'Lote não encontrado'
+          }
+        }
+      },
+      put: {
+        tags: ['Lotes'],
+        summary: 'Atualizar lote',
+        security: [{ bearerAuth: [] }],
+        parameters: [
+          {
+            name: 'id',
+            in: 'path',
+            required: true,
+            schema: { type: 'integer' }
+          }
+        ],
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  numero_lote: { type: 'string' },
+                  quantidade_inicial: { type: 'number' },
+                  quantidade_atual: { type: 'number' },
+                  data_entrada: { type: 'string', format: 'date' },
+                  data_validade: { type: 'string', format: 'date' }
+                }
+              }
+            }
+          }
+        },
+        responses: {
+          200: {
+            description: 'Lote atualizado',
+            content: {
+              'application/json': {
+                schema: { $ref: '#/components/schemas/Lote' }
+              }
+            }
+          },
+          404: {
+            description: 'Lote não encontrado'
+          }
+        }
+      },
+      delete: {
+        tags: ['Lotes'],
+        summary: 'Deletar lote',
+        security: [{ bearerAuth: [] }],
+        parameters: [
+          {
+            name: 'id',
+            in: 'path',
+            required: true,
+            schema: { type: 'integer' }
+          }
+        ],
+        responses: {
+          200: {
+            description: 'Lote deletado',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    message: { type: 'string' }
+                  }
+                }
+              }
+            }
+          },
+          404: {
+            description: 'Lote não encontrado'
+          }
+        }
+      }
+    },
+    '/lotes/produto/{produtoId}': {
+      get: {
+        tags: ['Lotes'],
+        summary: 'Buscar lotes por produto',
+        security: [{ bearerAuth: [] }],
+        parameters: [
+          {
+            name: 'produtoId',
+            in: 'path',
+            required: true,
+            schema: { type: 'integer' }
+          }
+        ],
+        responses: {
+          200: {
+            description: 'Lotes do produto',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'array',
+                  items: { $ref: '#/components/schemas/Lote' }
+                }
+              }
+            }
           }
         }
       }

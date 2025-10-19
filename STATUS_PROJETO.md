@@ -12,11 +12,11 @@ controle-estoque/
 
 ---
 
-## ✅ Status Atual: BANCO DE DADOS CRIADO
+## ✅ Status Atual: FRONTEND E BACKEND INTEGRADOS
 
 ### 📅 Última Atualização
-**Data**: Janeiro 2024  
-**Fase**: Estruturação do Banco de Dados
+**Data**: Outubro 2024  
+**Fase**: Frontend com Login e Gerenciamento de Produtos
 
 ---
 
@@ -34,9 +34,9 @@ Desenvolvimento **incremental e validado**, onde cada funcionalidade será:
 ### Backend (`/backend`)
 **Stack**: Node.js + Express.js + MySQL + Prisma/Sequelize
 
-**Status**: 🟡 Em desenvolvimento
+**Status**: 🟢 70% Completo
 
-**Funcionalidades Planejadas**:
+**Funcionalidades Implementadas**:
 - [x] Configuração inicial do projeto (package.json, estrutura de pastas)
 - [x] Configuração do banco de dados MySQL
 - [x] Modelagem e criação das tabelas (Usuários, Produtos, Lotes, Movimentações)
@@ -44,7 +44,7 @@ Desenvolvimento **incremental e validado**, onde cada funcionalidade será:
 - [x] Documentação Swagger
 - [x] Coleção Postman
 - [x] CRUD de Produtos
-- [ ] CRUD de Lotes
+- [x] CRUD de Lotes
 - [ ] Sistema de Movimentações (entrada/saída)
 - [ ] Lógica de alertas de validade
 
@@ -67,31 +67,45 @@ backend/
 ---
 
 ### Frontend (`/frontend`)
-**Stack**: Nuxt.js (Vue 3) + TailwindCSS + Pinia + Axios
+**Stack**: Nuxt.js (Vue 3) + TailwindCSS + Pinia
 
-**Status**: ⚪ Não iniciado
+**Status**: 🟢 Funcional (Login e Produtos)
 
-**Funcionalidades Planejadas**:
-- [ ] Configuração inicial do Nuxt.js
-- [ ] Configuração do TailwindCSS
-- [ ] Configuração do Pinia (gerenciamento de estado)
-- [ ] Tela de listagem de produtos
-- [ ] Tela de cadastro/edição de produtos
+**Funcionalidades Implementadas**:
+- [x] Configuração inicial do Nuxt.js (porta 3001)
+- [x] Configuração do TailwindCSS
+- [x] Configuração do Pinia (gerenciamento de estado)
+- [x] Sistema de autenticação (login/logout)
+- [x] Tela de listagem de produtos
+- [x] Tela de cadastro/edição de produtos
+- [x] Integração com API backend
+- [x] Middleware de autenticação
+- [x] Layout responsivo
 - [ ] Tela de gestão de lotes
 - [ ] Tela de movimentações
 - [ ] Dashboard de alertas de validade
-- [ ] Filtros e buscas
-- [ ] Integração com API backend
+- [ ] Filtros e buscas avançadas
 
-**Estrutura Planejada**:
+**Estrutura Implementada**:
 ```
 frontend/
-├── pages/             # Páginas Nuxt
-├── components/        # Componentes Vue
-├── stores/            # Stores Pinia
-├── composables/       # Composables Vue
-├── services/          # Serviços API (Axios)
-├── assets/            # CSS, imagens
+├── pages/
+│   ├── index.vue           # Redirecionamento
+│   ├── login.vue           # Tela de login
+│   └── produtos/
+│       └── index.vue       # CRUD de produtos
+├── layouts/
+│   └── default.vue         # Layout com navegação
+├── stores/
+│   └── auth.js             # Store de autenticação
+├── composables/
+│   └── useApi.js           # Composable para API
+├── middleware/
+│   └── auth.js             # Middleware de autenticação
+├── plugins/
+│   └── auth.client.js      # Plugin de inicialização
+├── assets/css/
+│   └── main.css            # Estilos TailwindCSS
 ├── nuxt.config.ts
 └── package.json
 ```
@@ -149,25 +163,15 @@ frontend/
 
 ## 🚀 Próximos Passos
 
-### Etapa 1: Setup Backend
-1. Criar estrutura de pastas do backend
-2. Configurar package.json e dependências
-3. Configurar conexão com MySQL
-4. Criar schema do Prisma/Sequelize
+### Prioridade Alta:
+1. **CRUD de Lotes (Frontend)** - Criar tela de gerenciamento ⬅️ PRÓXIMO
+2. **Sistema de Movimentações (Backend)** - Entrada/saída de estoque
+3. **Sistema de Movimentações (Frontend)** - Tela de movimentações
 
-### Etapa 2: API Básica
-1. Implementar CRUD de Produtos
-2. Implementar CRUD de Lotes
-3. Testar endpoints com Postman
-
-### Etapa 3: Setup Frontend
-1. Criar projeto Nuxt.js
-2. Configurar TailwindCSS
-3. Criar layout base
-
-### Etapa 4: Integração
-1. Conectar frontend com backend
-2. Implementar telas de produtos e lotes
+### Prioridade Média:
+5. **Alertas de Validade** - Lógica e dashboard
+6. **Relatórios** - Exportação e visualização
+7. **Filtros e Buscas** - Melhorias na interface
 
 ---
 
@@ -196,6 +200,11 @@ frontend/
 | Jan/2024 | Implementação de rotas de autenticação JWT | Concluído |
 | Jan/2024 | Documentação Swagger e Postman | Concluído |
 | Jan/2024 | CRUD de Produtos | Concluído |
+| Out/2024 | Setup Frontend Nuxt.js | Concluído |
+| Out/2024 | Implementação Login/Logout Frontend | Concluído |
+| Out/2024 | CRUD de Produtos Frontend | Concluído |
+| Out/2024 | Integração Frontend-Backend | Concluído |
+| Out/2024 | CRUD de Lotes Backend | Concluído |
 
 ---
 
