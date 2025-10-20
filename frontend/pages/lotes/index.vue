@@ -1,11 +1,9 @@
 <template>
   <div>
     <div class="rounded-lg shadow p-6" :class="darkMode ? 'bg-gray-800' : 'bg-white'">
-      <div class="flex justify-between items-center mb-6">
+      <div class="mb-6">
         <h2 class="text-2xl font-bold" :class="darkMode ? 'text-purple-400' : 'text-gray-800'">Gerenciamento de Lotes</h2>
-        <button @click="abrirModal()" class="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600">
-          + Novo Lote
-        </button>
+        <p class="text-sm mt-2" :class="darkMode ? 'text-gray-400' : 'text-gray-600'">Para cadastrar novos lotes, utilize a aba "Entradas"</p>
       </div>
 
       <div v-if="loading" class="text-center py-8">Carregando...</div>
