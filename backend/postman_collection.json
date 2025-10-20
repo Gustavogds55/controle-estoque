@@ -516,6 +516,117 @@
       ]
     },
     {
+      "name": "Fornecedores",
+      "item": [
+        {
+          "name": "Listar Fornecedores",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/fornecedores",
+              "host": ["{{baseUrl}}"],
+              "path": ["fornecedores"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Buscar Fornecedor por ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/fornecedores/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["fornecedores", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Criar Fornecedor",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Fornecedor Teste\",\n  \"cnpj\": \"12.345.678/0001-90\",\n  \"telefone\": \"(11) 98765-4321\",\n  \"email\": \"contato@fornecedor.com\",\n  \"endereco\": \"Rua Teste, 123 - São Paulo/SP\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/fornecedores",
+              "host": ["{{baseUrl}}"],
+              "path": ["fornecedores"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Atualizar Fornecedor",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Fornecedor Atualizado\",\n  \"cnpj\": \"12.345.678/0001-90\",\n  \"telefone\": \"(11) 98765-4321\",\n  \"email\": \"novo@fornecedor.com\",\n  \"endereco\": \"Rua Nova, 456 - São Paulo/SP\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/fornecedores/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["fornecedores", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Deletar Fornecedor",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/fornecedores/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["fornecedores", "1"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
       "name": "Health Check",
       "request": {
         "method": "GET",

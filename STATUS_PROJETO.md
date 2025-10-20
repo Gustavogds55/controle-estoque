@@ -46,6 +46,7 @@ Desenvolvimento **incremental e validado**, onde cada funcionalidade será:
 - [x] CRUD de Produtos
 - [x] CRUD de Lotes
 - [x] Sistema de Movimentações (entrada/saída)
+- [ ] CRUD de Fornecedores
 - [ ] Lógica de alertas de validade
 
 **Estrutura Planejada**:
@@ -92,6 +93,7 @@ backend/
 - [x] Dashboard personalizável (Ações Rápidas)
 - [x] Tema roxo e branco consistente
 - [x] Fluxo unificado de cadastro (Produto + Lote + Entrada)
+- [ ] Tela de Gerenciamento de Fornecedores
 - [ ] Filtros e buscas avançadas
 
 **Estrutura Implementada**:
@@ -162,21 +164,35 @@ frontend/
 - observacao
 - created_at
 
+**fornecedores** (A IMPLEMENTAR)
+- id (PK)
+- nome
+- cnpj
+- telefone
+- email
+- endereco
+- created_at
+- updated_at
+
 **Relacionamentos**:
 - 1 Produto → N Lotes
 - 1 Lote → N Movimentações
 - 1 Usuário → N Movimentações
+- 1 Fornecedor → N Movimentações (futuro)
 
 ---
 
 ## 🚀 Próximos Passos
 
 ### Prioridade Alta:
-1. **Filtros e Buscas Avançadas** - Melhorias na interface ⬅️ PRÓXIMO
+1. **Gerenciamento de Fornecedores** - CRUD completo ⬅️ PRÓXIMO
+   - Backend: Criar tabela, model, controller, service e routes
+   - Frontend: Criar página de gerenciamento com listagem e formulário
+   - Integração: Vincular fornecedor às entradas de mercadorias
 
 ### Prioridade Média:
-2. **Relatórios** - Exportação e visualização
-3. **Filtros e Buscas** - Melhorias na interface
+2. **Filtros e Buscas Avançadas** - Melhorias na interface
+3. **Relatórios** - Exportação e visualização
 4. **Melhorias no Dashboard** - Gráficos e estatísticas avançadas
 
 ---
@@ -228,6 +244,8 @@ frontend/
 | Jan/2025 | Fluxo unificado de cadastro | Concluído |
 | Jan/2025 | Reorganização do sidebar | Concluído |
 | Jan/2025 | Validação de autenticação | Concluído |
+| Jan/2025 | Campos NF e Fornecedor nas entradas | Concluído |
+| Jan/2025 | Planejamento CRUD Fornecedores | Em Andamento |
 
 ---
 

@@ -27,8 +27,13 @@ Empresas, comércios e profissionais que precisam gerenciar estoques de produtos
 ### 🗃️ Gestão de Produtos
 - Cadastro de produtos (nome, categoria, descrição, unidade de medida, etc.)
 - Registro de **lotes**, com data de entrada e validade
-- Associação de produtos a **fornecedores** (opcional)
 - Controle de **quantidade em estoque** e **retiradas** (movimentações)
+
+### 🏢 Gestão de Fornecedores (EM IMPLEMENTAÇÃO)
+- Cadastro de fornecedores (nome, CNPJ, telefone, email, endereço)
+- Vinculação de fornecedores às entradas de mercadorias
+- Histórico de compras por fornecedor
+- Controle de dados de contato e informações fiscais
 
 ### ⏰ Controle de Validade
 - Monitoramento automático de **produtos próximos do vencimento**
@@ -95,6 +100,30 @@ Empresas, comércios e profissionais que precisam gerenciar estoques de produtos
 - **Feedback Visual**: Sistema de Toast para notificações
 - **Personalização**: Dashboard com ações rápidas editáveis pelo usuário
 - **Segurança**: Validação de token JWT em todas as requisições
+
+---
+
+## 🔜 Próxima Implementação: Gerenciamento de Fornecedores
+
+### Backend - Tarefas:
+1. **Banco de Dados**: Criar tabela `fornecedores` (id, nome, cnpj, telefone, email, endereco)
+2. **Service**: `fornecedorService.js` com CRUD completo
+3. **Controller**: `fornecedorController.js` para gerenciar requisições
+4. **Routes**: `fornecedorRoutes.js` com autenticação JWT
+5. **Integração**: Adicionar `fornecedor_id` na tabela `movimentacoes`
+6. **Documentação**: Atualizar Swagger e Postman
+
+### Frontend - Tarefas:
+1. **Página**: Criar `fornecedores/index.vue` com listagem e CRUD
+2. **Sidebar**: Adicionar link "Fornecedores" no menu
+3. **Entradas**: Substituir campo texto por select de fornecedores
+4. **Tema**: Aplicar cores roxas e modo escuro
+5. **Toast**: Feedback visual nas ações
+
+### Resultado Esperado:
+- Gerenciar fornecedores (criar, listar, editar, excluir)
+- Vincular fornecedor às entradas de mercadorias
+- Visualizar fornecedor nas movimentações
 
 ---
 

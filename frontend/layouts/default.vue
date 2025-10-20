@@ -50,6 +50,14 @@
             </NuxtLink>
           </li>
           <li>
+            <NuxtLink to="/fornecedores" class="flex items-center p-3 rounded" :class="darkMode ? 'text-gray-300 hover:bg-gray-700' : 'text-gray-700 hover:bg-purple-50'" active-class="bg-purple-600 text-white">
+              <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+              </svg>
+              Fornecedores
+            </NuxtLink>
+          </li>
+          <li>
             <NuxtLink to="/produtos" class="flex items-center p-3 rounded" :class="darkMode ? 'text-gray-300 hover:bg-gray-700' : 'text-gray-700 hover:bg-purple-50'" active-class="bg-purple-600 text-white">
               <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
@@ -104,10 +112,11 @@ onMounted(() => {
 const pageTitle = computed(() => {
   const titles = {
     '/dashboard': 'Dashboard',
-    '/produtos': 'Produtos',
-    '/lotes': 'Lotes',
     '/entradas': 'Entradas',
-    '/saidas': 'Saídas'
+    '/saidas': 'Saídas',
+    '/lotes': 'Lotes',
+    '/fornecedores': 'Fornecedores',
+    '/produtos': 'Produtos'
   }
   return titles[route.path] || 'Controle de Estoque'
 })

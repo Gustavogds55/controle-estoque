@@ -1,0 +1,189 @@
+<template>
+  <div>
+    <div class="rounded-lg shadow p-6" :class="darkMode ? 'bg-gray-800' : 'bg-white'">
+      <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-bold" :class="darkMode ? 'text-purple-400' : 'text-gray-800'">Gerenciamento de Fornecedores</h2>
+        <button @click="abrirModal()" class="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600">
+          + Novo Fornecedor
+        </button>
+      </div>
+
+      <div v-if="loading" class="text-center py-8">Carregando...</div>
+
+      <div v-else-if="fornecedores.length === 0" class="text-center py-8" :class="darkMode ? 'text-gray-400' : 'text-gray-500'">
+        Nenhum fornecedor cadastrado
+      </div>
+
+      <table v-else class="w-full">
+        <thead :class="darkMode ? 'bg-gray-700' : 'bg-gray-50'">
+          <tr>
+            <th class="px-4 py-3 text-left text-sm font-semibold" :class="darkMode ? 'text-purple-400' : 'text-gray-700'">Nome</th>
+            <th class="px-4 py-3 text-left text-sm font-semibold" :class="darkMode ? 'text-purple-400' : 'text-gray-700'">CNPJ</th>
+            <th class="px-4 py-3 text-left text-sm font-semibold" :class="darkMode ? 'text-purple-400' : 'text-gray-700'">Telefone</th>
+            <th class="px-4 py-3 text-left text-sm font-semibold" :class="darkMode ? 'text-purple-400' : 'text-gray-700'">Email</th>
+            <th class="px-4 py-3 text-left text-sm font-semibold" :class="darkMode ? 'text-purple-400' : 'text-gray-700'">Ações</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y">
+          <tr v-for="fornecedor in fornecedores" :key="fornecedor.id" :class="darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-50'">
+            <td class="px-4 py-3" :class="darkMode ? 'text-gray-300' : ''">{{ fornecedor.nome }}</td>
+            <td class="px-4 py-3" :class="darkMode ? 'text-gray-300' : ''">{{ fornecedor.cnpj || '-' }}</td>
+            <td class="px-4 py-3" :class="darkMode ? 'text-gray-300' : ''">{{ fornecedor.telefone || '-' }}</td>
+            <td class="px-4 py-3" :class="darkMode ? 'text-gray-300' : ''">{{ fornecedor.email || '-' }}</td>
+            <td class="px-4 py-3">
+              <button @click="editarFornecedor(fornecedor)" class="text-blue-600 hover:text-blue-800 mr-3">Editar</button>
+              <button @click="deletarFornecedor(fornecedor.id)" class="text-red-600 hover:text-red-800">Excluir</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Modal -->
+    <div v-if="mostrarModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div class="rounded-lg p-6 w-full max-w-2xl" :class="darkMode ? 'bg-gray-800' : 'bg-white'">
+        <h3 class="text-xl font-bold mb-4" :class="darkMode ? 'text-purple-400' : ''">{{ fornecedorEditando ? 'Editar Fornecedor' : 'Novo Fornecedor' }}</h3>
+        
+        <form @submit.prevent="salvar">
+          <div class="mb-4">
+            <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">Nome</label>
+            <input v-model="form.nome" required class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="darkMode ? 'bg-gray-700 border-gray-600 text-white' : ''" />
+          </div>
+
+          <div class="grid grid-cols-2 gap-3 mb-4">
+            <div>
+              <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">CNPJ</label>
+              <input v-model="form.cnpj" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="darkMode ? 'bg-gray-700 border-gray-600 text-white' : ''" />
+            </div>
+            <div>
+              <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">Telefone</label>
+              <input v-model="form.telefone" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="darkMode ? 'bg-gray-700 border-gray-600 text-white' : ''" />
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">Email</label>
+            <input v-model="form.email" type="email" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="darkMode ? 'bg-gray-700 border-gray-600 text-white' : ''" />
+          </div>
+
+          <div class="mb-4">
+            <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">Endereço</label>
+            <textarea v-model="form.endereco" rows="2" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="darkMode ? 'bg-gray-700 border-gray-600 text-white' : ''"></textarea>
+          </div>
+
+          <div class="flex justify-end space-x-3">
+            <button type="button" @click="fecharModal" class="px-4 py-2 border rounded" :class="darkMode ? 'border-gray-600 hover:bg-gray-700 text-gray-300' : 'hover:bg-gray-100'">Cancelar</button>
+            <button type="submit" class="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600">Salvar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Toast -->
+    <div v-if="toast.show" class="fixed top-4 right-4 z-50 animate-fade-in">
+      <div class="bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg flex items-center space-x-3">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+        </svg>
+        <span>{{ toast.message }}</span>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup>
+definePageMeta({
+  middleware: 'auth'
+})
+
+const { api } = useApi()
+const { darkMode } = useDarkMode()
+const { toast, showToast } = useToast()
+
+const fornecedores = ref([])
+const loading = ref(true)
+const mostrarModal = ref(false)
+const fornecedorEditando = ref(null)
+
+const form = ref({
+  nome: '',
+  cnpj: '',
+  telefone: '',
+  email: '',
+  endereco: ''
+})
+
+const carregar = async () => {
+  loading.value = true
+  try {
+    fornecedores.value = await api('/fornecedores')
+  } catch (error) {
+    console.error('Erro ao carregar fornecedores:', error)
+  } finally {
+    loading.value = false
+  }
+}
+
+const abrirModal = () => {
+  fornecedorEditando.value = null
+  form.value = {
+    nome: '',
+    cnpj: '',
+    telefone: '',
+    email: '',
+    endereco: ''
+  }
+  mostrarModal.value = true
+}
+
+const editarFornecedor = (fornecedor) => {
+  fornecedorEditando.value = fornecedor
+  form.value = { ...fornecedor }
+  mostrarModal.value = true
+}
+
+const fecharModal = () => {
+  mostrarModal.value = false
+  fornecedorEditando.value = null
+}
+
+const salvar = async () => {
+  try {
+    if (fornecedorEditando.value) {
+      await api(`/fornecedores/${fornecedorEditando.value.id}`, {
+        method: 'PUT',
+        body: form.value
+      })
+      showToast('Fornecedor atualizado com sucesso')
+    } else {
+      await api('/fornecedores', {
+        method: 'POST',
+        body: form.value
+      })
+      showToast('Fornecedor cadastrado com sucesso')
+    }
+    fecharModal()
+    await carregar()
+  } catch (error) {
+    console.error('Erro ao salvar fornecedor:', error)
+    alert(error.data?.error || 'Erro ao salvar fornecedor')
+  }
+}
+
+const deletarFornecedor = async (id) => {
+  if (!confirm('Deseja realmente excluir este fornecedor?')) return
+  
+  try {
+    await api(`/fornecedores/${id}`, { method: 'DELETE' })
+    showToast('Fornecedor deletado com sucesso')
+    await carregar()
+  } catch (error) {
+    console.error('Erro ao deletar fornecedor:', error)
+    alert(error.data?.error || 'Erro ao deletar fornecedor')
+  }
+}
+
+onMounted(() => {
+  carregar()
+})
+</script>
