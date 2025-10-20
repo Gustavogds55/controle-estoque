@@ -76,12 +76,14 @@ backend/
 - [x] Configuração do TailwindCSS
 - [x] Configuração do Pinia (gerenciamento de estado)
 - [x] Sistema de autenticação (login/logout)
+- [x] Layout com sidebar de navegação
+- [x] Dashboard com estatísticas
 - [x] Tela de listagem de produtos
 - [x] Tela de cadastro/edição de produtos
 - [x] Integração com API backend
 - [x] Middleware de autenticação
 - [x] Layout responsivo
-- [ ] Tela de gestão de lotes
+- [x] Tela de gestão de lotes
 - [ ] Tela de movimentações
 - [ ] Dashboard de alertas de validade
 - [ ] Filtros e buscas avançadas
@@ -164,9 +166,8 @@ frontend/
 ## 🚀 Próximos Passos
 
 ### Prioridade Alta:
-1. **CRUD de Lotes (Frontend)** - Criar tela de gerenciamento ⬅️ PRÓXIMO
-2. **Sistema de Movimentações (Backend)** - Entrada/saída de estoque
-3. **Sistema de Movimentações (Frontend)** - Tela de movimentações
+1. **Sistema de Movimentações (Backend)** - Entrada/saída de estoque ⬅️ PRÓXIMO
+2. **Sistema de Movimentações (Frontend)** - Tela de movimentações
 
 ### Prioridade Média:
 5. **Alertas de Validade** - Lógica e dashboard
@@ -205,6 +206,8 @@ frontend/
 | Out/2024 | CRUD de Produtos Frontend | Concluído |
 | Out/2024 | Integração Frontend-Backend | Concluído |
 | Out/2024 | CRUD de Lotes Backend | Concluído |
+| Jan/2025 | Dashboard com sidebar e estatísticas | Concluído |
+| Jan/2025 | CRUD de Lotes Frontend | Concluído |
 
 ---
 

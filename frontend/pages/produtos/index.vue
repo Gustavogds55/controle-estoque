@@ -78,7 +78,7 @@ definePageMeta({
   middleware: 'auth'
 })
 
-const { apiFetch } = useApi()
+const { api } = useApi()
 
 const produtos = ref([])
 const loading = ref(true)
@@ -89,7 +89,7 @@ const form = ref({ nome: '', categoria: '', descricao: '', unidade_medida: '' })
 const loadProdutos = async () => {
   loading.value = true
   try {
-    produtos.value = await apiFetch('/produtos')
+    produtos.value = await api('/produtos')
   } catch (e) {
     alert('Erro ao carregar produtos')
   } finally {
@@ -100,12 +100,12 @@ const loadProdutos = async () => {
 const saveProduto = async () => {
   try {
     if (editMode.value) {
-      await apiFetch(`/produtos/${form.value.id}`, {
+      await api(`/produtos/${form.value.id}`, {
         method: 'PUT',
         body: form.value
       })
     } else {
-      await apiFetch('/produtos', {
+      await api('/produtos', {
         method: 'POST',
         body: form.value
       })
@@ -127,7 +127,7 @@ const deleteProduto = async (id) => {
   if (!confirm('Deseja excluir este produto?')) return
   
   try {
-    await apiFetch(`/produtos/${id}`, { method: 'DELETE' })
+    await api(`/produtos/${id}`, { method: 'DELETE' })
     loadProdutos()
   } catch (e) {
     alert('Erro ao excluir produto')

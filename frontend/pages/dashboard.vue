@@ -77,8 +77,7 @@
 
 <script setup>
 definePageMeta({
-  middleware: 'auth',
-  layout: 'default'
+  middleware: 'auth'
 })
 
 const { api } = useApi()

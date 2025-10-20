@@ -29,5 +29,5 @@ export const useApi = () => {
     }
   }
 
-  return { apiFetch }
+  return { api: apiFetch }
 }
