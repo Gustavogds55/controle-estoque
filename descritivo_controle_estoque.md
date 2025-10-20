@@ -35,10 +35,12 @@ Empresas, comércios e profissionais que precisam gerenciar estoques de produtos
 - Indicação visual de **itens vencidos**
 - Filtros e buscas por status de validade
 
-### 📦 Movimentação de Estoque
-- Entrada e saída de produtos
-- Histórico detalhado de movimentações (quem, quando e quanto)
-- Geração de relatórios de movimentação e vencimentos
+### 📦 Controle de Entradas e Saídas
+- **Entradas**: Registro de entrada de produtos no estoque
+- **Saídas**: Registro de saída de produtos do estoque
+- Atualização automática de quantidade em estoque
+- Histórico detalhado separado por tipo (quem, quando e quanto)
+- Reversão automática de estoque ao excluir movimentação
 
 ### 🔔 Alertas e Notificações
 - Painel de avisos com alertas automáticos

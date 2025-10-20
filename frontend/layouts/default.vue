@@ -32,11 +32,19 @@
             </NuxtLink>
           </li>
           <li>
-            <NuxtLink to="/movimentacoes" class="flex items-center p-3 rounded hover:bg-gray-100" active-class="bg-blue-50 text-blue-600">
+            <NuxtLink to="/entradas" class="flex items-center p-3 rounded hover:bg-gray-100" active-class="bg-blue-50 text-blue-600">
               <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"/>
               </svg>
-              Movimentações
+              Entradas
+            </NuxtLink>
+          </li>
+          <li>
+            <NuxtLink to="/saidas" class="flex items-center p-3 rounded hover:bg-gray-100" active-class="bg-blue-50 text-blue-600">
+              <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"/>
+              </svg>
+              Saídas
             </NuxtLink>
           </li>
         </ul>
@@ -74,7 +82,8 @@ const pageTitle = computed(() => {
     '/dashboard': 'Dashboard',
     '/produtos': 'Produtos',
     '/lotes': 'Lotes',
-    '/movimentacoes': 'Movimentações'
+    '/entradas': 'Entradas',
+    '/saidas': 'Saídas'
   }
   return titles[route.path] || 'Controle de Estoque'
 })

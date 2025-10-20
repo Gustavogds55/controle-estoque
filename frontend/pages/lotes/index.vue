@@ -69,11 +69,11 @@
           </div>
 
           <div class="mb-4">
-            <label class="block text-gray-700 mb-2">Quantidade Inicial</label>
+            <label class="block text-gray-700 mb-2">{{ loteEditando ? 'Quantidade Inicial' : 'Quantidade' }}</label>
             <input v-model="form.quantidade_inicial" type="number" step="0.01" required class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
           </div>
 
-          <div class="mb-4">
+          <div v-if="loteEditando" class="mb-4">
             <label class="block text-gray-700 mb-2">Quantidade Atual</label>
             <input v-model="form.quantidade_atual" type="number" step="0.01" required class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
           </div>
@@ -159,8 +159,8 @@ const editarLote = (lote) => {
     numero_lote: lote.numero_lote,
     quantidade_inicial: lote.quantidade_inicial,
     quantidade_atual: lote.quantidade_atual,
-    data_entrada: lote.data_entrada,
-    data_validade: lote.data_validade
+    data_entrada: lote.data_entrada.split('T')[0],
+    data_validade: lote.data_validade.split('T')[0]
   }
   mostrarModal.value = true
 }
@@ -178,16 +178,18 @@ const salvarLote = async () => {
         body: form.value
       })
     } else {
+      const { quantidade_atual, ...dadosLote } = form.value
       await api('/lotes', {
         method: 'POST',
-        body: form.value
+        body: dadosLote
       })
     }
     fecharModal()
-    carregarLotes()
+    await carregarLotes()
   } catch (error) {
-    console.error('Erro ao salvar lote:', error)
-    alert('Erro ao salvar lote')
+    console.error('Erro completo:', error)
+    const mensagem = error.data?.error || error.message || 'Erro ao salvar lote'
+    alert(mensagem)
   }
 }
 
@@ -196,7 +198,7 @@ const deletarLote = async (id) => {
   
   try {
     await api(`/lotes/${id}`, { method: 'DELETE' })
-    carregarLotes()
+    await carregarLotes()
   } catch (error) {
     console.error('Erro ao deletar lote:', error)
     alert('Erro ao deletar lote')

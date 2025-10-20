@@ -12,7 +12,7 @@ controle-estoque/
 
 ---
 
-## ✅ Status Atual: SISTEMA COMPLETO - TODAS FUNCIONALIDADES IMPLEMENTADAS
+## ✅ Status Atual: SISTEMA COMPLETO - ENTRADAS E SAÍDAS SEPARADAS
 
 ### 📅 Última Atualização
 **Data**: Janeiro 2025  
@@ -69,7 +69,7 @@ backend/
 ### Frontend (`/frontend`)
 **Stack**: Nuxt.js (Vue 3) + TailwindCSS + Pinia
 
-**Status**: 🟢 Funcional (Dashboard, Produtos, Lotes e Movimentações)
+**Status**: 🟢 Funcional (Dashboard, Produtos, Lotes, Entradas e Saídas)
 
 **Funcionalidades Implementadas**:
 - [x] Configuração inicial do Nuxt.js (porta 3001)
@@ -85,7 +85,8 @@ backend/
 - [x] Layout responsivo
 - [x] Tela de gestão de lotes (CRUD completo)
 - [x] Indicadores visuais de validade
-- [x] Tela de movimentações
+- [x] Tela de Entradas de Estoque
+- [x] Tela de Saídas de Estoque
 - [ ] Filtros e buscas avançadas
 
 **Estrutura Implementada**:
@@ -213,6 +214,8 @@ frontend/
 | Jan/2025 | Atualização Swagger e Postman | Concluído |
 | Jan/2025 | Sistema de Movimentações Frontend | Concluído |
 | Jan/2025 | Reversão de estoque ao deletar | Concluído |
+| Jan/2025 | Separação Entradas e Saídas | Concluído |
+| Jan/2025 | Interface otimizada por tipo | Concluído |
 
 ---
 

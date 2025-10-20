@@ -111,7 +111,7 @@ const saveProduto = async () => {
       })
     }
     closeModal()
-    loadProdutos()
+    await loadProdutos()
   } catch (e) {
     alert('Erro ao salvar produto')
   }
@@ -128,7 +128,7 @@ const deleteProduto = async (id) => {
   
   try {
     await api(`/produtos/${id}`, { method: 'DELETE' })
-    loadProdutos()
+    await loadProdutos()
   } catch (e) {
     alert('Erro ao excluir produto')
   }
