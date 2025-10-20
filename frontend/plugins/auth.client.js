@@ -1,4 +1,7 @@
 export default defineNuxtPlugin(() => {
-  const authStore = useAuthStore()
-  authStore.loadAuth()
+  // Limpar autenticação ao iniciar
+  if (process.client) {
+    localStorage.removeItem('token')
+    localStorage.removeItem('user')
+  }
 })

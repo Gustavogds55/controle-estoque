@@ -3,7 +3,7 @@
     <div class="rounded-lg shadow p-6" :class="darkMode ? 'bg-gray-800' : 'bg-white'">
       <div class="flex justify-between items-center mb-6">
         <h2 class="text-2xl font-bold" :class="darkMode ? 'text-purple-400' : 'text-gray-800'">Entradas de Estoque</h2>
-        <button @click="abrirModal()" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+        <button @click="abrirModal()" class="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600">
           + Nova Entrada
         </button>
       </div>
@@ -75,7 +75,7 @@
 
           <div class="flex justify-end space-x-3">
             <button type="button" @click="fecharModal" class="px-4 py-2 border rounded" :class="darkMode ? 'border-gray-600 hover:bg-gray-700 text-gray-300' : 'hover:bg-gray-100'">Cancelar</button>
-            <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Salvar</button>
+            <button type="submit" class="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600">Salvar</button>
           </div>
         </form>
       </div>
