@@ -1,38 +1,38 @@
 <template>
   <div>
-    <div class="bg-white rounded-lg shadow p-6">
+    <div class="rounded-lg shadow p-6" :class="darkMode ? 'bg-gray-800' : 'bg-white'">
       <div class="flex justify-between items-center mb-6">
-        <h2 class="text-2xl font-bold text-gray-800">Gerenciamento de Lotes</h2>
-        <button @click="abrirModal()" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+        <h2 class="text-2xl font-bold" :class="darkMode ? 'text-purple-400' : 'text-gray-800'">Gerenciamento de Lotes</h2>
+        <button @click="abrirModal()" class="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600">
           + Novo Lote
         </button>
       </div>
 
       <div v-if="loading" class="text-center py-8">Carregando...</div>
 
-      <div v-else-if="lotes.length === 0" class="text-center py-8 text-gray-500">
+      <div v-else-if="lotes.length === 0" class="text-center py-8" :class="darkMode ? 'text-gray-400' : 'text-gray-500'">
         Nenhum lote cadastrado
       </div>
 
       <table v-else class="w-full">
-        <thead class="bg-gray-50">
+        <thead :class="darkMode ? 'bg-gray-700' : 'bg-gray-50'">
           <tr>
-            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Produto</th>
-            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Número Lote</th>
-            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Qtd Atual</th>
-            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Data Entrada</th>
-            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Validade</th>
-            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Status</th>
-            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Ações</th>
+            <th class="px-4 py-3 text-left text-sm font-semibold" :class="darkMode ? 'text-purple-400' : 'text-gray-700'">Produto</th>
+            <th class="px-4 py-3 text-left text-sm font-semibold" :class="darkMode ? 'text-purple-400' : 'text-gray-700'">Número Lote</th>
+            <th class="px-4 py-3 text-left text-sm font-semibold" :class="darkMode ? 'text-purple-400' : 'text-gray-700'">Qtd Atual</th>
+            <th class="px-4 py-3 text-left text-sm font-semibold" :class="darkMode ? 'text-purple-400' : 'text-gray-700'">Data Entrada</th>
+            <th class="px-4 py-3 text-left text-sm font-semibold" :class="darkMode ? 'text-purple-400' : 'text-gray-700'">Validade</th>
+            <th class="px-4 py-3 text-left text-sm font-semibold" :class="darkMode ? 'text-purple-400' : 'text-gray-700'">Status</th>
+            <th class="px-4 py-3 text-left text-sm font-semibold" :class="darkMode ? 'text-purple-400' : 'text-gray-700'">Ações</th>
           </tr>
         </thead>
         <tbody class="divide-y">
-          <tr v-for="lote in lotes" :key="lote.id" class="hover:bg-gray-50">
-            <td class="px-4 py-3">{{ lote.produto_nome }}</td>
-            <td class="px-4 py-3">{{ lote.numero_lote }}</td>
-            <td class="px-4 py-3">{{ lote.quantidade_atual }}</td>
-            <td class="px-4 py-3">{{ formatarData(lote.data_entrada) }}</td>
-            <td class="px-4 py-3">{{ formatarData(lote.data_validade) }}</td>
+          <tr v-for="lote in lotes" :key="lote.id" :class="darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-50'">
+            <td class="px-4 py-3" :class="darkMode ? 'text-gray-300' : ''">{{ lote.produto_nome }}</td>
+            <td class="px-4 py-3" :class="darkMode ? 'text-gray-300' : ''">{{ lote.numero_lote }}</td>
+            <td class="px-4 py-3" :class="darkMode ? 'text-gray-300' : ''">{{ lote.quantidade_atual }}</td>
+            <td class="px-4 py-3" :class="darkMode ? 'text-gray-300' : ''">{{ formatarData(lote.data_entrada) }}</td>
+            <td class="px-4 py-3" :class="darkMode ? 'text-gray-300' : ''">{{ formatarData(lote.data_validade) }}</td>
             <td class="px-4 py-3">
               <span :class="getStatusClass(lote.data_validade)" class="px-2 py-1 rounded text-xs font-semibold">
                 {{ getStatusTexto(lote.data_validade) }}
@@ -49,13 +49,13 @@
 
     <!-- Modal -->
     <div v-if="mostrarModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div class="bg-white rounded-lg p-6 w-full max-w-md">
-        <h3 class="text-xl font-bold mb-4">{{ loteEditando ? 'Editar Lote' : 'Novo Lote' }}</h3>
+      <div class="rounded-lg p-6 w-full max-w-md" :class="darkMode ? 'bg-gray-800' : 'bg-white'">
+        <h3 class="text-xl font-bold mb-4" :class="darkMode ? 'text-purple-400' : ''">{{ loteEditando ? 'Editar Lote' : 'Novo Lote' }}</h3>
         
         <form @submit.prevent="salvarLote">
           <div class="mb-4">
-            <label class="block text-gray-700 mb-2">Produto</label>
-            <select v-model="form.produto_id" required class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">Produto</label>
+            <select v-model="form.produto_id" required class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="darkMode ? 'bg-gray-700 border-gray-600 text-white' : ''">
               <option value="">Selecione um produto</option>
               <option v-for="produto in produtos" :key="produto.id" :value="produto.id">
                 {{ produto.nome }}
@@ -64,33 +64,33 @@
           </div>
 
           <div class="mb-4">
-            <label class="block text-gray-700 mb-2">Número do Lote</label>
-            <input v-model="form.numero_lote" type="text" required class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">Número do Lote</label>
+            <input v-model="form.numero_lote" type="text" required class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="darkMode ? 'bg-gray-700 border-gray-600 text-white' : ''" />
           </div>
 
           <div class="mb-4">
-            <label class="block text-gray-700 mb-2">{{ loteEditando ? 'Quantidade Inicial' : 'Quantidade' }}</label>
-            <input v-model="form.quantidade_inicial" type="number" step="0.01" required class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">{{ loteEditando ? 'Quantidade Inicial' : 'Quantidade' }}</label>
+            <input v-model="form.quantidade_inicial" type="number" step="0.01" required class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="darkMode ? 'bg-gray-700 border-gray-600 text-white' : ''" />
           </div>
 
           <div v-if="loteEditando" class="mb-4">
-            <label class="block text-gray-700 mb-2">Quantidade Atual</label>
-            <input v-model="form.quantidade_atual" type="number" step="0.01" required class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">Quantidade Atual</label>
+            <input v-model="form.quantidade_atual" type="number" step="0.01" required class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="darkMode ? 'bg-gray-700 border-gray-600 text-white' : ''" />
           </div>
 
           <div class="mb-4">
-            <label class="block text-gray-700 mb-2">Data de Entrada</label>
-            <input v-model="form.data_entrada" type="date" required class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">Data de Entrada</label>
+            <input v-model="form.data_entrada" type="date" required class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="darkMode ? 'bg-gray-700 border-gray-600 text-white' : ''" />
           </div>
 
           <div class="mb-4">
-            <label class="block text-gray-700 mb-2">Data de Validade</label>
-            <input v-model="form.data_validade" type="date" required class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">Data de Validade</label>
+            <input v-model="form.data_validade" type="date" required class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="darkMode ? 'bg-gray-700 border-gray-600 text-white' : ''" />
           </div>
 
           <div class="flex justify-end space-x-3">
-            <button type="button" @click="fecharModal" class="px-4 py-2 border rounded hover:bg-gray-100">Cancelar</button>
-            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Salvar</button>
+            <button type="button" @click="fecharModal" class="px-4 py-2 border rounded" :class="darkMode ? 'border-gray-600 hover:bg-gray-700 text-gray-300' : 'hover:bg-gray-100'">Cancelar</button>
+            <button type="submit" class="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600">Salvar</button>
           </div>
         </form>
       </div>
@@ -104,6 +104,7 @@ definePageMeta({
 })
 
 const { api } = useApi()
+const { darkMode } = useDarkMode()
 
 const lotes = ref([])
 const produtos = ref([])

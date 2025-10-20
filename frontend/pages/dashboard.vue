@@ -2,7 +2,7 @@
   <div>
     <!-- Lotes Próximos ao Vencimento -->
     <div class="rounded-lg shadow-lg p-6 mb-6 border-l-4 border-purple-400" :class="darkMode ? 'bg-gray-800' : 'bg-white'">
-      <h3 class="text-lg font-semibold mb-4" :class="darkMode ? 'text-purple-400' : 'text-purple-700'">Lotes Próximos ao Vencimento</h3>
+      <h3 class="text-lg font-semibold mb-4" :class="darkMode ? 'text-purple-400' : 'text-black'">Lotes Próximos ao Vencimento</h3>
       
       <div v-if="lotesVencendo.length === 0" class="text-center py-4" :class="darkMode ? 'text-gray-400' : 'text-gray-500'">
         Nenhum lote próximo ao vencimento
@@ -37,7 +37,7 @@
     <!-- Ações Rápidas -->
     <div class="rounded-lg shadow-lg p-6 border-l-4 border-purple-400" :class="darkMode ? 'bg-gray-800' : 'bg-white'">
       <div class="flex justify-between items-center mb-4">
-        <h3 class="text-lg font-semibold" :class="darkMode ? 'text-purple-400' : 'text-purple-700'">Ações Rápidas</h3>
+        <h3 class="text-lg font-semibold" :class="darkMode ? 'text-purple-400' : 'text-black'">Ações Rápidas</h3>
         <button @click="modoEdicao = !modoEdicao" class="text-sm px-3 py-1 rounded" :class="modoEdicao ? 'bg-purple-100 text-purple-700' : 'bg-purple-500 text-white hover:bg-purple-600'">
           {{ modoEdicao ? 'Concluir' : 'Editar' }}
         </button>
