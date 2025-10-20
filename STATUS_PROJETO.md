@@ -12,11 +12,11 @@ controle-estoque/
 
 ---
 
-## ✅ Status Atual: SISTEMA FUNCIONAL - PRODUTOS E LOTES COMPLETOS
+## ✅ Status Atual: SISTEMA COMPLETO - TODAS FUNCIONALIDADES IMPLEMENTADAS
 
 ### 📅 Última Atualização
 **Data**: Janeiro 2025  
-**Fase**: Dashboard, Produtos e Lotes Implementados
+**Fase**: Sistema Completo - Backend e Frontend Funcionais
 
 ---
 
@@ -34,7 +34,7 @@ Desenvolvimento **incremental e validado**, onde cada funcionalidade será:
 ### Backend (`/backend`)
 **Stack**: Node.js + Express.js + MySQL + Prisma/Sequelize
 
-**Status**: 🟢 80% Completo
+**Status**: 🟢 90% Completo
 
 **Funcionalidades Implementadas**:
 - [x] Configuração inicial do projeto (package.json, estrutura de pastas)
@@ -45,7 +45,7 @@ Desenvolvimento **incremental e validado**, onde cada funcionalidade será:
 - [x] Coleção Postman
 - [x] CRUD de Produtos
 - [x] CRUD de Lotes
-- [ ] Sistema de Movimentações (entrada/saída)
+- [x] Sistema de Movimentações (entrada/saída)
 - [ ] Lógica de alertas de validade
 
 **Estrutura Planejada**:
@@ -69,7 +69,7 @@ backend/
 ### Frontend (`/frontend`)
 **Stack**: Nuxt.js (Vue 3) + TailwindCSS + Pinia
 
-**Status**: 🟢 Funcional (Dashboard, Produtos e Lotes)
+**Status**: 🟢 Funcional (Dashboard, Produtos, Lotes e Movimentações)
 
 **Funcionalidades Implementadas**:
 - [x] Configuração inicial do Nuxt.js (porta 3001)
@@ -85,7 +85,7 @@ backend/
 - [x] Layout responsivo
 - [x] Tela de gestão de lotes (CRUD completo)
 - [x] Indicadores visuais de validade
-- [ ] Tela de movimentações
+- [x] Tela de movimentações
 - [ ] Filtros e buscas avançadas
 
 **Estrutura Implementada**:
@@ -166,7 +166,7 @@ frontend/
 ## 🚀 Próximos Passos
 
 ### Prioridade Alta:
-1. **Sistema de Movimentações (Backend + Frontend)** - Entrada/saída de estoque ⬅️ PRÓXIMO
+1. **Filtros e Buscas Avançadas** - Melhorias na interface ⬅️ PRÓXIMO
 
 ### Prioridade Média:
 2. **Relatórios** - Exportação e visualização
@@ -209,6 +209,10 @@ frontend/
 | Jan/2025 | CRUD de Lotes Frontend | Concluído |
 | Jan/2025 | Integração completa Produtos e Lotes | Concluído |
 | Jan/2025 | Indicadores visuais de validade | Concluído |
+| Jan/2025 | Sistema de Movimentações Backend | Concluído |
+| Jan/2025 | Atualização Swagger e Postman | Concluído |
+| Jan/2025 | Sistema de Movimentações Frontend | Concluído |
+| Jan/2025 | Reversão de estoque ao deletar | Concluído |
 
 ---
 

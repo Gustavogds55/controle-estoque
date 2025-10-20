@@ -6,6 +6,7 @@ import { swaggerDocument } from './config/swagger.js';
 import authRoutes from './routes/authRoutes.js';
 import produtoRoutes from './routes/produtoRoutes.js';
 import loteRoutes from './routes/loteRoutes.js';
+import movimentacaoRoutes from './routes/movimentacaoRoutes.js';
 
 dotenv.config();
 
@@ -17,6 +18,7 @@ app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/produtos', produtoRoutes);
 app.use('/api/lotes', loteRoutes);
+app.use('/api/movimentacoes', movimentacaoRoutes);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.get('/api/health', (req, res) => {

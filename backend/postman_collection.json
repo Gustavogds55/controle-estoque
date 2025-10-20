@@ -357,6 +357,165 @@
       ]
     },
     {
+      "name": "Movimentações",
+      "item": [
+        {
+          "name": "Listar Movimentações",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/movimentacoes",
+              "host": ["{{baseUrl}}"],
+              "path": ["movimentacoes"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Listar Movimentações por Tipo",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/movimentacoes?tipo=ENTRADA",
+              "host": ["{{baseUrl}}"],
+              "path": ["movimentacoes"],
+              "query": [
+                {
+                  "key": "tipo",
+                  "value": "ENTRADA"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Listar Movimentações por Lote",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/movimentacoes?lote_id=1",
+              "host": ["{{baseUrl}}"],
+              "path": ["movimentacoes"],
+              "query": [
+                {
+                  "key": "lote_id",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Buscar Movimentação por ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/movimentacoes/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["movimentacoes", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Criar Movimentação - ENTRADA",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"lote_id\": 1,\n  \"tipo\": \"ENTRADA\",\n  \"quantidade\": 50,\n  \"data_movimentacao\": \"2025-01-15T10:00:00\",\n  \"observacao\": \"Entrada de estoque\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/movimentacoes",
+              "host": ["{{baseUrl}}"],
+              "path": ["movimentacoes"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Criar Movimentação - SAIDA",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"lote_id\": 1,\n  \"tipo\": \"SAIDA\",\n  \"quantidade\": 20,\n  \"data_movimentacao\": \"2025-01-15T14:00:00\",\n  \"observacao\": \"Saída de estoque\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/movimentacoes",
+              "host": ["{{baseUrl}}"],
+              "path": ["movimentacoes"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Deletar Movimentação",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/movimentacoes/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["movimentacoes", "1"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
       "name": "Health Check",
       "request": {
         "method": "GET",
