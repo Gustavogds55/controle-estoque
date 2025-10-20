@@ -1,75 +1,118 @@
 <template>
   <div>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-      <!-- Card Produtos -->
-      <div class="bg-white rounded-lg shadow p-6">
-        <div class="flex items-center justify-between">
-          <div>
-            <p class="text-gray-500 text-sm">Total de Produtos</p>
-            <p class="text-3xl font-bold text-gray-800">{{ stats.totalProdutos }}</p>
-          </div>
-          <div class="bg-blue-100 p-3 rounded-full">
-            <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
-            </svg>
-          </div>
-        </div>
+    <!-- Lotes Próximos ao Vencimento -->
+    <div class="bg-white rounded-lg shadow-lg p-6 mb-6 border-l-4 border-purple-400">
+      <h3 class="text-lg font-semibold text-purple-700 mb-4">Lotes Próximos ao Vencimento</h3>
+      
+      <div v-if="lotesVencendo.length === 0" class="text-center py-4 text-gray-500">
+        Nenhum lote próximo ao vencimento
       </div>
 
-      <!-- Card Lotes -->
-      <div class="bg-white rounded-lg shadow p-6">
-        <div class="flex items-center justify-between">
-          <div>
-            <p class="text-gray-500 text-sm">Total de Lotes</p>
-            <p class="text-3xl font-bold text-gray-800">{{ stats.totalLotes }}</p>
-          </div>
-          <div class="bg-green-100 p-3 rounded-full">
-            <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
-            </svg>
-          </div>
-        </div>
-      </div>
-
-      <!-- Card Alertas -->
-      <div class="bg-white rounded-lg shadow p-6">
-        <div class="flex items-center justify-between">
-          <div>
-            <p class="text-gray-500 text-sm">Alertas de Validade</p>
-            <p class="text-3xl font-bold text-red-600">{{ stats.alertas }}</p>
-          </div>
-          <div class="bg-red-100 p-3 rounded-full">
-            <svg class="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
-            </svg>
-          </div>
-        </div>
-      </div>
+      <table v-else class="w-full">
+        <thead class="bg-purple-50">
+          <tr>
+            <th class="px-4 py-2 text-left text-sm font-semibold text-purple-700">Produto</th>
+            <th class="px-4 py-2 text-left text-sm font-semibold text-purple-700">Lote</th>
+            <th class="px-4 py-2 text-left text-sm font-semibold text-purple-700">Estoque</th>
+            <th class="px-4 py-2 text-left text-sm font-semibold text-purple-700">Validade</th>
+            <th class="px-4 py-2 text-left text-sm font-semibold text-purple-700">Status</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y">
+          <tr v-for="lote in lotesVencendo" :key="lote.id" class="hover:bg-purple-50">
+            <td class="px-4 py-2">{{ lote.produto_nome }}</td>
+            <td class="px-4 py-2">{{ lote.numero_lote }}</td>
+            <td class="px-4 py-2">{{ lote.quantidade_atual }}</td>
+            <td class="px-4 py-2">{{ formatarData(lote.data_validade) }}</td>
+            <td class="px-4 py-2">
+              <span class="px-2 py-1 rounded text-xs font-semibold" :class="getStatusClass(lote.data_validade)">
+                {{ getStatusTexto(lote.data_validade) }}
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
     <!-- Ações Rápidas -->
-    <div class="bg-white rounded-lg shadow p-6">
-      <h3 class="text-lg font-semibold text-gray-800 mb-4">Ações Rápidas</h3>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <NuxtLink to="/produtos" class="flex items-center p-4 border rounded-lg hover:bg-gray-50 transition">
-          <svg class="w-6 h-6 text-blue-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
-          </svg>
-          <div>
-            <p class="font-semibold text-gray-800">Gerenciar Produtos</p>
-            <p class="text-sm text-gray-500">Adicionar, editar ou remover produtos</p>
-          </div>
-        </NuxtLink>
+    <div class="bg-white rounded-lg shadow-lg p-6 border-l-4 border-purple-400">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-lg font-semibold text-purple-700">Ações Rápidas</h3>
+        <button @click="modoEdicao = !modoEdicao" class="text-sm px-3 py-1 rounded" :class="modoEdicao ? 'bg-purple-100 text-purple-700' : 'bg-purple-500 text-white hover:bg-purple-600'">
+          {{ modoEdicao ? 'Concluir' : 'Editar' }}
+        </button>
+      </div>
 
-        <NuxtLink to="/lotes" class="flex items-center p-4 border rounded-lg hover:bg-gray-50 transition">
-          <svg class="w-6 h-6 text-green-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div v-for="(acao, index) in acoesRapidas" :key="index" class="relative">
+          <NuxtLink :to="acao.link" class="flex items-center p-4 border border-purple-200 rounded-lg hover:bg-purple-50 transition">
+            <div class="mr-3" :class="acao.corIcone">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" :d="acao.icone"/>
+              </svg>
+            </div>
+            <div>
+              <p class="font-semibold text-gray-800">{{ acao.titulo }}</p>
+              <p class="text-sm text-gray-500">{{ acao.descricao }}</p>
+            </div>
+          </NuxtLink>
+          <button v-if="modoEdicao" @click="removerAcao(index)" class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center hover:bg-red-600">
+            ×
+          </button>
+        </div>
+
+        <button v-if="modoEdicao" @click="abrirModalAcao" class="flex items-center justify-center p-4 border-2 border-dashed border-purple-300 rounded-lg hover:bg-purple-50 transition text-purple-400">
+          <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
           </svg>
-          <div>
-            <p class="font-semibold text-gray-800">Gerenciar Lotes</p>
-            <p class="text-sm text-gray-500">Controlar lotes e validades</p>
+        </button>
+      </div>
+    </div>
+
+    <!-- Modal Adicionar Ação -->
+    <div v-if="mostrarModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div class="bg-white rounded-lg p-6 w-full max-w-md border-t-4 border-purple-400">
+        <h3 class="text-xl font-bold text-purple-700 mb-4">Nova Ação Rápida</h3>
+        
+        <form @submit.prevent="adicionarAcao">
+          <div class="mb-4">
+            <label class="block text-gray-700 mb-2">Título</label>
+            <input v-model="novaAcao.titulo" required class="w-full px-3 py-2 border border-purple-200 rounded focus:outline-none focus:ring-2 focus:ring-purple-400" />
           </div>
-        </NuxtLink>
+
+          <div class="mb-4">
+            <label class="block text-gray-700 mb-2">Descrição</label>
+            <input v-model="novaAcao.descricao" required class="w-full px-3 py-2 border border-purple-200 rounded focus:outline-none focus:ring-2 focus:ring-purple-400" />
+          </div>
+
+          <div class="mb-4">
+            <label class="block text-gray-700 mb-2">Funcionalidade</label>
+            <select v-model="novaAcao.link" @change="preencherPadrao" required class="w-full px-3 py-2 border border-purple-200 rounded focus:outline-none focus:ring-2 focus:ring-purple-400">
+              <option value="">(Selecione)</option>
+              <option value="/produtos">Produtos</option>
+              <option value="/lotes">Lotes</option>
+              <option value="/entradas">Entradas</option>
+              <option value="/saidas">Saídas</option>
+              <option value="/movimentacoes">Movimentações</option>
+            </select>
+          </div>
+
+          <div class="mb-4">
+            <label class="block text-gray-700 mb-2">Cor do Ícone</label>
+            <select v-model="novaAcao.corIcone" required class="w-full px-3 py-2 border border-purple-200 rounded focus:outline-none focus:ring-2 focus:ring-purple-400">
+              <option value="text-blue-600">Azul</option>
+              <option value="text-green-600">Verde</option>
+              <option value="text-red-600">Vermelho</option>
+              <option value="text-yellow-600">Amarelo</option>
+              <option value="text-purple-600">Roxo</option>
+            </select>
+          </div>
+
+          <div class="flex justify-end space-x-3">
+            <button type="button" @click="fecharModal" class="px-4 py-2 border rounded hover:bg-gray-100">Cancelar</button>
+            <button type="submit" class="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600">Adicionar</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
@@ -82,36 +125,162 @@ definePageMeta({
 
 const { api } = useApi()
 
-const stats = ref({
-  totalProdutos: 0,
-  totalLotes: 0,
-  alertas: 0
+const lotesVencendo = ref([])
+
+const modoEdicao = ref(false)
+const mostrarModal = ref(false)
+
+const acoesRapidas = ref([
+  {
+    titulo: 'Gerenciar Produtos',
+    descricao: 'Adicionar, editar ou remover produtos',
+    link: '/produtos',
+    corIcone: 'text-blue-600',
+    icone: 'M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4'
+  },
+  {
+    titulo: 'Gerenciar Lotes',
+    descricao: 'Controlar lotes e validades',
+    link: '/lotes',
+    corIcone: 'text-green-600',
+    icone: 'M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10'
+  }
+])
+
+const novaAcao = ref({
+  titulo: '',
+  descricao: '',
+  link: '',
+  corIcone: 'text-blue-600',
+  icone: 'M12 6v6m0 0v6m0-6h6m-6 0H6'
 })
 
-const carregarStats = async () => {
+const carregarLotes = async () => {
   try {
-    const [produtos, lotes] = await Promise.all([
-      api('/produtos'),
-      api('/lotes')
-    ])
-    
-    stats.value.totalProdutos = produtos.length
-    stats.value.totalLotes = lotes.length
-    
-    // Calcular alertas (lotes vencendo em 30 dias)
+    const lotes = await api('/lotes')
     const hoje = new Date()
     const trintaDias = new Date(hoje.getTime() + 30 * 24 * 60 * 60 * 1000)
     
-    stats.value.alertas = lotes.filter(lote => {
-      const dataValidade = new Date(lote.data_validade)
-      return dataValidade <= trintaDias
-    }).length
+    lotesVencendo.value = lotes
+      .filter(lote => new Date(lote.data_validade) <= trintaDias)
+      .sort((a, b) => new Date(a.data_validade) - new Date(b.data_validade))
+      .slice(0, 5)
   } catch (error) {
-    console.error('Erro ao carregar estatísticas:', error)
+    console.error('Erro ao carregar lotes:', error)
+  }
+}
+
+const formatarData = (data) => {
+  return new Date(data).toLocaleDateString('pt-BR')
+}
+
+const getStatusTexto = (dataValidade) => {
+  const hoje = new Date()
+  const validade = new Date(dataValidade)
+  const dias = Math.ceil((validade - hoje) / (1000 * 60 * 60 * 24))
+  
+  if (dias < 0) return 'Vencido'
+  if (dias === 0) return 'Vence Hoje'
+  if (dias <= 7) return `${dias} dias`
+  if (dias <= 30) return `${dias} dias`
+  return `${dias} dias`
+}
+
+const getStatusClass = (dataValidade) => {
+  const hoje = new Date()
+  const validade = new Date(dataValidade)
+  const dias = Math.ceil((validade - hoje) / (1000 * 60 * 60 * 24))
+  
+  if (dias < 0) return 'bg-gray-200 text-gray-700'
+  if (dias <= 7) return 'bg-red-100 text-red-700'
+  if (dias <= 15) return 'bg-orange-100 text-orange-700'
+  return 'bg-yellow-100 text-yellow-700'
+}
+
+const padroes = {
+  '/produtos': {
+    titulo: 'Gerenciar Produtos',
+    descricao: 'Adicionar, editar ou remover produtos',
+    corIcone: 'text-blue-600',
+    icone: 'M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4'
+  },
+  '/lotes': {
+    titulo: 'Gerenciar Lotes',
+    descricao: 'Controlar lotes e validades',
+    corIcone: 'text-green-600',
+    icone: 'M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10'
+  },
+  '/entradas': {
+    titulo: 'Registrar Entradas',
+    descricao: 'Adicionar entradas de estoque',
+    corIcone: 'text-green-600',
+    icone: 'M7 11l5-5m0 0l5 5m-5-5v12'
+  },
+  '/saidas': {
+    titulo: 'Registrar Saídas',
+    descricao: 'Adicionar saídas de estoque',
+    corIcone: 'text-red-600',
+    icone: 'M17 13l-5 5m0 0l-5-5m5 5V6'
+  },
+  '/movimentacoes': {
+    titulo: 'Ver Movimentações',
+    descricao: 'Histórico completo de movimentações',
+    corIcone: 'text-purple-600',
+    icone: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2'
+  }
+}
+
+const preencherPadrao = () => {
+  const padrao = padroes[novaAcao.value.link]
+  if (padrao) {
+    novaAcao.value.titulo = padrao.titulo
+    novaAcao.value.descricao = padrao.descricao
+    novaAcao.value.corIcone = padrao.corIcone
+    novaAcao.value.icone = padrao.icone
+  }
+}
+
+const abrirModalAcao = () => {
+  novaAcao.value = {
+    titulo: '',
+    descricao: '',
+    link: '',
+    corIcone: 'text-blue-600',
+    icone: 'M12 6v6m0 0v6m0-6h6m-6 0H6'
+  }
+  mostrarModal.value = true
+}
+
+const fecharModal = () => {
+  mostrarModal.value = false
+}
+
+const adicionarAcao = () => {
+  acoesRapidas.value.push({ ...novaAcao.value })
+  salvarAcoes()
+  fecharModal()
+}
+
+const removerAcao = (index) => {
+  if (confirm('Deseja remover esta ação?')) {
+    acoesRapidas.value.splice(index, 1)
+    salvarAcoes()
+  }
+}
+
+const salvarAcoes = () => {
+  localStorage.setItem('acoesRapidas', JSON.stringify(acoesRapidas.value))
+}
+
+const carregarAcoes = () => {
+  const salvas = localStorage.getItem('acoesRapidas')
+  if (salvas) {
+    acoesRapidas.value = JSON.parse(salvas)
   }
 }
 
 onMounted(() => {
-  carregarStats()
+  carregarLotes()
+  carregarAcoes()
 })
 </script>
