@@ -91,6 +91,17 @@
             
             <div class="grid grid-cols-2 gap-3 mb-3">
               <div>
+                <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">Número da Nota Fiscal</label>
+                <input v-model="form.numero_nf" type="number" required class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="darkMode ? 'bg-gray-700 border-gray-600 text-white' : ''" />
+              </div>
+              <div>
+                <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">Fornecedor</label>
+                <input v-model="form.fornecedor" required class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="darkMode ? 'bg-gray-700 border-gray-600 text-white' : ''" />
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3 mb-3">
+              <div>
                 <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">Quantidade</label>
                 <input v-model="form.quantidade" type="number" step="0.01" required class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="darkMode ? 'bg-gray-700 border-gray-600 text-white' : ''" />
               </div>
@@ -145,6 +156,8 @@ const form = ref({
   produto_unidade: '',
   numero_lote: '',
   data_validade: '',
+  numero_nf: '',
+  fornecedor: '',
   quantidade: '',
   data_movimentacao: '',
   observacao: ''
@@ -180,6 +193,8 @@ const abrirModal = () => {
     produto_unidade: '',
     numero_lote: '',
     data_validade: '',
+    numero_nf: '',
+    fornecedor: '',
     quantidade: '',
     data_movimentacao: dataHoraLocal,
     observacao: ''
@@ -223,7 +238,7 @@ const salvar = async () => {
         tipo: 'ENTRADA',
         quantidade: form.value.quantidade,
         data_movimentacao: form.value.data_movimentacao,
-        observacao: form.value.observacao
+        observacao: `NF: ${form.value.numero_nf} | Fornecedor: ${form.value.fornecedor}${form.value.observacao ? ' | ' + form.value.observacao : ''}`
       }
     })
 

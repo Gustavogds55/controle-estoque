@@ -36,11 +36,12 @@ Empresas, comércios e profissionais que precisam gerenciar estoques de produtos
 - Filtros e buscas por status de validade
 
 ### 📦 Controle de Entradas e Saídas
-- **Entradas**: Registro de entrada de produtos no estoque
+- **Entradas**: Cadastro completo (Produto + Lote + Entrada) em um único formulário
 - **Saídas**: Registro de saída de produtos do estoque
 - Atualização automática de quantidade em estoque
 - Histórico detalhado separado por tipo (quem, quando e quanto)
 - Reversão automática de estoque ao excluir movimentação
+- Sistema de notificações Toast para feedback visual
 
 ### 🔔 Alertas e Notificações
 - Painel de avisos com alertas automáticos
@@ -53,9 +54,12 @@ Empresas, comércios e profissionais que precisam gerenciar estoques de produtos
 ### Frontend
 - **Nuxt.js (Vue 3)**
   - Framework SPA/SSR para performance e SEO.
-  - Comunicação via **Axios** com a API.
+  - Comunicação via **$fetch** com a API.
   - Interface moderna, responsiva e intuitiva.
-  - Uso sugerido de **TailwindCSS** para estilização e **Pinia** para gerenciamento de estado.
+  - **TailwindCSS** para estilização e **Pinia** para gerenciamento de estado.
+  - **Modo Escuro/Claro** com persistência no localStorage.
+  - **Tema roxo e branco** consistente em todo o sistema.
+  - **Dashboard personalizável** com ações rápidas editáveis.
 
 ### Backend
 - **Node.js + Express.js**
@@ -79,8 +83,18 @@ Empresas, comércios e profissionais que precisam gerenciar estoques de produtos
 - **Swagger UI** — `/api-docs`: descrição detalhada de rotas, parâmetros e exemplos.
 - **Postman Collection** — para testes e integração manual.
 - **README.md** — com instruções de instalação, configuração e uso.
+- **STATUS_PROJETO.md** — acompanhamento detalhado do desenvolvimento.
 - **Modelo ER** — diagrama do banco de dados.
 - **Guia de Deploy** (futuro): passo a passo para implantação em ambiente de produção.
+
+---
+
+## ✨ Diferenciais Implementados
+- **Fluxo Unificado**: Cadastro de Produto + Lote + Entrada em uma única tela
+- **UI/UX Moderna**: Tema roxo e branco com modo escuro
+- **Feedback Visual**: Sistema de Toast para notificações
+- **Personalização**: Dashboard com ações rápidas editáveis pelo usuário
+- **Segurança**: Validação de token JWT em todas as requisições
 
 ---
 
@@ -90,3 +104,5 @@ Empresas, comércios e profissionais que precisam gerenciar estoques de produtos
 - Níveis de permissões de usuários (admin, operador, gestor).
 - Relatórios exportáveis em PDF ou Excel.
 - Recuperação de senha por e-mail.
+- Filtros e buscas avançadas nas listagens.
+- Impressão de etiquetas de lotes.

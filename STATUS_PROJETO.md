@@ -12,11 +12,11 @@ controle-estoque/
 
 ---
 
-## ✅ Status Atual: SISTEMA COMPLETO - ENTRADAS E SAÍDAS SEPARADAS
+## ✅ Status Atual: SISTEMA COMPLETO E OTIMIZADO
 
 ### 📅 Última Atualização
 **Data**: Janeiro 2025  
-**Fase**: Sistema Completo - Backend e Frontend Funcionais
+**Fase**: Sistema Completo com UI/UX Otimizada e Modo Escuro
 
 ---
 
@@ -69,7 +69,7 @@ backend/
 ### Frontend (`/frontend`)
 **Stack**: Nuxt.js (Vue 3) + TailwindCSS + Pinia
 
-**Status**: 🟢 Funcional (Dashboard, Produtos, Lotes, Entradas e Saídas)
+**Status**: 🟢 100% Funcional e Otimizado
 
 **Funcionalidades Implementadas**:
 - [x] Configuração inicial do Nuxt.js (porta 3001)
@@ -85,8 +85,13 @@ backend/
 - [x] Layout responsivo
 - [x] Tela de gestão de lotes (CRUD completo)
 - [x] Indicadores visuais de validade
-- [x] Tela de Entradas de Estoque
+- [x] Tela de Entrada de Mercadorias (cadastro completo)
 - [x] Tela de Saídas de Estoque
+- [x] Modo Escuro/Claro (Dark Mode)
+- [x] Sistema de Toast para notificações
+- [x] Dashboard personalizável (Ações Rápidas)
+- [x] Tema roxo e branco consistente
+- [x] Fluxo unificado de cadastro (Produto + Lote + Entrada)
 - [ ] Filtros e buscas avançadas
 
 **Estrutura Implementada**:
@@ -216,6 +221,13 @@ frontend/
 | Jan/2025 | Reversão de estoque ao deletar | Concluído |
 | Jan/2025 | Separação Entradas e Saídas | Concluído |
 | Jan/2025 | Interface otimizada por tipo | Concluído |
+| Jan/2025 | Implementação Modo Escuro | Concluído |
+| Jan/2025 | Tema roxo e branco | Concluído |
+| Jan/2025 | Dashboard personalizável | Concluído |
+| Jan/2025 | Sistema de Toast | Concluído |
+| Jan/2025 | Fluxo unificado de cadastro | Concluído |
+| Jan/2025 | Reorganização do sidebar | Concluído |
+| Jan/2025 | Validação de autenticação | Concluído |
 
 ---
 
