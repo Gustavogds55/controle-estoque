@@ -62,7 +62,7 @@ const handleLogin = async () => {
     })
     
     authStore.setAuth(response.user, response.token)
-    router.push('/produtos')
+    router.push('/dashboard')
   } catch (e) {
     error.value = 'Email ou senha inválidos'
   } finally {
@@ -72,7 +72,7 @@ const handleLogin = async () => {
 
 onMounted(() => {
   if (authStore.isAuthenticated) {
-    router.push('/produtos')
+    router.push('/dashboard')
   }
 })
 </script>

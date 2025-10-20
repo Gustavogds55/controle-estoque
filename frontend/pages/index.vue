@@ -5,5 +5,5 @@ definePageMeta({
 
 const authStore = useAuthStore()
 
-await navigateTo(authStore.isAuthenticated ? '/produtos' : '/login', { replace: true })
+await navigateTo(authStore.isAuthenticated ? '/dashboard' : '/login', { replace: true })
 </script>
