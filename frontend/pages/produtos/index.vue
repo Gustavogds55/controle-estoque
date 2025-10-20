@@ -1,31 +1,35 @@
 <template>
   <div>
-    <div class="flex justify-between items-center mb-6">
-      <h1 class="text-3xl font-bold">Produtos</h1>
-      <button @click="showModal = true" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-        Novo Produto
-      </button>
-    </div>
+    <div class="bg-white rounded-lg shadow p-6">
+      <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-bold text-gray-800">Gerenciamento de Produtos</h2>
+        <button @click="showModal = true" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+          + Novo Produto
+        </button>
+      </div>
 
-    <div v-if="loading" class="text-center py-8">Carregando...</div>
+      <div v-if="loading" class="text-center py-8">Carregando...</div>
 
-    <div v-else class="bg-white rounded-lg shadow overflow-hidden">
-      <table class="min-w-full">
+      <div v-else-if="produtos.length === 0" class="text-center py-8 text-gray-500">
+        Nenhum produto cadastrado
+      </div>
+
+      <table v-else class="w-full">
         <thead class="bg-gray-50">
           <tr>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Nome</th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Categoria</th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Unidade</th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Ações</th>
+            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Nome</th>
+            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Categoria</th>
+            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Unidade</th>
+            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Ações</th>
           </tr>
         </thead>
-        <tbody class="divide-y divide-gray-200">
-          <tr v-for="produto in produtos" :key="produto.id">
-            <td class="px-6 py-4">{{ produto.nome }}</td>
-            <td class="px-6 py-4">{{ produto.categoria }}</td>
-            <td class="px-6 py-4">{{ produto.unidade_medida }}</td>
-            <td class="px-6 py-4 space-x-2">
-              <button @click="editProduto(produto)" class="text-blue-600 hover:text-blue-800">Editar</button>
+        <tbody class="divide-y">
+          <tr v-for="produto in produtos" :key="produto.id" class="hover:bg-gray-50">
+            <td class="px-4 py-3">{{ produto.nome }}</td>
+            <td class="px-4 py-3">{{ produto.categoria }}</td>
+            <td class="px-4 py-3">{{ produto.unidade_medida }}</td>
+            <td class="px-4 py-3">
+              <button @click="editProduto(produto)" class="text-blue-600 hover:text-blue-800 mr-3">Editar</button>
               <button @click="deleteProduto(produto.id)" class="text-red-600 hover:text-red-800">Excluir</button>
             </td>
           </tr>
@@ -34,38 +38,34 @@
     </div>
 
     <!-- Modal -->
-    <div v-if="showModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-      <div class="bg-white p-8 rounded-lg w-96">
-        <h2 class="text-2xl font-bold mb-4">{{ editMode ? 'Editar' : 'Novo' }} Produto</h2>
+    <div v-if="showModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div class="bg-white rounded-lg p-6 w-full max-w-md">
+        <h3 class="text-xl font-bold mb-4">{{ editMode ? 'Editar Produto' : 'Novo Produto' }}</h3>
         
         <form @submit.prevent="saveProduto">
           <div class="mb-4">
             <label class="block text-gray-700 mb-2">Nome</label>
-            <input v-model="form.nome" required class="w-full px-3 py-2 border rounded" />
+            <input v-model="form.nome" required class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
           </div>
           
           <div class="mb-4">
             <label class="block text-gray-700 mb-2">Categoria</label>
-            <input v-model="form.categoria" class="w-full px-3 py-2 border rounded" />
+            <input v-model="form.categoria" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
           </div>
           
           <div class="mb-4">
             <label class="block text-gray-700 mb-2">Descrição</label>
-            <textarea v-model="form.descricao" class="w-full px-3 py-2 border rounded"></textarea>
+            <textarea v-model="form.descricao" rows="3" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
           </div>
           
           <div class="mb-4">
             <label class="block text-gray-700 mb-2">Unidade de Medida</label>
-            <input v-model="form.unidade_medida" required class="w-full px-3 py-2 border rounded" />
+            <input v-model="form.unidade_medida" required class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
           </div>
 
-          <div class="flex space-x-2">
-            <button type="submit" class="flex-1 bg-blue-500 text-white py-2 rounded hover:bg-blue-600">
-              Salvar
-            </button>
-            <button type="button" @click="closeModal" class="flex-1 bg-gray-300 py-2 rounded hover:bg-gray-400">
-              Cancelar
-            </button>
+          <div class="flex justify-end space-x-3">
+            <button type="button" @click="closeModal" class="px-4 py-2 border rounded hover:bg-gray-100">Cancelar</button>
+            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Salvar</button>
           </div>
         </form>
       </div>

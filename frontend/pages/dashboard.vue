@@ -1,29 +1,29 @@
 <template>
   <div>
     <!-- Lotes Próximos ao Vencimento -->
-    <div class="bg-white rounded-lg shadow-lg p-6 mb-6 border-l-4 border-purple-400">
-      <h3 class="text-lg font-semibold text-purple-700 mb-4">Lotes Próximos ao Vencimento</h3>
+    <div class="rounded-lg shadow-lg p-6 mb-6 border-l-4 border-purple-400" :class="darkMode ? 'bg-gray-800' : 'bg-white'">
+      <h3 class="text-lg font-semibold mb-4" :class="darkMode ? 'text-purple-400' : 'text-purple-700'">Lotes Próximos ao Vencimento</h3>
       
-      <div v-if="lotesVencendo.length === 0" class="text-center py-4 text-gray-500">
+      <div v-if="lotesVencendo.length === 0" class="text-center py-4" :class="darkMode ? 'text-gray-400' : 'text-gray-500'">
         Nenhum lote próximo ao vencimento
       </div>
 
       <table v-else class="w-full">
-        <thead class="bg-purple-50">
+        <thead :class="darkMode ? 'bg-gray-700' : 'bg-purple-50'">
           <tr>
-            <th class="px-4 py-2 text-left text-sm font-semibold text-purple-700">Produto</th>
-            <th class="px-4 py-2 text-left text-sm font-semibold text-purple-700">Lote</th>
-            <th class="px-4 py-2 text-left text-sm font-semibold text-purple-700">Estoque</th>
-            <th class="px-4 py-2 text-left text-sm font-semibold text-purple-700">Validade</th>
-            <th class="px-4 py-2 text-left text-sm font-semibold text-purple-700">Status</th>
+            <th class="px-4 py-2 text-left text-sm font-semibold" :class="darkMode ? 'text-purple-400' : 'text-purple-700'">Produto</th>
+            <th class="px-4 py-2 text-left text-sm font-semibold" :class="darkMode ? 'text-purple-400' : 'text-purple-700'">Lote</th>
+            <th class="px-4 py-2 text-left text-sm font-semibold" :class="darkMode ? 'text-purple-400' : 'text-purple-700'">Estoque</th>
+            <th class="px-4 py-2 text-left text-sm font-semibold" :class="darkMode ? 'text-purple-400' : 'text-purple-700'">Validade</th>
+            <th class="px-4 py-2 text-left text-sm font-semibold" :class="darkMode ? 'text-purple-400' : 'text-purple-700'">Status</th>
           </tr>
         </thead>
         <tbody class="divide-y">
-          <tr v-for="lote in lotesVencendo" :key="lote.id" class="hover:bg-purple-50">
-            <td class="px-4 py-2">{{ lote.produto_nome }}</td>
-            <td class="px-4 py-2">{{ lote.numero_lote }}</td>
-            <td class="px-4 py-2">{{ lote.quantidade_atual }}</td>
-            <td class="px-4 py-2">{{ formatarData(lote.data_validade) }}</td>
+          <tr v-for="lote in lotesVencendo" :key="lote.id" :class="darkMode ? 'hover:bg-gray-700' : 'hover:bg-purple-50'">
+            <td class="px-4 py-2" :class="darkMode ? 'text-gray-300' : ''">{{ lote.produto_nome }}</td>
+            <td class="px-4 py-2" :class="darkMode ? 'text-gray-300' : ''">{{ lote.numero_lote }}</td>
+            <td class="px-4 py-2" :class="darkMode ? 'text-gray-300' : ''">{{ lote.quantidade_atual }}</td>
+            <td class="px-4 py-2" :class="darkMode ? 'text-gray-300' : ''">{{ formatarData(lote.data_validade) }}</td>
             <td class="px-4 py-2">
               <span class="px-2 py-1 rounded text-xs font-semibold" :class="getStatusClass(lote.data_validade)">
                 {{ getStatusTexto(lote.data_validade) }}
@@ -35,9 +35,9 @@
     </div>
 
     <!-- Ações Rápidas -->
-    <div class="bg-white rounded-lg shadow-lg p-6 border-l-4 border-purple-400">
+    <div class="rounded-lg shadow-lg p-6 border-l-4 border-purple-400" :class="darkMode ? 'bg-gray-800' : 'bg-white'">
       <div class="flex justify-between items-center mb-4">
-        <h3 class="text-lg font-semibold text-purple-700">Ações Rápidas</h3>
+        <h3 class="text-lg font-semibold" :class="darkMode ? 'text-purple-400' : 'text-purple-700'">Ações Rápidas</h3>
         <button @click="modoEdicao = !modoEdicao" class="text-sm px-3 py-1 rounded" :class="modoEdicao ? 'bg-purple-100 text-purple-700' : 'bg-purple-500 text-white hover:bg-purple-600'">
           {{ modoEdicao ? 'Concluir' : 'Editar' }}
         </button>
@@ -45,15 +45,15 @@
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div v-for="(acao, index) in acoesRapidas" :key="index" class="relative">
-          <NuxtLink :to="acao.link" class="flex items-center p-4 border border-purple-200 rounded-lg hover:bg-purple-50 transition">
+          <NuxtLink :to="acao.link" class="flex items-center p-4 border rounded-lg transition" :class="darkMode ? 'border-gray-600 hover:bg-gray-700' : 'border-purple-200 hover:bg-purple-50'">
             <div class="mr-3" :class="acao.corIcone">
               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" :d="acao.icone"/>
               </svg>
             </div>
             <div>
-              <p class="font-semibold text-gray-800">{{ acao.titulo }}</p>
-              <p class="text-sm text-gray-500">{{ acao.descricao }}</p>
+              <p class="font-semibold" :class="darkMode ? 'text-gray-200' : 'text-gray-800'">{{ acao.titulo }}</p>
+              <p class="text-sm" :class="darkMode ? 'text-gray-400' : 'text-gray-500'">{{ acao.descricao }}</p>
             </div>
           </NuxtLink>
           <button v-if="modoEdicao" @click="removerAcao(index)" class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center hover:bg-red-600">
@@ -61,7 +61,7 @@
           </button>
         </div>
 
-        <button v-if="modoEdicao" @click="abrirModalAcao" class="flex items-center justify-center p-4 border-2 border-dashed border-purple-300 rounded-lg hover:bg-purple-50 transition text-purple-400">
+        <button v-if="modoEdicao" @click="abrirModalAcao" class="flex items-center justify-center p-4 border-2 border-dashed rounded-lg transition" :class="darkMode ? 'border-gray-600 hover:bg-gray-700 text-purple-400' : 'border-purple-300 hover:bg-purple-50 text-purple-400'">
           <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
           </svg>
@@ -71,23 +71,23 @@
 
     <!-- Modal Adicionar Ação -->
     <div v-if="mostrarModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div class="bg-white rounded-lg p-6 w-full max-w-md border-t-4 border-purple-400">
-        <h3 class="text-xl font-bold text-purple-700 mb-4">Nova Ação Rápida</h3>
+      <div class="rounded-lg p-6 w-full max-w-md border-t-4 border-purple-400" :class="darkMode ? 'bg-gray-800' : 'bg-white'">
+        <h3 class="text-xl font-bold mb-4" :class="darkMode ? 'text-purple-400' : 'text-purple-700'">Nova Ação Rápida</h3>
         
         <form @submit.prevent="adicionarAcao">
           <div class="mb-4">
-            <label class="block text-gray-700 mb-2">Título</label>
-            <input v-model="novaAcao.titulo" required class="w-full px-3 py-2 border border-purple-200 rounded focus:outline-none focus:ring-2 focus:ring-purple-400" />
+            <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">Título</label>
+            <input v-model="novaAcao.titulo" required class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="darkMode ? 'bg-gray-700 border-gray-600 text-white' : 'border-purple-200'" />
           </div>
 
           <div class="mb-4">
-            <label class="block text-gray-700 mb-2">Descrição</label>
-            <input v-model="novaAcao.descricao" required class="w-full px-3 py-2 border border-purple-200 rounded focus:outline-none focus:ring-2 focus:ring-purple-400" />
+            <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">Descrição</label>
+            <input v-model="novaAcao.descricao" required class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="darkMode ? 'bg-gray-700 border-gray-600 text-white' : 'border-purple-200'" />
           </div>
 
           <div class="mb-4">
-            <label class="block text-gray-700 mb-2">Funcionalidade</label>
-            <select v-model="novaAcao.link" @change="preencherPadrao" required class="w-full px-3 py-2 border border-purple-200 rounded focus:outline-none focus:ring-2 focus:ring-purple-400">
+            <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">Funcionalidade</label>
+            <select v-model="novaAcao.link" @change="preencherPadrao" required class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="darkMode ? 'bg-gray-700 border-gray-600 text-white' : 'border-purple-200'">
               <option value="">(Selecione)</option>
               <option value="/produtos">Produtos</option>
               <option value="/lotes">Lotes</option>
@@ -98,8 +98,8 @@
           </div>
 
           <div class="mb-4">
-            <label class="block text-gray-700 mb-2">Cor do Ícone</label>
-            <select v-model="novaAcao.corIcone" required class="w-full px-3 py-2 border border-purple-200 rounded focus:outline-none focus:ring-2 focus:ring-purple-400">
+            <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">Cor do Ícone</label>
+            <select v-model="novaAcao.corIcone" required class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="darkMode ? 'bg-gray-700 border-gray-600 text-white' : 'border-purple-200'">
               <option value="text-blue-600">Azul</option>
               <option value="text-green-600">Verde</option>
               <option value="text-red-600">Vermelho</option>
@@ -109,7 +109,7 @@
           </div>
 
           <div class="flex justify-end space-x-3">
-            <button type="button" @click="fecharModal" class="px-4 py-2 border rounded hover:bg-gray-100">Cancelar</button>
+            <button type="button" @click="fecharModal" class="px-4 py-2 border rounded" :class="darkMode ? 'border-gray-600 hover:bg-gray-700 text-gray-300' : 'hover:bg-gray-100'">Cancelar</button>
             <button type="submit" class="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600">Adicionar</button>
           </div>
         </form>
@@ -124,6 +124,7 @@ definePageMeta({
 })
 
 const { api } = useApi()
+const { darkMode } = useDarkMode()
 
 const lotesVencendo = ref([])
 
