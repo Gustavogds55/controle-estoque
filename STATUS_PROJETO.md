@@ -12,11 +12,11 @@ controle-estoque/
 
 ---
 
-## ✅ Status Atual: FRONTEND E BACKEND INTEGRADOS
+## ✅ Status Atual: SISTEMA FUNCIONAL - PRODUTOS E LOTES COMPLETOS
 
 ### 📅 Última Atualização
-**Data**: Outubro 2024  
-**Fase**: Frontend com Login e Gerenciamento de Produtos
+**Data**: Janeiro 2025  
+**Fase**: Dashboard, Produtos e Lotes Implementados
 
 ---
 
@@ -34,7 +34,7 @@ Desenvolvimento **incremental e validado**, onde cada funcionalidade será:
 ### Backend (`/backend`)
 **Stack**: Node.js + Express.js + MySQL + Prisma/Sequelize
 
-**Status**: 🟢 70% Completo
+**Status**: 🟢 80% Completo
 
 **Funcionalidades Implementadas**:
 - [x] Configuração inicial do projeto (package.json, estrutura de pastas)
@@ -69,7 +69,7 @@ backend/
 ### Frontend (`/frontend`)
 **Stack**: Nuxt.js (Vue 3) + TailwindCSS + Pinia
 
-**Status**: 🟢 Funcional (Login e Produtos)
+**Status**: 🟢 Funcional (Dashboard, Produtos e Lotes)
 
 **Funcionalidades Implementadas**:
 - [x] Configuração inicial do Nuxt.js (porta 3001)
@@ -83,9 +83,9 @@ backend/
 - [x] Integração com API backend
 - [x] Middleware de autenticação
 - [x] Layout responsivo
-- [x] Tela de gestão de lotes
+- [x] Tela de gestão de lotes (CRUD completo)
+- [x] Indicadores visuais de validade
 - [ ] Tela de movimentações
-- [ ] Dashboard de alertas de validade
 - [ ] Filtros e buscas avançadas
 
 **Estrutura Implementada**:
@@ -166,13 +166,12 @@ frontend/
 ## 🚀 Próximos Passos
 
 ### Prioridade Alta:
-1. **Sistema de Movimentações (Backend)** - Entrada/saída de estoque ⬅️ PRÓXIMO
-2. **Sistema de Movimentações (Frontend)** - Tela de movimentações
+1. **Sistema de Movimentações (Backend + Frontend)** - Entrada/saída de estoque ⬅️ PRÓXIMO
 
 ### Prioridade Média:
-5. **Alertas de Validade** - Lógica e dashboard
-6. **Relatórios** - Exportação e visualização
-7. **Filtros e Buscas** - Melhorias na interface
+2. **Relatórios** - Exportação e visualização
+3. **Filtros e Buscas** - Melhorias na interface
+4. **Melhorias no Dashboard** - Gráficos e estatísticas avançadas
 
 ---
 
@@ -208,6 +207,8 @@ frontend/
 | Out/2024 | CRUD de Lotes Backend | Concluído |
 | Jan/2025 | Dashboard com sidebar e estatísticas | Concluído |
 | Jan/2025 | CRUD de Lotes Frontend | Concluído |
+| Jan/2025 | Integração completa Produtos e Lotes | Concluído |
+| Jan/2025 | Indicadores visuais de validade | Concluído |
 
 ---
 
