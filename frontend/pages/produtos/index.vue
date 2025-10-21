@@ -36,8 +36,8 @@
     </div>
 
     <!-- Modal -->
-    <div v-if="showModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div class="rounded-lg p-6 w-full max-w-md" :class="darkMode ? 'bg-gray-800' : 'bg-white'">
+    <div v-if="showModal" @click="closeModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div @click.stop class="rounded-lg p-6 w-full max-w-4xl" :class="darkMode ? 'bg-gray-800' : 'bg-white'">
         <h3 class="text-xl font-bold mb-4" :class="darkMode ? 'text-purple-400' : ''">{{ editMode ? 'Editar Produto' : 'Novo Produto' }}</h3>
         
         <form @submit.prevent="saveProduto">

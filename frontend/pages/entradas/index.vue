@@ -43,9 +43,9 @@
     </div>
 
     <!-- Modal -->
-    <div v-if="mostrarModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div class="rounded-lg p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto" :class="darkMode ? 'bg-gray-800' : 'bg-white'">
-        <h3 class="text-xl font-bold mb-4" :class="darkMode ? 'text-purple-400' : ''">Nova Entrada Completa</h3>
+    <div v-if="mostrarModal" @click="fecharModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div @click.stop class="rounded-lg p-6 w-full max-w-4xl max-h-[90vh] overflow-y-auto" :class="darkMode ? 'bg-gray-800' : 'bg-white'">
+        <h3 class="text-xl font-bold mb-4" :class="darkMode ? 'text-purple-400' : ''">Nova Entrada</h3>
         
         <form @submit.prevent="salvar">
           <!-- Dados do Produto -->
@@ -96,7 +96,12 @@
               </div>
               <div>
                 <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">Fornecedor</label>
-                <input v-model="form.fornecedor" required class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="darkMode ? 'bg-gray-700 border-gray-600 text-white' : ''" />
+                <select v-model="form.fornecedor_id" required class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="darkMode ? 'bg-gray-700 border-gray-600 text-white' : ''">
+                  <option value="">Selecione um fornecedor</option>
+                  <option v-for="fornecedor in fornecedores" :key="fornecedor.id" :value="fornecedor.id">
+                    {{ fornecedor.nome }}
+                  </option>
+                </select>
               </div>
             </div>
 
@@ -147,6 +152,7 @@ const { toast, showToast } = useToast()
 
 const entradas = ref([])
 const lotes = ref([])
+const fornecedores = ref([])
 const loading = ref(true)
 const mostrarModal = ref(false)
 
@@ -157,7 +163,7 @@ const form = ref({
   numero_lote: '',
   data_validade: '',
   numero_nf: '',
-  fornecedor: '',
+  fornecedor_id: '',
   quantidade: '',
   data_movimentacao: '',
   observacao: ''
@@ -182,6 +188,14 @@ const carregarLotes = async () => {
   }
 }
 
+const carregarFornecedores = async () => {
+  try {
+    fornecedores.value = await api('/fornecedores')
+  } catch (error) {
+    console.error('Erro ao carregar fornecedores:', error)
+  }
+}
+
 const abrirModal = () => {
   const agora = new Date()
   const dataHoraLocal = new Date(agora.getTime() - agora.getTimezoneOffset() * 60000).toISOString().slice(0, 16)
@@ -194,7 +208,7 @@ const abrirModal = () => {
     numero_lote: '',
     data_validade: '',
     numero_nf: '',
-    fornecedor: '',
+    fornecedor_id: '',
     quantidade: '',
     data_movimentacao: dataHoraLocal,
     observacao: ''
@@ -238,7 +252,8 @@ const salvar = async () => {
         tipo: 'ENTRADA',
         quantidade: form.value.quantidade,
         data_movimentacao: form.value.data_movimentacao,
-        observacao: `NF: ${form.value.numero_nf} | Fornecedor: ${form.value.fornecedor}${form.value.observacao ? ' | ' + form.value.observacao : ''}`
+        fornecedor_id: form.value.fornecedor_id,
+        observacao: `NF: ${form.value.numero_nf}${form.value.observacao ? ' | ' + form.value.observacao : ''}`
       }
     })
 
@@ -270,5 +285,6 @@ const formatarDataHora = (data) => {
 onMounted(() => {
   carregar()
   carregarLotes()
+  carregarFornecedores()
 })
 </script>

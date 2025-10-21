@@ -34,19 +34,20 @@ Desenvolvimento **incremental e validado**, onde cada funcionalidade será:
 ### Backend (`/backend`)
 **Stack**: Node.js + Express.js + MySQL + Prisma/Sequelize
 
-**Status**: 🟢 90% Completo
+**Status**: 🟢 100% Completo
 
 **Funcionalidades Implementadas**:
 - [x] Configuração inicial do projeto (package.json, estrutura de pastas)
 - [x] Configuração do banco de dados MySQL
-- [x] Modelagem e criação das tabelas (Usuários, Produtos, Lotes, Movimentações)
+- [x] Modelagem e criação das tabelas (Usuários, Produtos, Lotes, Movimentações, Fornecedores)
 - [x] Sistema de autenticação (login/registro/logout)
 - [x] Documentação Swagger
 - [x] Coleção Postman
 - [x] CRUD de Produtos
 - [x] CRUD de Lotes
 - [x] Sistema de Movimentações (entrada/saída)
-- [ ] CRUD de Fornecedores
+- [x] CRUD de Fornecedores
+- [x] Integração Fornecedores com Entradas
 - [ ] Lógica de alertas de validade
 
 **Estrutura Planejada**:
@@ -93,7 +94,10 @@ backend/
 - [x] Dashboard personalizável (Ações Rápidas)
 - [x] Tema roxo e branco consistente
 - [x] Fluxo unificado de cadastro (Produto + Lote + Entrada)
-- [ ] Tela de Gerenciamento de Fornecedores
+- [x] Tela de Gerenciamento de Fornecedores (CRUD completo)
+- [x] Formatação automática CPF/CNPJ e Telefone
+- [x] Validação de campos obrigatórios
+- [x] Vinculação de Fornecedores às Entradas
 - [ ] Filtros e buscas avançadas
 
 **Estrutura Implementada**:
@@ -164,7 +168,7 @@ frontend/
 - observacao
 - created_at
 
-**fornecedores** (A IMPLEMENTAR)
+**fornecedores**
 - id (PK)
 - nome
 - cnpj
@@ -178,22 +182,19 @@ frontend/
 - 1 Produto → N Lotes
 - 1 Lote → N Movimentações
 - 1 Usuário → N Movimentações
-- 1 Fornecedor → N Movimentações (futuro)
+- 1 Fornecedor → N Movimentações
 
 ---
 
 ## 🚀 Próximos Passos
 
 ### Prioridade Alta:
-1. **Gerenciamento de Fornecedores** - CRUD completo ⬅️ PRÓXIMO
-   - Backend: Criar tabela, model, controller, service e routes
-   - Frontend: Criar página de gerenciamento com listagem e formulário
-   - Integração: Vincular fornecedor às entradas de mercadorias
+1. **Filtros e Buscas Avançadas** - Melhorias na interface ⬅️ PRÓXIMO
 
 ### Prioridade Média:
-2. **Filtros e Buscas Avançadas** - Melhorias na interface
-3. **Relatórios** - Exportação e visualização
-4. **Melhorias no Dashboard** - Gráficos e estatísticas avançadas
+2. **Relatórios** - Exportação e visualização
+3. **Melhorias no Dashboard** - Gráficos e estatísticas avançadas
+4. **Alertas Automáticos** - Notificações de produtos próximos ao vencimento
 
 ---
 
@@ -245,7 +246,13 @@ frontend/
 | Jan/2025 | Reorganização do sidebar | Concluído |
 | Jan/2025 | Validação de autenticação | Concluído |
 | Jan/2025 | Campos NF e Fornecedor nas entradas | Concluído |
-| Jan/2025 | Planejamento CRUD Fornecedores | Em Andamento |
+| Jan/2025 | CRUD Fornecedores Backend | Concluído |
+| Jan/2025 | CRUD Fornecedores Frontend | Concluído |
+| Jan/2025 | Formatação CPF/CNPJ e Telefone | Concluído |
+| Jan/2025 | Validação de campos obrigatórios | Concluído |
+| Jan/2025 | Integração Fornecedores com Entradas | Concluído |
+| Jan/2025 | Modais aumentados e melhorados | Concluído |
+| Jan/2025 | Atualização Postman Collection | Concluído |
 
 ---
 

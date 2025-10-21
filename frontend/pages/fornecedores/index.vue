@@ -40,24 +40,26 @@
     </div>
 
     <!-- Modal -->
-    <div v-if="mostrarModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div class="rounded-lg p-6 w-full max-w-2xl" :class="darkMode ? 'bg-gray-800' : 'bg-white'">
+    <div v-if="mostrarModal" @click="fecharModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div @click.stop class="rounded-lg p-6 w-full max-w-4xl" :class="darkMode ? 'bg-gray-800' : 'bg-white'">
         <h3 class="text-xl font-bold mb-4" :class="darkMode ? 'text-purple-400' : ''">{{ fornecedorEditando ? 'Editar Fornecedor' : 'Novo Fornecedor' }}</h3>
         
         <form @submit.prevent="salvar">
           <div class="mb-4">
             <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">Nome</label>
-            <input v-model="form.nome" required class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="darkMode ? 'bg-gray-700 border-gray-600 text-white' : ''" />
+            <input v-model="form.nome" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="darkMode ? 'bg-gray-700 border-gray-600 text-white' : ''" />
+            <p v-if="erros.nome" class="text-red-500 text-sm mt-1">{{ erros.nome }}</p>
           </div>
 
           <div class="grid grid-cols-2 gap-3 mb-4">
             <div>
-              <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">CNPJ</label>
-              <input v-model="form.cnpj" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="darkMode ? 'bg-gray-700 border-gray-600 text-white' : ''" />
+              <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">CPF/CNPJ</label>
+              <input v-model="form.cnpj" @input="formatarCpfCnpj" maxlength="18" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="darkMode ? 'bg-gray-700 border-gray-600 text-white' : ''" />
+              <p v-if="erros.cnpj" class="text-red-500 text-sm mt-1">{{ erros.cnpj }}</p>
             </div>
             <div>
               <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">Telefone</label>
-              <input v-model="form.telefone" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="darkMode ? 'bg-gray-700 border-gray-600 text-white' : ''" />
+              <input v-model="form.telefone" @input="formatarTelefone" maxlength="15" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="darkMode ? 'bg-gray-700 border-gray-600 text-white' : ''" />
             </div>
           </div>
 
@@ -113,6 +115,11 @@ const form = ref({
   endereco: ''
 })
 
+const erros = ref({
+  nome: '',
+  cnpj: ''
+})
+
 const carregar = async () => {
   loading.value = true
   try {
@@ -147,7 +154,26 @@ const fecharModal = () => {
   fornecedorEditando.value = null
 }
 
+const validarFormulario = () => {
+  erros.value = { nome: '', cnpj: '' }
+  let valido = true
+
+  if (!form.value.nome.trim()) {
+    erros.value.nome = 'Nome é obrigatório'
+    valido = false
+  }
+
+  if (!form.value.cnpj.trim()) {
+    erros.value.cnpj = 'CPF/CNPJ é obrigatório'
+    valido = false
+  }
+
+  return valido
+}
+
 const salvar = async () => {
+  if (!validarFormulario()) return
+
   try {
     if (fornecedorEditando.value) {
       await api(`/fornecedores/${fornecedorEditando.value.id}`, {
@@ -170,9 +196,36 @@ const salvar = async () => {
   }
 }
 
-const deletarFornecedor = async (id) => {
-  if (!confirm('Deseja realmente excluir este fornecedor?')) return
+const formatarCpfCnpj = (e) => {
+  let valor = e.target.value.replace(/\D/g, '')
   
+  if (valor.length <= 11) {
+    // CPF: 000.000.000-00
+    valor = valor.replace(/(\d{3})(\d)/, '$1.$2')
+    valor = valor.replace(/(\d{3})(\d)/, '$1.$2')
+    valor = valor.replace(/(\d{3})(\d{1,2})$/, '$1-$2')
+  } else {
+    // CNPJ: 00.000.000/0000-00
+    valor = valor.replace(/(\d{2})(\d)/, '$1.$2')
+    valor = valor.replace(/(\d{3})(\d)/, '$1.$2')
+    valor = valor.replace(/(\d{3})(\d)/, '$1/$2')
+    valor = valor.replace(/(\d{4})(\d{1,2})$/, '$1-$2')
+  }
+  
+  form.value.cnpj = valor
+}
+
+const formatarTelefone = (e) => {
+  let valor = e.target.value.replace(/\D/g, '')
+  
+  // (00) 00000-0000 ou (00) 0000-0000
+  valor = valor.replace(/^(\d{2})(\d)/, '($1) $2')
+  valor = valor.replace(/(\d{4,5})(\d{4})$/, '$1-$2')
+  
+  form.value.telefone = valor
+}
+
+const deletarFornecedor = async (id) => {
   try {
     await api(`/fornecedores/${id}`, { method: 'DELETE' })
     showToast('Fornecedor deletado com sucesso')
