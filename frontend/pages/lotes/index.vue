@@ -103,6 +103,16 @@
         </form>
       </div>
     </div>
+
+    <!-- Toast -->
+    <div v-if="toast.show" class="fixed top-4 right-4 z-50 animate-fade-in">
+      <div :class="getToastClasses(toast.type)" class="px-8 py-4 rounded-lg shadow-lg flex items-center space-x-3 min-w-[320px]">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" :d="getToastIcon(toast.type)"/>
+        </svg>
+        <span class="font-medium">{{ toast.message }}</span>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -113,6 +123,7 @@ definePageMeta({
 
 const { api } = useApi()
 const { darkMode } = useDarkMode()
+const { toast, showToast, getToastClasses, getToastIcon } = useToast()
 
 const lotes = ref([])
 const produtos = ref([])
@@ -186,12 +197,14 @@ const salvarLote = async () => {
         method: 'PUT',
         body: form.value
       })
+      showToast('Lote atualizado com sucesso')
     } else {
       const { quantidade_atual, ...dadosLote } = form.value
       await api('/lotes', {
         method: 'POST',
         body: dadosLote
       })
+      showToast('Lote cadastrado com sucesso')
     }
     fecharModal()
     await carregarLotes()
@@ -203,10 +216,9 @@ const salvarLote = async () => {
 }
 
 const deletarLote = async (id) => {
-  if (!confirm('Deseja realmente excluir este lote?')) return
-  
   try {
     await api(`/lotes/${id}`, { method: 'DELETE' })
+    showToast('Lote excluído com sucesso')
     await carregarLotes()
   } catch (error) {
     console.error('Erro ao deletar lote:', error)

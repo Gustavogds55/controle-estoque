@@ -653,6 +653,71 @@
       ]
     },
     {
+      "name": "Alertas",
+      "item": [
+        {
+          "name": "Listar Lotes Vencendo",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/alertas/vencendo?dias=30",
+              "host": ["{{baseUrl}}"],
+              "path": ["alertas", "vencendo"],
+              "query": [
+                {
+                  "key": "dias",
+                  "value": "30"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Listar Lotes Vencidos",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/alertas/vencidos",
+              "host": ["{{baseUrl}}"],
+              "path": ["alertas", "vencidos"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Contadores de Alertas",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/alertas/contadores",
+              "host": ["{{baseUrl}}"],
+              "path": ["alertas", "contadores"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
       "name": "Health Check",
       "request": {
         "method": "GET",

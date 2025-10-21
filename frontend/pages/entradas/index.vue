@@ -179,11 +179,11 @@
 
     <!-- Toast -->
     <div v-if="toast.show" class="fixed top-4 right-4 z-50 animate-fade-in">
-      <div class="bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg flex items-center space-x-3">
+      <div :class="getToastClasses(toast.type)" class="px-8 py-4 rounded-lg shadow-lg flex items-center space-x-3 min-w-[320px]">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" :d="getToastIcon(toast.type)"/>
         </svg>
-        <span>{{ toast.message }}</span>
+        <span class="font-medium">{{ toast.message }}</span>
       </div>
     </div>
   </div>
@@ -196,7 +196,7 @@ definePageMeta({
 
 const { api } = useApi()
 const { darkMode } = useDarkMode()
-const { toast, showToast } = useToast()
+const { toast, showToast, getToastClasses, getToastIcon } = useToast()
 
 const entradas = ref([])
 const lotes = ref([])

@@ -12,11 +12,11 @@ controle-estoque/
 
 ---
 
-## ✅ Status Atual: SISTEMA COMPLETO E OTIMIZADO
+## ✅ Status Atual: SISTEMA COMPLETO E OTIMIZADO + TESTES
 
 ### 📅 Última Atualização
 **Data**: Janeiro 2025  
-**Fase**: Sistema Completo com UI/UX Otimizada e Modo Escuro
+**Fase**: Sistema Completo com UI/UX Otimizada + Implementação de Testes E2E
 
 ---
 
@@ -50,7 +50,7 @@ Desenvolvimento **incremental e validado**, onde cada funcionalidade será:
 - [x] Integração Fornecedores com Entradas
 - [x] Atualização de movimentações (PUT endpoint)
 - [x] Correção de lógica de estoque (quantidade_atual)
-- [ ] Lógica de alertas de validade
+- [x] Lógica de alertas de validade (endpoints dedicados)
 
 **Estrutura Planejada**:
 ```
@@ -106,7 +106,10 @@ backend/
 - [x] Padronização de modais (max-w-4xl)
 - [x] Ícones para ações Editar/Excluir (todas as funcionalidades)
 - [x] Coluna Fornecedor na tabela de Entradas
+- [x] Sistema de Toast completo (success, error, warning, info)
+- [x] Toast em todas as funcionalidades (Produtos, Lotes, Entradas, Saídas, Fornecedores)
 - [ ] Filtros e buscas avançadas
+- [ ] Testes E2E com Playwright
 
 **Estrutura Implementada**:
 ```
@@ -197,12 +200,20 @@ frontend/
 ## 🚀 Próximos Passos
 
 ### Prioridade Alta:
-1. **Filtros e Buscas Avançadas** - Melhorias na interface ⬅️ PRÓXIMO
+1. **Testes E2E com Playwright** - Cenários de teste automatizados ⬅️ EM ANDAMENTO
+2. **Filtros e Buscas Avançadas** - Campos de busca nas tabelas
 
 ### Prioridade Média:
-2. **Relatórios** - Exportação e visualização
-3. **Melhorias no Dashboard** - Gráficos e estatísticas avançadas
-4. **Alertas Automáticos** - Notificações de produtos próximos ao vencimento
+3. **Integração Frontend com Alertas** - Usar endpoints de alertas no Dashboard
+4. **Melhorias no Dashboard** - Gráficos e estatísticas avançadas
+5. **Relatórios** - Exportação em PDF/Excel
+6. **Confirmação de Exclusão** - Modal de confirmação ao invés de confirm()
+7. **Paginação** - Implementar paginação nas tabelas
+
+### Prioridade Baixa:
+8. **Níveis de Permissão** - Admin, Operador, Gestor
+9. **Recuperação de Senha** - Sistema de reset por email
+10. **Impressão de Etiquetas** - Etiquetas de lotes
 
 ---
 
@@ -267,6 +278,9 @@ frontend/
 | Jan/2025 | Sincronização de estoque entre funcionalidades | Concluído |
 | Jan/2025 | Coluna Fornecedor na tabela de Entradas | Concluído |
 | Jan/2025 | Ícones para ações (Editar/Excluir) | Concluído |
+| Jan/2025 | Sistema de Alertas Backend (API endpoints) | Concluído |
+| Jan/2025 | Toast em todas as funcionalidades | Concluído |
+| Jan/2025 | Melhorias nos Toasts (4 tipos, cores claras, largura) | Concluído |
 
 ---
 

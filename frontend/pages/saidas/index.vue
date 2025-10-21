@@ -84,6 +84,16 @@
         </form>
       </div>
     </div>
+
+    <!-- Toast -->
+    <div v-if="toast.show" class="fixed top-4 right-4 z-50 animate-fade-in">
+      <div :class="getToastClasses(toast.type)" class="px-8 py-4 rounded-lg shadow-lg flex items-center space-x-3 min-w-[320px]">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" :d="getToastIcon(toast.type)"/>
+        </svg>
+        <span class="font-medium">{{ toast.message }}</span>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -94,6 +104,7 @@ definePageMeta({
 
 const { api } = useApi()
 const { darkMode } = useDarkMode()
+const { toast, showToast, getToastClasses, getToastIcon } = useToast()
 
 const saidas = ref([])
 const lotes = ref([])
@@ -152,6 +163,7 @@ const salvar = async () => {
         tipo: 'SAIDA'
       }
     })
+    showToast('Saída cadastrada com sucesso')
     fecharModal()
     await carregar()
   } catch (error) {
@@ -161,10 +173,9 @@ const salvar = async () => {
 }
 
 const deletar = async (id) => {
-  if (!confirm('Deseja realmente excluir esta saída? O estoque será revertido.')) return
-  
   try {
     await api(`/movimentacoes/${id}`, { method: 'DELETE' })
+    showToast('Saída excluída com sucesso')
     await carregar()
   } catch (error) {
     console.error('Erro ao deletar saída:', error)
