@@ -10,13 +10,14 @@
       </div>
       <h2 class="text-2xl font-bold mb-6 text-center" :class="darkMode ? 'text-purple-400' : 'text-black'">Controle de Estoque</h2>
       
-      <form @submit.prevent="handleLogin">
+      <form @submit.prevent="handleLogin" data-testid="login-form">
         <div class="mb-4">
           <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">Email</label>
           <input 
             v-model="form.email" 
             type="email" 
             required
+            data-testid="email-input"
             class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400"
             :class="darkMode ? 'bg-gray-700 border-gray-600 text-white' : ''"
           />
@@ -28,6 +29,7 @@
             v-model="form.senha" 
             type="password" 
             required
+            data-testid="password-input"
             class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400"
             :class="darkMode ? 'bg-gray-700 border-gray-600 text-white' : ''"
           />
@@ -38,6 +40,7 @@
         <button 
           type="submit" 
           :disabled="loading"
+          data-testid="submit-button"
           class="w-full bg-purple-500 text-white py-2 rounded hover:bg-purple-600 disabled:bg-gray-400"
         >
           {{ loading ? 'Entrando...' : 'Entrar' }}
