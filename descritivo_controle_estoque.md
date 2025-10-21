@@ -43,11 +43,14 @@ Empresas, comércios e profissionais que precisam gerenciar estoques de produtos
 
 ### 📦 Controle de Entradas e Saídas
 - **Entradas**: Cadastro completo (Produto + Lote + Entrada) em um único formulário
+- **Edição de Entradas**: Permite alterar quantidade, data, fornecedor e observação
 - **Saídas**: Registro de saída de produtos do estoque
 - Atualização automática de quantidade em estoque
+- Sincronização perfeita entre Lotes, Entradas e Saídas
 - Histórico detalhado separado por tipo (quem, quando e quanto)
 - Reversão automática de estoque ao excluir movimentação
 - Sistema de notificações Toast para feedback visual
+- Cadastro rápido de fornecedor sem sair da tela de entrada
 
 ### 🔔 Alertas e Notificações
 - Painel de avisos com alertas automáticos
@@ -97,13 +100,18 @@ Empresas, comércios e profissionais que precisam gerenciar estoques de produtos
 
 ## ✨ Diferenciais Implementados
 - **Fluxo Unificado**: Cadastro de Produto + Lote + Entrada em uma única tela
+- **Edição Flexível**: Permite editar entradas já cadastradas com ajuste automático de estoque
 - **UI/UX Moderna**: Tema roxo e branco com modo escuro
+- **Interface Intuitiva**: Ícones visuais para ações de editar e excluir em todas as funcionalidades
 - **Feedback Visual**: Sistema de Toast para notificações
 - **Personalização**: Dashboard com ações rápidas editáveis pelo usuário
 - **Segurança**: Validação de token JWT em todas as requisições
 - **Formatação Inteligente**: CPF/CNPJ e telefone formatados automaticamente
-- **Gestão Completa**: Fornecedores integrados ao fluxo de entradas
+- **Gestão Completa**: Fornecedores integrados ao fluxo de entradas com exibição na tabela
+- **Cadastro Rápido**: Botão "+" para criar fornecedor sem sair da tela de entrada
 - **Validações**: Campos obrigatórios com mensagens de erro claras
+- **Estoque Sincronizado**: Quantidade sempre consistente entre Lotes, Entradas e Saídas
+- **Modais Padronizados**: Todos os modais com tamanho e comportamento uniformes
 
 ---
 

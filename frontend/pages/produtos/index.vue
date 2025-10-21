@@ -27,8 +27,18 @@
             <td class="px-4 py-3" :class="darkMode ? 'text-gray-300' : ''">{{ produto.categoria }}</td>
             <td class="px-4 py-3" :class="darkMode ? 'text-gray-300' : ''">{{ produto.unidade_medida }}</td>
             <td class="px-4 py-3">
-              <button @click="editProduto(produto)" class="text-blue-600 hover:text-blue-800 mr-3">Editar</button>
-              <button @click="deleteProduto(produto.id)" class="text-red-600 hover:text-red-800">Excluir</button>
+              <div class="flex gap-2">
+                <button @click="editProduto(produto)" class="p-2 text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded" :class="darkMode ? 'hover:bg-blue-900/20' : ''" title="Editar">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                  </svg>
+                </button>
+                <button @click="deleteProduto(produto.id)" class="p-2 text-red-600 hover:text-red-800 hover:bg-red-50 rounded" :class="darkMode ? 'hover:bg-red-900/20' : ''" title="Excluir">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                  </svg>
+                </button>
+              </div>
             </td>
           </tr>
         </tbody>
@@ -68,6 +78,16 @@
         </form>
       </div>
     </div>
+
+    <!-- Toast -->
+    <div v-if="toast.show" class="fixed top-4 right-4 z-50 animate-fade-in">
+      <div class="bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg flex items-center space-x-3">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+        </svg>
+        <span>{{ toast.message }}</span>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -78,6 +98,7 @@ definePageMeta({
 
 const { api } = useApi()
 const { darkMode } = useDarkMode()
+const { toast, showToast } = useToast()
 
 const produtos = ref([])
 const loading = ref(true)
@@ -103,11 +124,13 @@ const saveProduto = async () => {
         method: 'PUT',
         body: form.value
       })
+      showToast('Produto atualizado com sucesso')
     } else {
       await api('/produtos', {
         method: 'POST',
         body: form.value
       })
+      showToast('Produto cadastrado com sucesso')
     }
     closeModal()
     await loadProdutos()
@@ -123,10 +146,9 @@ const editProduto = (produto) => {
 }
 
 const deleteProduto = async (id) => {
-  if (!confirm('Deseja excluir este produto?')) return
-  
   try {
     await api(`/produtos/${id}`, { method: 'DELETE' })
+    showToast('Produto excluído com sucesso')
     await loadProdutos()
   } catch (e) {
     alert('Erro ao excluir produto')

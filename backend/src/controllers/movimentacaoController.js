@@ -28,7 +28,7 @@ export const buscarPorId = async (req, res) => {
 
 export const criar = async (req, res) => {
   try {
-    const { lote_id, tipo, quantidade, data_movimentacao, observacao } = req.body;
+    const { lote_id, tipo, quantidade, data_movimentacao, observacao, fornecedor_id } = req.body;
     
     if (!lote_id || !tipo || !quantidade || !data_movimentacao) {
       return res.status(400).json({ error: 'Campos obrigatórios: lote_id, tipo, quantidade, data_movimentacao' });
@@ -48,10 +48,29 @@ export const criar = async (req, res) => {
       tipo,
       quantidade,
       data_movimentacao,
-      observacao
+      observacao,
+      fornecedor_id
     });
 
     res.status(201).json(movimentacao);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+export const atualizar = async (req, res) => {
+  try {
+    const { quantidade, data_movimentacao, observacao, fornecedor_id } = req.body;
+    const movimentacao = await movimentacaoService.atualizar(req.params.id, {
+      quantidade,
+      data_movimentacao,
+      observacao,
+      fornecedor_id
+    });
+    if (!movimentacao) {
+      return res.status(404).json({ error: 'Movimentação não encontrada' });
+    }
+    res.json(movimentacao);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

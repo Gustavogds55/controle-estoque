@@ -109,6 +109,44 @@ router.post('/', authMiddleware, movimentacaoController.criar);
 /**
  * @swagger
  * /api/movimentacoes/{id}:
+ *   put:
+ *     summary: Atualiza uma movimentação
+ *     tags: [Movimentações]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               quantidade:
+ *                 type: number
+ *               data_movimentacao:
+ *                 type: string
+ *                 format: date-time
+ *               observacao:
+ *                 type: string
+ *               fornecedor_id:
+ *                 type: integer
+ *     responses:
+ *       200:
+ *         description: Movimentação atualizada
+ *       404:
+ *         description: Movimentação não encontrada
+ */
+router.put('/:id', authMiddleware, movimentacaoController.atualizar);
+
+/**
+ * @swagger
+ * /api/movimentacoes/{id}:
  *   delete:
  *     summary: Deleta uma movimentação
  *     tags: [Movimentações]

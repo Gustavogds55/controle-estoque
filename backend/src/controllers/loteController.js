@@ -34,7 +34,7 @@ export const criar = async (req, res) => {
   try {
     const { produto_id, numero_lote, quantidade_inicial, data_entrada, data_validade } = req.body;
 
-    if (!produto_id || !numero_lote || !quantidade_inicial || !data_entrada || !data_validade) {
+    if (!produto_id || !numero_lote || quantidade_inicial === undefined || !data_entrada || !data_validade) {
       return res.status(400).json({ error: 'Todos os campos são obrigatórios' });
     }
 

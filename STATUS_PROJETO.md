@@ -48,6 +48,8 @@ Desenvolvimento **incremental e validado**, onde cada funcionalidade será:
 - [x] Sistema de Movimentações (entrada/saída)
 - [x] CRUD de Fornecedores
 - [x] Integração Fornecedores com Entradas
+- [x] Atualização de movimentações (PUT endpoint)
+- [x] Correção de lógica de estoque (quantidade_atual)
 - [ ] Lógica de alertas de validade
 
 **Estrutura Planejada**:
@@ -98,6 +100,12 @@ backend/
 - [x] Formatação automática CPF/CNPJ e Telefone
 - [x] Validação de campos obrigatórios
 - [x] Vinculação de Fornecedores às Entradas
+- [x] Cadastro rápido de fornecedor (modal simplificado)
+- [x] Edição de entradas cadastradas
+- [x] Sincronização de estoque entre Lotes/Entradas/Saídas
+- [x] Padronização de modais (max-w-4xl)
+- [x] Ícones para ações Editar/Excluir (todas as funcionalidades)
+- [x] Coluna Fornecedor na tabela de Entradas
 - [ ] Filtros e buscas avançadas
 
 **Estrutura Implementada**:
@@ -253,6 +261,12 @@ frontend/
 | Jan/2025 | Integração Fornecedores com Entradas | Concluído |
 | Jan/2025 | Modais aumentados e melhorados | Concluído |
 | Jan/2025 | Atualização Postman Collection | Concluído |
+| Jan/2025 | Cadastro rápido de fornecedor em Entradas | Concluído |
+| Jan/2025 | Edição de movimentações (Entradas) | Concluído |
+| Jan/2025 | Correção de estoque duplicado | Concluído |
+| Jan/2025 | Sincronização de estoque entre funcionalidades | Concluído |
+| Jan/2025 | Coluna Fornecedor na tabela de Entradas | Concluído |
+| Jan/2025 | Ícones para ações (Editar/Excluir) | Concluído |
 
 ---
 

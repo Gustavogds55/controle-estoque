@@ -30,8 +30,8 @@ export const buscarPorProduto = async (produtoId) => {
 export const criar = async ({ produto_id, numero_lote, quantidade_inicial, data_entrada, data_validade }) => {
   const [result] = await db.query(
     `INSERT INTO lotes (produto_id, numero_lote, quantidade_inicial, quantidade_atual, data_entrada, data_validade) 
-     VALUES (?, ?, ?, ?, ?, ?)`,
-    [produto_id, numero_lote, quantidade_inicial, quantidade_inicial, data_entrada, data_validade]
+     VALUES (?, ?, ?, 0, ?, ?)`,
+    [produto_id, numero_lote, quantidade_inicial, data_entrada, data_validade]
   );
   
   return buscarPorId(result.insertId);

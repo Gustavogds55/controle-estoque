@@ -496,6 +496,32 @@
           "response": []
         },
         {
+          "name": "Atualizar Movimentação",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"quantidade\": 30,\n  \"data_movimentacao\": \"2025-01-15T15:00:00\",\n  \"observacao\": \"Movimentação atualizada\",\n  \"fornecedor_id\": 1\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/movimentacoes/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["movimentacoes", "1"]
+            }
+          },
+          "response": []
+        },
+        {
           "name": "Deletar Movimentação",
           "request": {
             "method": "DELETE",

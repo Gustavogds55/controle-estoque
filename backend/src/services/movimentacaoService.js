@@ -2,11 +2,12 @@ import db from '../config/database.js';
 
 export const listar = async (filtros = {}) => {
   let query = `
-    SELECT m.*, l.numero_lote, p.nome as produto_nome, u.nome as usuario_nome
+    SELECT m.*, l.numero_lote, p.nome as produto_nome, u.nome as usuario_nome, f.nome as fornecedor_nome
     FROM movimentacoes m
     INNER JOIN lotes l ON m.lote_id = l.id
     INNER JOIN produtos p ON l.produto_id = p.id
     INNER JOIN usuarios u ON m.usuario_id = u.id
+    LEFT JOIN fornecedores f ON m.fornecedor_id = f.id
     WHERE 1=1
   `;
   const params = [];
@@ -34,23 +35,23 @@ export const listar = async (filtros = {}) => {
 
 export const buscarPorId = async (id) => {
   const [movimentacoes] = await db.query(`
-    SELECT m.*, l.numero_lote, p.nome as produto_nome, u.nome as usuario_nome
+    SELECT m.*, l.numero_lote, p.nome as produto_nome, u.nome as usuario_nome, f.nome as fornecedor_nome
     FROM movimentacoes m
     INNER JOIN lotes l ON m.lote_id = l.id
     INNER JOIN produtos p ON l.produto_id = p.id
     INNER JOIN usuarios u ON m.usuario_id = u.id
+    LEFT JOIN fornecedores f ON m.fornecedor_id = f.id
     WHERE m.id = ?
   `, [id]);
   return movimentacoes[0];
 };
 
-export const criar = async ({ lote_id, usuario_id, tipo, quantidade, data_movimentacao, observacao }) => {
+export const criar = async ({ lote_id, usuario_id, tipo, quantidade, data_movimentacao, observacao, fornecedor_id }) => {
   const connection = await db.getConnection();
   
   try {
     await connection.beginTransaction();
 
-    // Buscar lote atual
     const [lotes] = await connection.query('SELECT quantidade_atual FROM lotes WHERE id = ?', [lote_id]);
     if (!lotes[0]) throw new Error('Lote não encontrado');
 
@@ -69,14 +70,12 @@ export const criar = async ({ lote_id, usuario_id, tipo, quantidade, data_movime
       throw new Error('Tipo de movimentação inválido');
     }
 
-    // Criar movimentação
     const [result] = await connection.query(
-      `INSERT INTO movimentacoes (lote_id, usuario_id, tipo, quantidade, data_movimentacao, observacao) 
-       VALUES (?, ?, ?, ?, ?, ?)`,
-      [lote_id, usuario_id, tipo, quantidade, data_movimentacao, observacao]
+      `INSERT INTO movimentacoes (lote_id, usuario_id, tipo, quantidade, data_movimentacao, observacao, fornecedor_id) 
+       VALUES (?, ?, ?, ?, ?, ?, ?)`,
+      [lote_id, usuario_id, tipo, quantidade, data_movimentacao, observacao, fornecedor_id]
     );
 
-    // Atualizar quantidade do lote
     await connection.query(
       'UPDATE lotes SET quantidade_atual = ? WHERE id = ?',
       [novaQuantidade, lote_id]
@@ -84,6 +83,80 @@ export const criar = async ({ lote_id, usuario_id, tipo, quantidade, data_movime
 
     await connection.commit();
     return buscarPorId(result.insertId);
+  } catch (error) {
+    await connection.rollback();
+    throw error;
+  } finally {
+    connection.release();
+  }
+};
+
+export const atualizar = async (id, { quantidade, data_movimentacao, observacao, fornecedor_id }) => {
+  const connection = await db.getConnection();
+  
+  try {
+    await connection.beginTransaction();
+
+    const [movimentacoes] = await connection.query('SELECT * FROM movimentacoes WHERE id = ?', [id]);
+    if (!movimentacoes[0]) {
+      await connection.rollback();
+      return null;
+    }
+
+    const movimentacaoAtual = movimentacoes[0];
+    const [lotes] = await connection.query('SELECT quantidade_atual FROM lotes WHERE id = ?', [movimentacaoAtual.lote_id]);
+    
+    if (!lotes[0]) {
+      await connection.rollback();
+      throw new Error('Lote não encontrado');
+    }
+
+    let novaQuantidadeLote = parseFloat(lotes[0].quantidade_atual);
+
+    if (quantidade !== undefined && parseFloat(quantidade) !== parseFloat(movimentacaoAtual.quantidade)) {
+      const quantidadeAnterior = parseFloat(movimentacaoAtual.quantidade);
+      const quantidadeNova = parseFloat(quantidade);
+      
+      if (movimentacaoAtual.tipo === 'ENTRADA') {
+        novaQuantidadeLote = novaQuantidadeLote - quantidadeAnterior + quantidadeNova;
+      } else {
+        novaQuantidadeLote = novaQuantidadeLote + quantidadeAnterior - quantidadeNova;
+      }
+      
+      if (novaQuantidadeLote < 0) {
+        throw new Error('Quantidade insuficiente em estoque');
+      }
+
+      await connection.query('UPDATE lotes SET quantidade_atual = ? WHERE id = ?', [novaQuantidadeLote, movimentacaoAtual.lote_id]);
+    }
+
+    const updates = [];
+    const params = [];
+
+    if (quantidade !== undefined) {
+      updates.push('quantidade = ?');
+      params.push(quantidade);
+    }
+    if (data_movimentacao) {
+      updates.push('data_movimentacao = ?');
+      params.push(data_movimentacao);
+    }
+    if (observacao !== undefined) {
+      updates.push('observacao = ?');
+      params.push(observacao);
+    }
+    if (fornecedor_id !== undefined) {
+      updates.push('fornecedor_id = ?');
+      params.push(fornecedor_id);
+    }
+
+    if (updates.length > 0) {
+      params.push(id);
+      await connection.query(`UPDATE movimentacoes SET ${updates.join(', ')} WHERE id = ?`, params);
+    }
+
+    await connection.commit();
+    return buscarPorId(id);
   } catch (error) {
     await connection.rollback();
     throw error;
