@@ -77,17 +77,17 @@
         <form @submit.prevent="adicionarAcao">
           <div class="mb-4">
             <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">Título</label>
-            <input v-model="novaAcao.titulo" required class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="darkMode ? 'bg-gray-700 border-gray-600 text-white' : 'border-purple-200'" />
+            <input v-model="novaAcao.titulo" data-testid="titulo-input" required class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="darkMode ? 'bg-gray-700 border-gray-600 text-white' : 'border-purple-200'" />
           </div>
 
           <div class="mb-4">
             <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">Descrição</label>
-            <input v-model="novaAcao.descricao" required class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="darkMode ? 'bg-gray-700 border-gray-600 text-white' : 'border-purple-200'" />
+            <input v-model="novaAcao.descricao" data-testid="descricao-input" required class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="darkMode ? 'bg-gray-700 border-gray-600 text-white' : 'border-purple-200'" />
           </div>
 
           <div class="mb-4">
             <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">Funcionalidade</label>
-            <select v-model="novaAcao.link" @change="preencherPadrao" required class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="darkMode ? 'bg-gray-700 border-gray-600 text-white' : 'border-purple-200'">
+            <select v-model="novaAcao.link" @change="preencherPadrao" data-testid="funcionalidade-select" required class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="darkMode ? 'bg-gray-700 border-gray-600 text-white' : 'border-purple-200'">
               <option value="">(Selecione)</option>
               <option value="/produtos">Produtos</option>
               <option value="/lotes">Lotes</option>
@@ -99,7 +99,7 @@
 
           <div class="mb-4">
             <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">Cor do Ícone</label>
-            <select v-model="novaAcao.corIcone" required class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="darkMode ? 'bg-gray-700 border-gray-600 text-white' : 'border-purple-200'">
+            <select v-model="novaAcao.corIcone" data-testid="cor-select" required class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="darkMode ? 'bg-gray-700 border-gray-600 text-white' : 'border-purple-200'">
               <option value="text-blue-600">Azul</option>
               <option value="text-green-600">Verde</option>
               <option value="text-red-600">Vermelho</option>
