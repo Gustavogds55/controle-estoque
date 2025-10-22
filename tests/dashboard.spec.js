@@ -117,4 +117,37 @@ test.describe('Dashboard', () => {
     await page.waitForTimeout(300);
     await expect(container).toHaveClass(/bg-purple-50/);
   });
+
+  test('deve navegar por todos os links da sidebar', async ({ page }) => {
+    await page.getByRole('link', { name: 'Entradas' }).click();
+    await expect(page).toHaveURL('http://localhost:3001/entradas');
+    
+    await page.getByRole('link', { name: 'Saídas' }).click();
+    await expect(page).toHaveURL('http://localhost:3001/saidas');
+    
+    await page.getByRole('link', { name: 'Lotes' }).click();
+    await expect(page).toHaveURL('http://localhost:3001/lotes');
+    
+    await page.getByRole('link', { name: 'Fornecedores' }).click();
+    await expect(page).toHaveURL('http://localhost:3001/fornecedores');
+    
+    await page.getByRole('link', { name: 'Produtos' }).click();
+    await expect(page).toHaveURL('http://localhost:3001/produtos');
+    
+    await page.getByRole('link', { name: 'Dashboard' }).click();
+    await expect(page).toHaveURL('http://localhost:3001/dashboard');
+  });
+
+  test('deve fazer logout corretamente', async ({ page }) => {
+    await expect(page.getByTestId('user-name')).toBeVisible();
+    
+    await page.getByTestId('logout-button').click();
+    await expect(page).toHaveURL('http://localhost:3001/login');
+  });
+
+  test('deve exibir nome do usuário no header', async ({ page }) => {
+    const userName = page.getByTestId('user-name');
+    await expect(userName).toBeVisible();
+    await expect(userName).toHaveText('Administrador');
+  });
 });

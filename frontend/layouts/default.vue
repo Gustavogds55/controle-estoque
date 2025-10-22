@@ -83,8 +83,8 @@
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
             </svg>
           </button>
-          <span class="font-medium" :class="darkMode ? 'text-gray-300' : 'text-purple-600'">{{ authStore.user?.nome }}</span>
-          <button @click="handleLogout" class="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600">
+          <span data-testid="user-name" class="font-medium" :class="darkMode ? 'text-gray-300' : 'text-purple-600'">{{ authStore.user?.nome }}</span>
+          <button @click="handleLogout" data-testid="logout-button" class="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600">
             Sair
           </button>
         </div>
