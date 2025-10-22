@@ -158,37 +158,35 @@
       </div>
     </div>
     <!-- Modal Novo Fornecedor -->
-    <div v-if="mostrarModalFornecedor" @click="fecharModalFornecedor" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div v-if="mostrarModalFornecedor" @click="fecharModalFornecedor" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[55]">
       <div @click.stop class="rounded-lg p-6 w-full max-w-4xl max-h-[90vh] overflow-y-auto" :class="darkMode ? 'bg-gray-800' : 'bg-white'">
         <h3 class="text-xl font-bold mb-4" :class="darkMode ? 'text-purple-400' : ''">Novo Fornecedor</h3>
         
-        <form @submit.prevent="salvarFornecedor">
-          <div class="mb-4">
-            <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">Nome</label>
-            <input v-model="formFornecedor.nome" required class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="darkMode ? 'bg-gray-700 border-gray-600 text-white' : ''" />
-          </div>
+        <div class="mb-4">
+          <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">Nome</label>
+          <input v-model="formFornecedor.nome" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="darkMode ? 'bg-gray-700 border-gray-600 text-white' : ''" />
+        </div>
 
-          <div class="grid grid-cols-2 gap-3 mb-4">
-            <div>
-              <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">CPF/CNPJ</label>
-              <input v-model="formFornecedor.cnpj" @input="formatarCpfCnpjFornecedor" maxlength="18" required class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="darkMode ? 'bg-gray-700 border-gray-600 text-white' : ''" />
-            </div>
-            <div>
-              <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">Telefone</label>
-              <input v-model="formFornecedor.telefone" @input="formatarTelefoneFornecedor" maxlength="15" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="darkMode ? 'bg-gray-700 border-gray-600 text-white' : ''" />
-            </div>
+        <div class="grid grid-cols-2 gap-3 mb-4">
+          <div>
+            <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">CPF/CNPJ</label>
+            <input v-model="formFornecedor.cnpj" @input="formatarCpfCnpjFornecedor" maxlength="18" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="darkMode ? 'bg-gray-700 border-gray-600 text-white' : ''" />
           </div>
+          <div>
+            <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">Telefone</label>
+            <input v-model="formFornecedor.telefone" @input="formatarTelefoneFornecedor" maxlength="15" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="darkMode ? 'bg-gray-700 border-gray-600 text-white' : ''" />
+          </div>
+        </div>
 
-          <div class="flex justify-end space-x-3">
-            <button type="button" @click="fecharModalFornecedor" class="px-4 py-2 border rounded" :class="darkMode ? 'border-gray-600 hover:bg-gray-700 text-gray-300' : 'hover:bg-gray-100'">Cancelar</button>
-            <button type="submit" class="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600">Salvar</button>
-          </div>
-        </form>
+        <div class="flex justify-end space-x-3">
+          <button type="button" @click="fecharModalFornecedor" class="px-4 py-2 border rounded" :class="darkMode ? 'border-gray-600 hover:bg-gray-700 text-gray-300' : 'hover:bg-gray-100'">Cancelar</button>
+          <button type="button" @click="salvarFornecedor" class="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600">Salvar</button>
+        </div>
       </div>
     </div>
 
     <!-- Toast -->
-    <div v-if="toast.show" class="fixed top-4 right-4 z-50 animate-fade-in">
+    <div v-if="toast.show" class="fixed top-4 right-4 z-[60] animate-fade-in">
       <div :class="getToastClasses(toast.type)" class="px-8 py-4 rounded-lg shadow-lg flex items-center space-x-3 min-w-[320px]">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" :d="getToastIcon(toast.type)"/>
@@ -458,14 +456,18 @@ const formatarTelefoneFornecedor = (e) => {
 }
 
 const salvarFornecedor = async () => {
+  if (!formFornecedor.value.nome || !formFornecedor.value.cnpj) {
+    alert('Preencha os campos obrigatórios')
+    return
+  }
   try {
     const novoFornecedor = await api('/fornecedores', {
       method: 'POST',
       body: formFornecedor.value
     })
+    mostrarModalFornecedor.value = false
     await carregarFornecedores()
     form.value.fornecedor_id = novoFornecedor.id
-    fecharModalFornecedor()
     showToast('Fornecedor cadastrado com sucesso')
   } catch (error) {
     console.error('Erro ao salvar fornecedor:', error)

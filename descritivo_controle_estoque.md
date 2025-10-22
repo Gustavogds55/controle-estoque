@@ -25,21 +25,25 @@ Empresas, comércios e profissionais que precisam gerenciar estoques de produtos
 - Controle de acesso ao sistema
 
 ### 🗃️ Gestão de Produtos
-- Cadastro de produtos (nome, categoria, descrição, unidade de medida, etc.)
-- Registro de **lotes**, com data de entrada e validade
-- Controle de **quantidade em estoque** e **retiradas** (movimentações)
+- Cadastro de produtos (nome, categoria, descrição, unidade de medida)
+- Criação automática durante entrada de mercadorias
+- Registro de **lotes** com data de entrada e validade
+- Controle de **quantidade em estoque** em tempo real
 
 ### 🏢 Gestão de Fornecedores
 - Cadastro de fornecedores (nome, CNPJ/CPF, telefone, email, endereço)
 - Formatação automática de CPF/CNPJ e telefone
-- Validação de campos obrigatórios
+- Validação de campos obrigatórios com mensagens customizadas
 - Vinculação de fornecedores às entradas de mercadorias
+- Cadastro inline durante entrada (botão "+")
+- Modal independente sem conflito de formulários
 - CRUD completo com interface intuitiva
 
 ### ⏰ Controle de Validade
-- Monitoramento automático de **produtos próximos do vencimento**
+- Monitoramento automático de **produtos próximos do vencimento** (30 dias)
 - Indicação visual de **itens vencidos**
-- Filtros e buscas por status de validade
+- Endpoints REST para alertas (vencendo, vencidos, contadores)
+- Documentação completa no Swagger
 
 ### 📦 Controle de Entradas e Saídas
 - **Entradas**: Cadastro completo (Produto + Lote + Entrada) em um único formulário
@@ -49,12 +53,15 @@ Empresas, comércios e profissionais que precisam gerenciar estoques de produtos
 - Sincronização perfeita entre Lotes, Entradas e Saídas
 - Histórico detalhado separado por tipo (quem, quando e quanto)
 - Reversão automática de estoque ao excluir movimentação
-- Sistema de notificações Toast para feedback visual
+- Exclusão em cascata de lotes sem movimentações
+- Sistema de notificações Toast (success, error, warning, info)
 - Cadastro rápido de fornecedor sem sair da tela de entrada
 
 ### 🔔 Alertas e Notificações
-- Painel de avisos com alertas automáticos
-- Possibilidade de envio de notificações (ex: e-mail ou dashboard) — futura implementação
+- Endpoints REST para alertas de validade
+- Contadores em tempo real
+- Sistema de Toast com 4 tipos de mensagens
+- Feedback visual em todas as operações
 
 ---
 
@@ -103,25 +110,45 @@ Empresas, comércios e profissionais que precisam gerenciar estoques de produtos
 - **Edição Flexível**: Permite editar entradas já cadastradas com ajuste automático de estoque
 - **UI/UX Moderna**: Tema roxo e branco com modo escuro
 - **Interface Intuitiva**: Ícones visuais para ações de editar e excluir em todas as funcionalidades
-- **Feedback Visual**: Sistema de Toast para notificações
+- **Feedback Visual**: Sistema de Toast com 4 tipos (success, error, warning, info)
 - **Personalização**: Dashboard com ações rápidas editáveis pelo usuário
 - **Segurança**: Validação de token JWT em todas as requisições
 - **Formatação Inteligente**: CPF/CNPJ e telefone formatados automaticamente
 - **Gestão Completa**: Fornecedores integrados ao fluxo de entradas com exibição na tabela
 - **Cadastro Rápido**: Botão "+" para criar fornecedor sem sair da tela de entrada
-- **Validações**: Campos obrigatórios com mensagens de erro claras
+- **Validações**: Campos obrigatórios com mensagens "Este campo é obrigatório"
 - **Estoque Sincronizado**: Quantidade sempre consistente entre Lotes, Entradas e Saídas
 - **Modais Padronizados**: Todos os modais com tamanho e comportamento uniformes
+- **Exclusão Inteligente**: Lotes deletados automaticamente quando sem movimentações
+- **Testes Automatizados**: 44 cenários E2E com Playwright (100% de sucesso)
+- **Page Object Model**: Testes organizáveis e manteníveis
+- **Execução Paralela**: 4 workers para testes mais rápidos
 
 ---
 
 
 
+## 🧪 Testes E2E
+- **44 cenários automatizados** com Playwright
+- **Login**: 10 cenários (credenciais, validações, sessão)
+- **Dashboard**: 14 cenários (navegação, tema, ações rápidas)
+- **Entradas**: 20 cenários (validações, CRUD, fornecedores, estoque)
+- **Page Object Model** para organização
+- **Data-testid** para seletores estáveis
+- **Limpeza automática** de dados após testes
+- **CNPJ único** gerado por timestamp
+- **Execução paralela** com 4 workers
+- **100% de taxa de sucesso**
+
+---
+
 ## 🚀 Possíveis Extensões Futuras
-- Integração com notificações por e-mail ou WhatsApp.
-- Dashboard com gráficos (produtos em risco, mais movimentados, etc.).
-- Níveis de permissões de usuários (admin, operador, gestor).
-- Relatórios exportáveis em PDF ou Excel.
-- Recuperação de senha por e-mail.
-- Filtros e buscas avançadas nas listagens.
-- Impressão de etiquetas de lotes.
+- Integração Frontend com endpoints de alertas
+- Dashboard com gráficos (produtos em risco, mais movimentados)
+- Filtros e buscas avançadas nas listagens
+- Níveis de permissões de usuários (admin, operador, gestor)
+- Relatórios exportáveis em PDF ou Excel
+- Paginação nas tabelas
+- Recuperação de senha por e-mail
+- Notificações por e-mail ou WhatsApp
+- Impressão de etiquetas de lotes

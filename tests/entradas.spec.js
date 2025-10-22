@@ -247,16 +247,21 @@ test.describe('Entradas', () => {
     const productName = 'Produto Forn ' + timestamp;
     const numeroLote = 'LOTE-FORN-' + timestamp;
     const fornecedorNome = 'Fornecedor E2E ' + timestamp;
+    const cnpj = '12.345.678/' + String(timestamp).slice(-7, -3) + '-' + String(timestamp).slice(-2);
     
     await entradasPage.abrirModalNovaEntrada();
     await entradasPage.preencherProduto(productName, 'Categoria', 'UN');
     await entradasPage.preencherLote(numeroLote, '2025-12-31');
     
-    await page.locator('button', { hasText: '+' }).click();
-    await page.locator('input[type="text"]').first().fill(fornecedorNome);
-    await page.locator('input[maxlength="18"]').fill('12.345.678/0001-90');
-    await page.locator('input[maxlength="15"]').fill('(11) 98765-4321');
-    await page.getByRole('button', { name: 'Salvar' }).click();
+    await page.getByRole('button', { name: '+', exact: true }).click();
+    await expect(page.getByText('Novo Fornecedor')).toBeVisible();
+    
+    const modalFornecedor = page.locator('div').filter({ hasText: 'Novo Fornecedor' }).last();
+    await modalFornecedor.locator('input').first().fill(fornecedorNome);
+    await modalFornecedor.locator('input[maxlength="18"]').fill(cnpj);
+    await modalFornecedor.locator('input[maxlength="15"]').fill('(11) 98765-4321');
+    await modalFornecedor.getByRole('button', { name: 'Salvar' }).click();
+    await expect(page.getByText('Novo Fornecedor')).not.toBeVisible();
     await expect(page.getByText('Fornecedor cadastrado com sucesso')).toBeVisible();
     
     await page.getByTestId('numero-nf').fill('33333');
@@ -264,13 +269,72 @@ test.describe('Entradas', () => {
     await page.getByTestId('data-hora').fill('2024-01-15T10:00');
     await entradasPage.salvar();
     
-    await page.getByRole('link', { name: 'Fornecedores' }).click();
-    await expect(page.getByText(fornecedorNome)).toBeVisible();
-    
     await page.getByRole('link', { name: 'Entradas' }).click();
     const row = page.locator('tr', { hasText: productName }).first();
     page.once('dialog', dialog => dialog.accept());
     await row.locator('button[title="Excluir"]').click();
+    
+    await page.getByRole('link', { name: 'Fornecedores' }).click();
+    const fornRow = page.locator('tr', { hasText: fornecedorNome }).first();
+    page.once('dialog', dialog => dialog.accept());
+    await fornRow.locator('button[title="Excluir"]').click();
+  });
+
+  test('deve cadastrar entrada completa com novo fornecedor', async ({ page }) => {
+    const timestamp = Date.now();
+    const productName = 'Produto Completo ' + timestamp;
+    const numeroLote = 'LOTE-COMP-' + timestamp;
+    const fornecedorNome = 'Fornecedor Completo ' + timestamp;
+    const cnpj = '98.765.432/' + String(timestamp).slice(-7, -3) + '-' + String(timestamp).slice(-2);
+    
+    await entradasPage.abrirModalNovaEntrada();
+    await entradasPage.preencherProduto(productName, 'Categoria', 'UN');
+    await entradasPage.preencherLote(numeroLote, '2025-12-31');
+    
+    await page.getByRole('button', { name: '+', exact: true }).click();
+    await expect(page.getByText('Novo Fornecedor')).toBeVisible();
+    
+    const modalFornecedor = page.locator('div').filter({ hasText: 'Novo Fornecedor' }).last();
+    await modalFornecedor.locator('input').first().fill(fornecedorNome);
+    await modalFornecedor.locator('input[maxlength="18"]').fill(cnpj);
+    await modalFornecedor.locator('input[maxlength="15"]').fill('(21) 91234-5678');
+    await modalFornecedor.getByRole('button', { name: 'Salvar' }).click();
+    await expect(page.getByText('Novo Fornecedor')).not.toBeVisible();
+    await expect(page.getByText('Fornecedor cadastrado com sucesso')).toBeVisible();
+    
+    await page.getByTestId('numero-nf').fill('44444');
+    await page.getByTestId('quantidade').fill('150');
+    await page.getByTestId('data-hora').fill('2024-01-15T10:00');
+    await entradasPage.salvar();
+    
+    const entradaRow = page.locator('tr', { hasText: productName }).first();
+    await expect(entradaRow).toBeVisible();
+    await expect(entradaRow.locator('td', { hasText: fornecedorNome })).toBeVisible();
+    
+    page.once('dialog', dialog => dialog.accept());
+    await entradaRow.locator('button[title="Excluir"]').click();
+    
+    await page.getByRole('link', { name: 'Fornecedores' }).click();
+    const fornecedorRow = page.locator('tr', { hasText: fornecedorNome }).first();
+    page.once('dialog', dialog => dialog.accept());
+    await fornecedorRow.locator('button[title="Excluir"]').click();
+  });
+
+  test('deve cancelar cadastro de fornecedor e voltar para entrada', async ({ page }) => {
+    await entradasPage.abrirModalNovaEntrada();
+    await entradasPage.preencherProduto('Produto Teste', 'Categoria', 'UN');
+    await entradasPage.preencherLote('LOTE-001', '2025-12-31');
+    
+    await page.getByRole('button', { name: '+', exact: true }).click();
+    await expect(page.getByText('Novo Fornecedor')).toBeVisible();
+    
+    const modalFornecedor = page.locator('div').filter({ hasText: 'Novo Fornecedor' }).last();
+    await modalFornecedor.locator('input').first().fill('Fornecedor Teste');
+    await modalFornecedor.getByRole('button', { name: 'Cancelar' }).click();
+    
+    await expect(page.getByText('Novo Fornecedor')).not.toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Nova Entrada' })).toBeVisible();
+    await expect(page.getByTestId('produto-nome')).toHaveValue('Produto Teste');
   });
 
   test('deve excluir lote ao excluir entrada', async ({ page }) => {
@@ -291,8 +355,10 @@ test.describe('Entradas', () => {
     const row = page.locator('tr', { hasText: productName }).first();
     page.once('dialog', dialog => dialog.accept());
     await row.locator('button[title="Excluir"]').click();
+    await page.waitForTimeout(500);
     
     await page.getByRole('link', { name: 'Lotes' }).click();
+    await page.waitForTimeout(500);
     await expect(page.getByText(numeroLote)).not.toBeVisible();
   });
 });
