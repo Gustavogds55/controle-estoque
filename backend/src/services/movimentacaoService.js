@@ -220,6 +220,17 @@ export const deletar = async (id) => {
     // Deletar movimentação
     await connection.query('DELETE FROM movimentacoes WHERE id = ?', [id]);
 
+    // Verificar se existem outras movimentações para este lote
+    const [outrasMovimentacoes] = await connection.query(
+      'SELECT COUNT(*) as total FROM movimentacoes WHERE lote_id = ?',
+      [movimentacao.lote_id]
+    );
+
+    // Se não houver mais movimentações, deletar o lote
+    if (outrasMovimentacoes[0].total === 0) {
+      await connection.query('DELETE FROM lotes WHERE id = ?', [movimentacao.lote_id]);
+    }
+
     await connection.commit();
     return true;
   } catch (error) {

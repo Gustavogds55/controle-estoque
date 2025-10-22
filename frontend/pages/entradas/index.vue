@@ -2,7 +2,7 @@
   <div>
     <div class="rounded-lg shadow p-6" :class="darkMode ? 'bg-gray-800' : 'bg-white'">
       <div class="flex justify-between items-center mb-6">
-        <h2 class="text-2xl font-bold" :class="darkMode ? 'text-purple-400' : 'text-gray-800'">Entrada de Mercadorias</h2>
+        <h2 data-testid="page-title" class="text-2xl font-bold" :class="darkMode ? 'text-purple-400' : 'text-gray-800'">Entrada de Mercadorias</h2>
         <button @click="abrirModal()" class="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600">
           + Nova Entrada
         </button>
@@ -66,18 +66,20 @@
             <h4 class="font-semibold mb-3" :class="darkMode ? 'text-purple-300' : 'text-gray-700'">1. Produto</h4>
             
             <div class="mb-3">
-              <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">Nome do Produto</label>
-              <input v-model="form.produto_nome" required class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="darkMode ? 'bg-gray-700 border-gray-600 text-white' : ''" />
+              <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">Nome do Produto *</label>
+              <input v-model="form.produto_nome" data-testid="produto-nome" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="[darkMode ? 'bg-gray-700 border-gray-600 text-white' : '', errors.produto_nome ? 'border-red-500' : '']" />
+              <p v-if="errors.produto_nome" data-testid="error-produto-nome" class="text-red-500 text-sm mt-1">{{ errors.produto_nome }}</p>
             </div>
 
             <div class="grid grid-cols-2 gap-3">
               <div>
                 <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">Categoria</label>
-                <input v-model="form.produto_categoria" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="darkMode ? 'bg-gray-700 border-gray-600 text-white' : ''" />
+                <input v-model="form.produto_categoria" data-testid="produto-categoria" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="darkMode ? 'bg-gray-700 border-gray-600 text-white' : ''" />
               </div>
               <div>
-                <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">Unidade de Medida</label>
-                <input v-model="form.produto_unidade" required class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="darkMode ? 'bg-gray-700 border-gray-600 text-white' : ''" />
+                <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">Unidade de Medida *</label>
+                <input v-model="form.produto_unidade" data-testid="produto-unidade" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="[darkMode ? 'bg-gray-700 border-gray-600 text-white' : '', errors.produto_unidade ? 'border-red-500' : '']" />
+                <p v-if="errors.produto_unidade" data-testid="error-produto-unidade" class="text-red-500 text-sm mt-1">{{ errors.produto_unidade }}</p>
               </div>
             </div>
           </div>
@@ -88,12 +90,14 @@
             
             <div class="grid grid-cols-2 gap-3 mb-3">
               <div>
-                <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">Número do Lote</label>
-                <input v-model="form.numero_lote" required class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="darkMode ? 'bg-gray-700 border-gray-600 text-white' : ''" />
+                <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">Número do Lote *</label>
+                <input v-model="form.numero_lote" data-testid="numero-lote" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="[darkMode ? 'bg-gray-700 border-gray-600 text-white' : '', errors.numero_lote ? 'border-red-500' : '']" />
+                <p v-if="errors.numero_lote" data-testid="error-numero-lote" class="text-red-500 text-sm mt-1">{{ errors.numero_lote }}</p>
               </div>
               <div>
-                <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">Data de Validade</label>
-                <input v-model="form.data_validade" type="date" required class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="darkMode ? 'bg-gray-700 border-gray-600 text-white' : ''" />
+                <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">Data de Validade *</label>
+                <input v-model="form.data_validade" data-testid="data-validade" type="date" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="[darkMode ? 'bg-gray-700 border-gray-600 text-white' : '', errors.data_validade ? 'border-red-500' : '']" />
+                <p v-if="errors.data_validade" data-testid="error-data-validade" class="text-red-500 text-sm mt-1">{{ errors.data_validade }}</p>
               </div>
             </div>
           </div>
@@ -104,33 +108,39 @@
             
             <div class="grid grid-cols-2 gap-3 mb-3">
               <div v-if="!entradaEditando">
-                <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">Número da Nota Fiscal</label>
-                <input v-model="form.numero_nf" type="number" required class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="darkMode ? 'bg-gray-700 border-gray-600 text-white' : ''" />
+                <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">Número da Nota Fiscal *</label>
+                <input v-model="form.numero_nf" data-testid="numero-nf" type="number" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="[darkMode ? 'bg-gray-700 border-gray-600 text-white' : '', errors.numero_nf ? 'border-red-500' : '']" />
+                <p v-if="errors.numero_nf" data-testid="error-numero-nf" class="text-red-500 text-sm mt-1">{{ errors.numero_nf }}</p>
               </div>
               <div :class="entradaEditando ? 'col-span-2' : ''">
-                <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">Fornecedor</label>
-                <div class="flex gap-2">
-                  <select v-model="form.fornecedor_id" required class="flex-1 px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="darkMode ? 'bg-gray-700 border-gray-600 text-white' : ''">
-                    <option value="">Selecione um fornecedor</option>
-                    <option v-for="fornecedor in fornecedores" :key="fornecedor.id" :value="fornecedor.id">
-                      {{ fornecedor.nome }}
-                    </option>
-                  </select>
-                  <button type="button" @click="abrirModalFornecedor" class="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600">
-                    +
-                  </button>
+                <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">Fornecedor *</label>
+                <div>
+                  <div class="flex gap-2">
+                    <select v-model="form.fornecedor_id" data-testid="fornecedor-select" class="flex-1 px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="[darkMode ? 'bg-gray-700 border-gray-600 text-white' : '', errors.fornecedor_id ? 'border-red-500' : '']">
+                      <option value="">Selecione um fornecedor</option>
+                      <option v-for="fornecedor in fornecedores" :key="fornecedor.id" :value="fornecedor.id">
+                        {{ fornecedor.nome }}
+                      </option>
+                    </select>
+                    <button type="button" @click="abrirModalFornecedor" class="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600">
+                      +
+                    </button>
+                  </div>
+                  <p v-if="errors.fornecedor_id" data-testid="error-fornecedor" class="text-red-500 text-sm mt-1">{{ errors.fornecedor_id }}</p>
                 </div>
               </div>
             </div>
 
             <div class="grid grid-cols-2 gap-3 mb-3">
               <div>
-                <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">Quantidade</label>
-                <input v-model="form.quantidade" type="number" step="0.01" required class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="darkMode ? 'bg-gray-700 border-gray-600 text-white' : ''" />
+                <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">Quantidade *</label>
+                <input v-model="form.quantidade" data-testid="quantidade" type="number" step="0.01" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="[darkMode ? 'bg-gray-700 border-gray-600 text-white' : '', errors.quantidade ? 'border-red-500' : '']" />
+                <p v-if="errors.quantidade" data-testid="error-quantidade" class="text-red-500 text-sm mt-1">{{ errors.quantidade }}</p>
               </div>
               <div>
-                <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">Data e Hora</label>
-                <input v-model="form.data_movimentacao" type="datetime-local" required class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="darkMode ? 'bg-gray-700 border-gray-600 text-white' : ''" />
+                <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">Data e Hora *</label>
+                <input v-model="form.data_movimentacao" data-testid="data-hora" type="datetime-local" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="[darkMode ? 'bg-gray-700 border-gray-600 text-white' : '', errors.data_movimentacao ? 'border-red-500' : '']" />
+                <p v-if="errors.data_movimentacao" data-testid="error-data-hora" class="text-red-500 text-sm mt-1">{{ errors.data_movimentacao }}</p>
               </div>
             </div>
 
@@ -225,6 +235,25 @@ const form = ref({
   observacao: ''
 })
 
+const errors = ref({
+  produto_nome: '',
+  produto_unidade: '',
+  numero_lote: '',
+  data_validade: '',
+  numero_nf: '',
+  fornecedor_id: '',
+  quantidade: '',
+  data_movimentacao: ''
+})
+
+const validateField = (field) => {
+  if (!form.value[field]) {
+    errors.value[field] = 'Este campo é obrigatório'
+  } else {
+    errors.value[field] = ''
+  }
+}
+
 const carregar = async () => {
   loading.value = true
   try {
@@ -292,6 +321,31 @@ const fecharModal = () => {
 }
 
 const salvar = async () => {
+  errors.value = {
+    produto_nome: '',
+    produto_unidade: '',
+    numero_lote: '',
+    data_validade: '',
+    numero_nf: '',
+    fornecedor_id: '',
+    quantidade: '',
+    data_movimentacao: ''
+  }
+
+  let hasError = false
+  if (!entradaEditando.value) {
+    if (!form.value.produto_nome) { errors.value.produto_nome = 'Este campo é obrigatório'; hasError = true }
+    if (!form.value.produto_unidade) { errors.value.produto_unidade = 'Este campo é obrigatório'; hasError = true }
+    if (!form.value.numero_lote) { errors.value.numero_lote = 'Este campo é obrigatório'; hasError = true }
+    if (!form.value.data_validade) { errors.value.data_validade = 'Este campo é obrigatório'; hasError = true }
+    if (!form.value.numero_nf) { errors.value.numero_nf = 'Este campo é obrigatório'; hasError = true }
+  }
+  if (!form.value.fornecedor_id) { errors.value.fornecedor_id = 'Este campo é obrigatório'; hasError = true }
+  if (!form.value.quantidade) { errors.value.quantidade = 'Este campo é obrigatório'; hasError = true }
+  if (!form.value.data_movimentacao) { errors.value.data_movimentacao = 'Este campo é obrigatório'; hasError = true }
+
+  if (hasError) return
+
   try {
     if (entradaEditando.value) {
       const body = {

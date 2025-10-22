@@ -20,13 +20,10 @@ test.describe('Dashboard', () => {
   });
 
   test('deve exibir tabela de lotes próximos ao vencimento', async ({ page }) => {
-    const hasLotes = await dashboardPage.hasLotesVencendo();
+    const noDataVisible = await page.getByText('Nenhum lote próximo ao vencimento').isVisible().catch(() => false);
+    const tableVisible = await dashboardPage.lotesTable.isVisible().catch(() => false);
     
-    if (hasLotes) {
-      await expect(dashboardPage.lotesTable).toBeVisible();
-    } else {
-      await expect(page.getByText('Nenhum lote próximo ao vencimento')).toBeVisible();
-    }
+    expect(noDataVisible || tableVisible).toBe(true);
   });
 
   test('deve navegar para produtos ao clicar em ação rápida', async ({ page }) => {
@@ -68,7 +65,6 @@ test.describe('Dashboard', () => {
     await dashboardPage.selecionarFuncionalidade('/entradas');
     await dashboardPage.salvarNovaAcao();
     
-    await page.waitForTimeout(500);
     await expect(page.getByText('Registrar Entradas')).toBeVisible();
   });
 
@@ -76,12 +72,10 @@ test.describe('Dashboard', () => {
     page.on('dialog', dialog => dialog.accept());
     
     await dashboardPage.clickEditarAcoes();
-    
     const initialCount = await page.locator('a[href]').count();
     
     await dashboardPage.removerAcao(0);
-    
-    await page.waitForTimeout(500);
+    await page.waitForTimeout(200);
     
     const finalCount = await page.locator('a[href]').count();
     expect(finalCount).toBeLessThan(initialCount);
@@ -110,11 +104,9 @@ test.describe('Dashboard', () => {
     await expect(container).toHaveClass(/bg-purple-50/);
     
     await themeButton.click();
-    await page.waitForTimeout(300);
     await expect(container).toHaveClass(/bg-gray-900/);
     
     await themeButton.click();
-    await page.waitForTimeout(300);
     await expect(container).toHaveClass(/bg-purple-50/);
   });
 
