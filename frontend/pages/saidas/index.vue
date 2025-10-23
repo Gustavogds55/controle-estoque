@@ -53,23 +53,26 @@
         
         <form @submit.prevent="salvar">
           <div class="mb-4">
-            <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">Lote</label>
-            <select v-model="form.lote_id" required class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="darkMode ? 'bg-gray-700 border-gray-600 text-white' : ''">
+            <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">Lote <span class="text-red-500">*</span></label>
+            <select v-model="form.lote_id" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="darkMode ? 'bg-gray-700 border-gray-600 text-white' : ''">
               <option value="">Selecione um lote</option>
               <option v-for="lote in lotes" :key="lote.id" :value="lote.id">
                 {{ lote.produto_nome }} - {{ lote.numero_lote }} (Estoque: {{ lote.quantidade_atual }})
               </option>
             </select>
+            <p v-if="errors.lote_id" class="text-red-500 text-sm mt-1">{{ errors.lote_id }}</p>
           </div>
 
           <div class="mb-4">
-            <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">Quantidade</label>
-            <input v-model="form.quantidade" type="number" step="0.01" required class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="darkMode ? 'bg-gray-700 border-gray-600 text-white' : ''" />
+            <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">Quantidade <span class="text-red-500">*</span></label>
+            <input v-model="form.quantidade" type="number" step="0.01" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="darkMode ? 'bg-gray-700 border-gray-600 text-white' : ''" />
+            <p v-if="errors.quantidade" class="text-red-500 text-sm mt-1">{{ errors.quantidade }}</p>
           </div>
 
           <div class="mb-4">
-            <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">Data e Hora</label>
-            <input v-model="form.data_movimentacao" type="datetime-local" required class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="darkMode ? 'bg-gray-700 border-gray-600 text-white' : ''" />
+            <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">Data e Hora <span class="text-red-500">*</span></label>
+            <input v-model="form.data_movimentacao" type="datetime-local" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="darkMode ? 'bg-gray-700 border-gray-600 text-white' : ''" />
+            <p v-if="errors.data_movimentacao" class="text-red-500 text-sm mt-1">{{ errors.data_movimentacao }}</p>
           </div>
 
           <div class="mb-4">
@@ -118,6 +121,12 @@ const form = ref({
   observacao: ''
 })
 
+const errors = ref({
+  lote_id: '',
+  quantidade: '',
+  data_movimentacao: ''
+})
+
 const carregar = async () => {
   loading.value = true
   try {
@@ -147,6 +156,11 @@ const abrirModal = () => {
     data_movimentacao: dataHoraLocal,
     observacao: ''
   }
+  errors.value = {
+    lote_id: '',
+    quantidade: '',
+    data_movimentacao: ''
+  }
   mostrarModal.value = true
 }
 
@@ -154,7 +168,38 @@ const fecharModal = () => {
   mostrarModal.value = false
 }
 
+const validar = () => {
+  errors.value = {
+    lote_id: '',
+    quantidade: '',
+    data_movimentacao: ''
+  }
+  
+  let valido = true
+  
+  if (!form.value.lote_id) {
+    errors.value.lote_id = 'Este campo é obrigatório'
+    valido = false
+  }
+  
+  if (!form.value.quantidade) {
+    errors.value.quantidade = 'Este campo é obrigatório'
+    valido = false
+  }
+  
+  if (!form.value.data_movimentacao) {
+    errors.value.data_movimentacao = 'Este campo é obrigatório'
+    valido = false
+  }
+  
+  return valido
+}
+
 const salvar = async () => {
+  if (!validar()) {
+    return
+  }
+  
   try {
     await api('/movimentacoes', {
       method: 'POST',

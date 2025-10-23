@@ -1,7 +1,7 @@
 # Sistema de Controle de Estoque
 
 [![Status](https://img.shields.io/badge/status-concluído-success)](https://github.com)
-[![Testes](https://img.shields.io/badge/testes-44%20passando-brightgreen)](https://github.com)
+[![Testes](https://img.shields.io/badge/testes-54%20passando-brightgreen)](https://github.com)
 [![Cobertura](https://img.shields.io/badge/cobertura-E2E-blue)](https://github.com)
 
 Sistema completo de gerenciamento de estoque com rastreamento de lotes, movimentações, alertas de validade e testes automatizados end-to-end.
@@ -60,10 +60,11 @@ Sistema completo de gerenciamento de estoque com rastreamento de lotes, moviment
 
 ## 🧪 Testes E2E
 
-### Cobertura Total: 44 Cenários ✅
+### Cobertura Total: 54 Cenários ✅
 - **Login**: 10 cenários
 - **Dashboard**: 14 cenários
 - **Entradas**: 20 cenários
+- **Saídas**: 10 cenários
 
 ### Cenários de Teste - Login (10)
 1. Login com credenciais válidas
@@ -115,6 +116,18 @@ Sistema completo de gerenciamento de estoque com rastreamento de lotes, moviment
 19. Fechamento automático de modal de fornecedor
 20. Limpeza automática de dados de teste
 
+### Cenários de Teste - Saídas (10)
+1. Exibição da tela de saídas
+2. Abertura de modal de nova saída
+3. Fechamento de modal ao clicar em cancelar
+4. Fechamento de modal ao clicar fora dele
+5. Validação de campo "Lote" obrigatório
+6. Validação de campo "Quantidade" obrigatório
+7. Validação de campo "Data e Hora" obrigatório
+8. Cadastro completo de saída
+9. Atualização de estoque ao cadastrar saída
+10. Reversão de estoque ao excluir saída
+
 ### Execução
 ```bash
 # Todos os testes
@@ -122,6 +135,9 @@ npm test
 
 # Apenas entradas
 npx playwright test entradas.spec.js
+
+# Apenas saídas
+npx playwright test saidas.spec.js
 
 # Modo headed
 npx playwright test --headed
@@ -220,7 +236,8 @@ controle-estoque/
     ├── pages/
     ├── login.spec.js
     ├── dashboard.spec.js
-    └── entradas.spec.js
+    ├── entradas.spec.js
+    └── saidas.spec.js
 ```
 
 ## 🤝 Contribuindo
