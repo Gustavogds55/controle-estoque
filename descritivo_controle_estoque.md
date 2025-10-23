@@ -120,7 +120,7 @@ Empresas, comércios e profissionais que precisam gerenciar estoques de produtos
 - **Estoque Sincronizado**: Quantidade sempre consistente entre Lotes, Entradas e Saídas
 - **Modais Padronizados**: Todos os modais com tamanho e comportamento uniformes
 - **Exclusão Inteligente**: Lotes deletados automaticamente quando sem movimentações
-- **Testes Automatizados**: 44 cenários E2E com Playwright (100% de sucesso)
+- **Testes Automatizados**: 54 cenários E2E com Playwright (100% de sucesso)
 - **Page Object Model**: Testes organizáveis e manteníveis
 - **Execução Paralela**: 4 workers para testes mais rápidos
 
@@ -129,10 +129,11 @@ Empresas, comércios e profissionais que precisam gerenciar estoques de produtos
 
 
 ## 🧪 Testes E2E
-- **44 cenários automatizados** com Playwright
+- **54 cenários automatizados** com Playwright
 - **Login**: 10 cenários (credenciais, validações, sessão)
 - **Dashboard**: 14 cenários (navegação, tema, ações rápidas)
 - **Entradas**: 20 cenários (validações, CRUD, fornecedores, estoque)
+- **Saídas**: 10 cenários (validações, CRUD, atualização de estoque, reversão)
 - **Page Object Model** para organização
 - **Data-testid** para seletores estáveis
 - **Limpeza automática** de dados após testes

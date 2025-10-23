@@ -16,7 +16,7 @@ controle-estoque/
 
 ### 📅 Última Atualização
 **Data**: Janeiro 2025  
-**Fase**: Sistema Completo com UI/UX Otimizada + Testes E2E Implementados (44 cenários)
+**Fase**: Sistema Completo com UI/UX Otimizada + Testes E2E Implementados (54 cenários)
 
 ---
 
@@ -108,11 +108,13 @@ backend/
 - [x] Coluna Fornecedor na tabela de Entradas
 - [x] Sistema de Toast completo (success, error, warning, info)
 - [x] Toast em todas as funcionalidades (Produtos, Lotes, Entradas, Saídas, Fornecedores)
-- [x] Testes E2E com Playwright (44 cenários)
+- [x] Testes E2E com Playwright (54 cenários)
 - [x] Page Object Model para testes
 - [x] Validação de campos obrigatórios com mensagens customizadas
 - [x] Modal de fornecedor sem formulário aninhado
 - [x] Exclusão em cascata de lotes
+- [x] Testes E2E - Saídas (10 cenários)
+- [x] Validação customizada em Saídas
 - [ ] Filtros e buscas avançadas
 
 **Estrutura Implementada**:
@@ -285,6 +287,16 @@ frontend/
 | Jan/2025 | Toast em todas as funcionalidades | Concluído |
 | Jan/2025 | Melhorias nos Toasts (4 tipos, cores claras, largura) | Concluído |
 | Jan/2025 | Testes E2E - Login (10 cenários) | Concluído |
+| Jan/2025 | Testes E2E - Dashboard (14 cenários) | Concluído |
+| Jan/2025 | Testes E2E - Entradas (20 cenários) | Concluído |
+| Jan/2025 | Page Object Model para testes | Concluído |
+| Jan/2025 | Validação de campos com mensagens customizadas | Concluído |
+| Jan/2025 | Correção modal de fornecedor (sem form aninhado) | Concluído |
+| Jan/2025 | Exclusão em cascata de lotes | Concluído |
+| Jan/2025 | Execução paralela de testes (4 workers) | Concluído |
+| Jan/2025 | Testes E2E - Saídas (10 cenários) | Concluído |
+| Jan/2025 | Validação customizada em Saídas | Concluído |
+| Jan/2025 | SaidasPage.js (Page Object) | Concluído |gin (10 cenários) | Concluído |
 | Jan/2025 | Testes E2E - Dashboard (14 cenários) | Concluído |
 | Jan/2025 | Testes E2E - Entradas (20 cenários) | Concluído |
 | Jan/2025 | Page Object Model para testes | Concluído |

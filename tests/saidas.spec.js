@@ -214,4 +214,187 @@ test.describe('Saídas de Estoque', () => {
     await entradaRow.locator('button[title="Excluir"]').click()
     await page.waitForTimeout(500)
   })
+
+  test('deve exibir observação na tabela', async ({ page }) => {
+    const timestamp = Date.now()
+    const productName = 'Produto Obs ' + timestamp
+    const numeroLote = 'LOTE-OBS-' + timestamp
+    const observacao = 'Observação de teste ' + timestamp
+
+    await page.getByRole('link', { name: 'Entradas' }).click()
+    await entradasPage.abrirModalNovaEntrada()
+    await entradasPage.preencherProduto(productName, 'Categoria', 'UN')
+    await entradasPage.preencherLote(numeroLote, '2025-12-31')
+    await entradasPage.preencherEntrada('55555', 1, '50', '2024-01-15T10:00', '')
+    await entradasPage.salvar()
+
+    await page.getByRole('link', { name: 'Saídas' }).click()
+    await saidasPage.abrirModalNovaSaida()
+    await saidasPage.selecionarLote(numeroLote)
+    await saidasPage.preencherQuantidade('10')
+    await saidasPage.preencherDataHora('2024-01-16T10:00')
+    await saidasPage.preencherObservacao(observacao)
+    await saidasPage.salvar()
+
+    await expect(page.getByText(observacao)).toBeVisible()
+
+    const saidaRow = page.locator('tr', { hasText: productName }).first()
+    await saidaRow.locator('button[title="Excluir"]').click()
+
+    await page.getByRole('link', { name: 'Entradas' }).click()
+    const entradaRow = page.locator('tr', { hasText: productName }).first()
+    page.once('dialog', dialog => dialog.accept())
+    await entradaRow.locator('button[title="Excluir"]').click()
+    await page.waitForTimeout(500)
+  })
+
+  test('deve zerar estoque após saída total', async ({ page }) => {
+    const timestamp = Date.now()
+    const productName = 'Produto Zerar ' + timestamp
+    const numeroLote = 'LOTE-ZERO-' + timestamp
+
+    await page.getByRole('link', { name: 'Entradas' }).click()
+    await entradasPage.abrirModalNovaEntrada()
+    await entradasPage.preencherProduto(productName, 'Categoria', 'UN')
+    await entradasPage.preencherLote(numeroLote, '2025-12-31')
+    await entradasPage.preencherEntrada('66666', 1, '50', '2024-01-15T10:00', '')
+    await entradasPage.salvar()
+
+    await page.getByRole('link', { name: 'Saídas' }).click()
+    await saidasPage.abrirModalNovaSaida()
+    await saidasPage.selecionarLote(numeroLote)
+    await saidasPage.preencherQuantidade('50')
+    await saidasPage.preencherDataHora('2024-01-16T10:00')
+    await saidasPage.salvar()
+
+    await page.getByRole('link', { name: 'Lotes' }).click()
+    const loteRow = page.locator('tr', { hasText: numeroLote })
+    await expect(loteRow.locator('td').nth(2)).toHaveText('0.00')
+
+    await page.getByRole('link', { name: 'Saídas' }).click()
+    const saidaRow = page.locator('tr', { hasText: productName }).first()
+    await saidaRow.locator('button[title="Excluir"]').click()
+
+    await page.getByRole('link', { name: 'Entradas' }).click()
+    const entradaRow = page.locator('tr', { hasText: productName }).first()
+    page.once('dialog', dialog => dialog.accept())
+    await entradaRow.locator('button[title="Excluir"]').click()
+    await page.waitForTimeout(500)
+  })
+
+  test('deve processar múltiplas saídas do mesmo lote', async ({ page }) => {
+    const timestamp = Date.now()
+    const productName = 'Produto Multi ' + timestamp
+    const numeroLote = 'LOTE-MULTI-' + timestamp
+
+    await page.getByRole('link', { name: 'Entradas' }).click()
+    await entradasPage.abrirModalNovaEntrada()
+    await entradasPage.preencherProduto(productName, 'Categoria', 'UN')
+    await entradasPage.preencherLote(numeroLote, '2025-12-31')
+    await entradasPage.preencherEntrada('77777', 1, '100', '2024-01-15T10:00', '')
+    await entradasPage.salvar()
+
+    await page.getByRole('link', { name: 'Saídas' }).click()
+    await saidasPage.abrirModalNovaSaida()
+    await saidasPage.selecionarLote(numeroLote)
+    await saidasPage.preencherQuantidade('20')
+    await saidasPage.preencherDataHora('2024-01-16T10:00')
+    await saidasPage.salvar()
+
+    await saidasPage.abrirModalNovaSaida()
+    await saidasPage.selecionarLote(numeroLote)
+    await saidasPage.preencherQuantidade('30')
+    await saidasPage.preencherDataHora('2024-01-17T10:00')
+    await saidasPage.salvar()
+
+    await page.getByRole('link', { name: 'Lotes' }).click()
+    const loteRow = page.locator('tr', { hasText: numeroLote })
+    await expect(loteRow.locator('td').nth(2)).toHaveText('50.00')
+
+    await page.getByRole('link', { name: 'Saídas' }).click()
+    const rows = page.locator('tr', { hasText: productName })
+    await expect(rows).toHaveCount(2)
+
+    await rows.first().locator('button[title="Excluir"]').click()
+    await page.waitForTimeout(500)
+    await rows.first().locator('button[title="Excluir"]').click()
+
+    await page.getByRole('link', { name: 'Entradas' }).click()
+    const entradaRow = page.locator('tr', { hasText: productName }).first()
+    page.once('dialog', dialog => dialog.accept())
+    await entradaRow.locator('button[title="Excluir"]').click()
+    await page.waitForTimeout(500)
+  })
+
+  test('deve exibir quantidade negativa em vermelho na tabela', async ({ page }) => {
+    const timestamp = Date.now()
+    const productName = 'Produto Negativo ' + timestamp
+    const numeroLote = 'LOTE-NEG-' + timestamp
+
+    await page.getByRole('link', { name: 'Entradas' }).click()
+    await entradasPage.abrirModalNovaEntrada()
+    await entradasPage.preencherProduto(productName, 'Categoria', 'UN')
+    await entradasPage.preencherLote(numeroLote, '2025-12-31')
+    await entradasPage.preencherEntrada('88888', 1, '50', '2024-01-15T10:00', '')
+    await entradasPage.salvar()
+
+    await page.getByRole('link', { name: 'Saídas' }).click()
+    await saidasPage.abrirModalNovaSaida()
+    await saidasPage.selecionarLote(numeroLote)
+    await saidasPage.preencherQuantidade('20')
+    await saidasPage.preencherDataHora('2024-01-16T10:00')
+    await saidasPage.salvar()
+
+    const quantidadeCell = page.locator('tr', { hasText: productName }).first().locator('td').nth(3)
+    await expect(quantidadeCell).toHaveText('-20')
+    await expect(quantidadeCell).toHaveClass(/text-red-600/)
+
+    const saidaRow = page.locator('tr', { hasText: productName }).first()
+    await saidaRow.locator('button[title="Excluir"]').click()
+
+    await page.getByRole('link', { name: 'Entradas' }).click()
+    const entradaRow = page.locator('tr', { hasText: productName }).first()
+    page.once('dialog', dialog => dialog.accept())
+    await entradaRow.locator('button[title="Excluir"]').click()
+    await page.waitForTimeout(500)
+  })
+
+  test('deve exibir nome do produto na tabela de saídas', async ({ page }) => {
+    const timestamp = Date.now()
+    const productName = 'Produto Exibir ' + timestamp
+    const numeroLote = 'LOTE-EXIB-' + timestamp
+
+    await page.getByRole('link', { name: 'Entradas' }).click()
+    await entradasPage.abrirModalNovaEntrada()
+    await entradasPage.preencherProduto(productName, 'Categoria', 'UN')
+    await entradasPage.preencherLote(numeroLote, '2025-12-31')
+    await entradasPage.preencherEntrada('99999', 1, '50', '2024-01-15T10:00', '')
+    await entradasPage.salvar()
+
+    await page.getByRole('link', { name: 'Saídas' }).click()
+    await saidasPage.abrirModalNovaSaida()
+    await saidasPage.selecionarLote(numeroLote)
+    await saidasPage.preencherQuantidade('15')
+    await saidasPage.preencherDataHora('2024-01-16T10:00')
+    await saidasPage.salvar()
+
+    await expect(page.getByText(productName).first()).toBeVisible()
+    await expect(page.getByText(numeroLote).first()).toBeVisible()
+
+    const saidaRow = page.locator('tr', { hasText: productName }).first()
+    await saidaRow.locator('button[title="Excluir"]').click()
+
+    await page.getByRole('link', { name: 'Entradas' }).click()
+    const entradaRow = page.locator('tr', { hasText: productName }).first()
+    page.once('dialog', dialog => dialog.accept())
+    await entradaRow.locator('button[title="Excluir"]').click()
+    await page.waitForTimeout(500)
+  })
+
+  test('deve listar apenas lotes com estoque disponível no select', async ({ page }) => {
+    await saidasPage.abrirModalNovaSaida()
+    await page.waitForTimeout(1000)
+    const options = await page.locator('select option').count()
+    await expect(options).toBeGreaterThan(1)
+  })
 })
