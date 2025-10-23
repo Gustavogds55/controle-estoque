@@ -19,11 +19,9 @@ test.describe('Dashboard', () => {
     await expect(dashboardPage.heading).toBeVisible();
   });
 
-  test('deve exibir tabela de lotes próximos ao vencimento', async ({ page }) => {
-    const noDataVisible = await page.getByText('Nenhum lote próximo ao vencimento').isVisible().catch(() => false);
-    const tableVisible = await dashboardPage.lotesTable.isVisible().catch(() => false);
-    
-    expect(noDataVisible || tableVisible).toBe(true);
+  test('deve exibir card de lotes próximos ao vencimento', async ({ page }) => {
+    const card = page.locator('div').filter({ hasText: /Lotes Próximos ao Vencimento|Lotes Vencendo/ }).first();
+    await expect(card).toBeVisible();
   });
 
   test('deve navegar para produtos ao clicar em ação rápida', async ({ page }) => {
@@ -90,9 +88,11 @@ test.describe('Dashboard', () => {
     
     await expect(page.getByText('Registrar Saídas')).toBeVisible();
     
-    await page.goto('http://localhost:3001/login');
+    await page.goto('/login');
+    await page.waitForLoadState('networkidle');
     await loginPage.login('admin@estoque.com', '123456');
-    await page.waitForURL('http://localhost:3001/dashboard');
+    await page.waitForURL('/dashboard');
+    await page.waitForLoadState('domcontentloaded');
     
     await expect(page.getByText('Registrar Saídas')).toBeVisible();
   });

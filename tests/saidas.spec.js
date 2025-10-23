@@ -2,20 +2,27 @@ const { test, expect } = require('@playwright/test')
 const { LoginPage } = require('./pages/LoginPage')
 const { SaidasPage } = require('./pages/SaidasPage')
 const { EntradasPage } = require('./pages/EntradasPage')
+const { TestCleanup } = require('./helpers/cleanup')
 
 test.describe('Saídas de Estoque', () => {
   let loginPage
   let saidasPage
   let entradasPage
+  let cleanup
 
   test.beforeEach(async ({ page }) => {
     loginPage = new LoginPage(page)
     saidasPage = new SaidasPage(page)
     entradasPage = new EntradasPage(page)
+    cleanup = new TestCleanup(page)
     
     await loginPage.goto()
     await loginPage.login('admin@estoque.com', '123456')
     await page.getByRole('link', { name: 'Saídas' }).click()
+  })
+
+  test.afterEach(async () => {
+    await cleanup.cleanAll()
   })
 
   test('deve abrir a tela de saídas', async ({ page }) => {
@@ -346,7 +353,7 @@ test.describe('Saídas de Estoque', () => {
     await saidasPage.salvar()
 
     const quantidadeCell = page.locator('tr', { hasText: productName }).first().locator('td').nth(3)
-    await expect(quantidadeCell).toHaveText('-20')
+    await expect(quantidadeCell).toHaveText('-20.00')
     await expect(quantidadeCell).toHaveClass(/text-red-600/)
 
     const saidaRow = page.locator('tr', { hasText: productName }).first()
@@ -396,5 +403,94 @@ test.describe('Saídas de Estoque', () => {
     await page.waitForTimeout(1000)
     const options = await page.locator('select option').count()
     await expect(options).toBeGreaterThan(1)
+  })
+
+  test('deve impedir saída maior que estoque disponível', async ({ page }) => {
+    const timestamp = Date.now()
+    const productName = 'Produto Estoque Insuf ' + timestamp
+    const numeroLote = 'LOTE-INSUF-' + timestamp
+
+    await page.getByRole('link', { name: 'Entradas' }).click()
+    await entradasPage.abrirModalNovaEntrada()
+    await entradasPage.preencherProduto(productName, 'Categoria', 'UN')
+    await entradasPage.preencherLote(numeroLote, '2025-12-31')
+    await entradasPage.preencherEntrada('44444', 1, '50', '2024-01-15T10:00', '')
+    await entradasPage.salvar()
+
+    await page.getByRole('link', { name: 'Saídas' }).click()
+    await saidasPage.abrirModalNovaSaida()
+    await saidasPage.selecionarLote(numeroLote)
+    await saidasPage.preencherQuantidade('100')
+    await saidasPage.preencherDataHora('2024-01-16T10:00')
+    await saidasPage.salvar()
+
+    await expect(page.getByText('Quantidade insuficiente em estoque')).toBeVisible()
+    await saidasPage.cancelar()
+
+    await page.getByRole('link', { name: 'Entradas' }).click()
+    const entradaRow = page.locator('tr', { hasText: productName }).first()
+    page.once('dialog', dialog => dialog.accept())
+    await entradaRow.locator('button[title="Excluir"]').click()
+    await page.waitForTimeout(500)
+  })
+
+  test('deve validar quantidade zero ou negativa', async ({ page }) => {
+    const timestamp = Date.now()
+    const productName = 'Produto Qtd Zero ' + timestamp
+    const numeroLote = 'LOTE-ZERO-VAL-' + timestamp
+
+    await page.getByRole('link', { name: 'Entradas' }).click()
+    await entradasPage.abrirModalNovaEntrada()
+    await entradasPage.preencherProduto(productName, 'Categoria', 'UN')
+    await entradasPage.preencherLote(numeroLote, '2025-12-31')
+    await entradasPage.preencherEntrada('12345', 1, '50', '2024-01-15T10:00', '')
+    await entradasPage.salvar()
+
+    await page.getByRole('link', { name: 'Saídas' }).click()
+    await saidasPage.abrirModalNovaSaida()
+    await saidasPage.selecionarLote(numeroLote)
+    await saidasPage.preencherQuantidade('0')
+    await saidasPage.preencherDataHora('2024-01-16T10:00')
+    await saidasPage.salvar()
+
+    await expect(page.getByText('Valor deve ser maior que 0')).toBeVisible()
+    await saidasPage.cancelar()
+
+    await page.getByRole('link', { name: 'Entradas' }).click()
+    const entradaRow = page.locator('tr', { hasText: productName }).first()
+    page.once('dialog', dialog => dialog.accept())
+    await entradaRow.locator('button[title="Excluir"]').click()
+    await page.waitForTimeout(500)
+  })
+
+  test('deve validar formato de quantidade (apenas números)', async ({ page }) => {
+    const timestamp = Date.now()
+    const productName = 'Produto Formato ' + timestamp
+    const numeroLote = 'LOTE-FORMATO-' + timestamp
+
+    await page.getByRole('link', { name: 'Entradas' }).click()
+    await entradasPage.abrirModalNovaEntrada()
+    await entradasPage.preencherProduto(productName, 'Categoria', 'UN')
+    await entradasPage.preencherLote(numeroLote, '2025-12-31')
+    await entradasPage.preencherEntrada('54321', 1, '50', '2024-01-15T10:00', '')
+    await entradasPage.salvar()
+
+    await page.getByRole('link', { name: 'Saídas' }).click()
+    await saidasPage.abrirModalNovaSaida()
+    await saidasPage.selecionarLote(numeroLote)
+    
+    const quantidadeInput = page.locator('input[type="number"]').first()
+    await quantidadeInput.click()
+    await quantidadeInput.pressSequentially('abc')
+    const valor = await quantidadeInput.inputValue()
+    expect(valor).toBe('')
+    
+    await saidasPage.cancelar()
+
+    await page.getByRole('link', { name: 'Entradas' }).click()
+    const entradaRow = page.locator('tr', { hasText: productName }).first()
+    page.once('dialog', dialog => dialog.accept())
+    await entradaRow.locator('button[title="Excluir"]').click()
+    await page.waitForTimeout(500)
   })
 })

@@ -182,8 +182,11 @@ const validar = () => {
     valido = false
   }
   
-  if (!form.value.quantidade) {
+  if (form.value.quantidade === '' || form.value.quantidade === null || form.value.quantidade === undefined) {
     errors.value.quantidade = 'Este campo é obrigatório'
+    valido = false
+  } else if (parseFloat(form.value.quantidade) <= 0) {
+    errors.value.quantidade = 'Valor deve ser maior que 0'
     valido = false
   }
   
@@ -213,7 +216,7 @@ const salvar = async () => {
     await carregar()
   } catch (error) {
     console.error('Erro ao salvar saída:', error)
-    alert(error.data?.error || 'Erro ao salvar saída')
+    showToast(error.data?.error || 'Erro ao salvar saída', 'error')
   }
 }
 
