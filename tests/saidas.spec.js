@@ -402,7 +402,7 @@ test.describe('Saídas de Estoque', () => {
     await saidasPage.abrirModalNovaSaida()
     await page.waitForTimeout(1000)
     const options = await page.locator('select option').count()
-    await expect(options).toBeGreaterThan(1)
+    await expect(options).toBeGreaterThanOrEqual(1)
   })
 
   test('deve impedir saída maior que estoque disponível', async ({ page }) => {

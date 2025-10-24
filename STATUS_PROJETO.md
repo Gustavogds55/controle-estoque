@@ -16,7 +16,7 @@ controle-estoque/
 
 ### 📅 Última Atualização
 **Data**: Janeiro 2025  
-**Fase**: Sistema Completo com UI/UX Otimizada + Testes E2E Implementados (122 cenários)
+**Fase**: Sistema Completo com UI/UX Otimizada + Testes E2E Implementados (119 cenários)
 
 ---
 
@@ -108,7 +108,7 @@ backend/
 - [x] Coluna Fornecedor na tabela de Entradas
 - [x] Sistema de Toast completo (success, error, warning, info)
 - [x] Toast em todas as funcionalidades (Produtos, Lotes, Entradas, Saídas, Fornecedores)
-- [x] Testes E2E com Playwright (122 cenários)
+- [x] Testes E2E com Playwright (119 cenários)
 - [x] Page Object Model para testes
 - [x] Validação de campos obrigatórios com mensagens customizadas
 - [x] Modal de fornecedor sem formulário aninhado
@@ -123,16 +123,16 @@ backend/
 - [x] Teste de integração: reflexão de edição em Lotes
 - [x] Testes de exclusão de produtos
 - [x] Testes de cancelamento de edição
-- [x] Testes E2E - Entradas (20 cenários)
-- [x] Testes E2E - Saídas (13 cenários)
+- [x] Testes E2E - Entradas (19 cenários)
+- [x] Testes E2E - Saídas (19 cenários)
 - [x] Validação customizada em Saídas
-- [x] Testes E2E - Lotes (20 cenários)
+- [x] Testes E2E - Lotes (21 cenários)
 - [x] Validação de status de validade (Válido/Vencido/Próximo ao vencimento)
 - [x] Validações de modal de edição de lotes (campos obrigatórios, quantidade negativa)
 - [x] Testes de formatação (data, quantidade com casas decimais)
 - [x] Testes de múltiplos lotes do mesmo produto
 - [x] Testes de edição de data de validade com mudança de status
-- [x] Testes E2E - Fornecedores (20 cenários)
+- [x] Testes E2E - Fornecedores (21 cenários)
 - [x] Testes de validação de campos obrigatórios (Nome, CNPJ)
 - [x] Testes de formatação automática (CNPJ 14 dígitos, CPF 11 dígitos, Telefone)
 - [x] Testes de edição de todos os campos (Nome, CNPJ, Telefone, Email, Endereço)
@@ -313,7 +313,7 @@ frontend/
 | Jan/2025 | Total de 117 testes E2E implementados | Concluído |
 | Jan/2025 | Validações customizadas em Produtos | Concluído |
 | Jan/2025 | Testes de validação e integração Produtos | Concluído |
-| Jan/2025 | Total de 122 testes E2E implementados | Concluído |
+| Jan/2025 | Total de 119 testes E2E implementados | Concluído |
 | Jan/2025 | Atualização Postman Collection | Concluído |
 | Jan/2025 | Cadastro rápido de fornecedor em Entradas | Concluído |
 | Jan/2025 | Edição de movimentações (Entradas) | Concluído |

@@ -1,7 +1,7 @@
 # Sistema de Controle de Estoque
 
 [![Status](https://img.shields.io/badge/status-concluído-success)](https://github.com)
-[![Testes](https://img.shields.io/badge/testes-122%20passando-brightgreen)](https://github.com)
+[![Testes](https://img.shields.io/badge/testes-119%20passando-brightgreen)](https://github.com)
 [![Cobertura](https://img.shields.io/badge/cobertura-E2E-blue)](https://github.com)
 
 Sistema completo de gerenciamento de estoque com rastreamento de lotes, movimentações, alertas de validade e testes automatizados end-to-end.
@@ -60,15 +60,14 @@ Sistema completo de gerenciamento de estoque com rastreamento de lotes, moviment
 
 ## 🧪 Testes E2E
 
-### Cobertura Total: 122 Cenários ✅
+### Cobertura Total: 119 Cenários ✅
 - **Login**: 10 cenários
 - **Dashboard**: 14 cenários
 - **Produtos**: 15 cenários
-- **Entradas**: 20 cenários
-- **Saídas**: 13 cenários
-- **Lotes**: 20 cenários
-- **Fornecedores**: 20 cenários
-- **Integração**: 10 cenários
+- **Entradas**: 19 cenários
+- **Saídas**: 19 cenários
+- **Lotes**: 21 cenários
+- **Fornecedores**: 21 cenários
 
 ### Cenários de Teste - Login (10)
 1. Login com credenciais válidas
@@ -115,7 +114,7 @@ Sistema completo de gerenciamento de estoque com rastreamento de lotes, moviment
 13. Validação de dados
 14. Responsividade
 
-### Cenários de Teste - Entradas (20)
+### Cenários de Teste - Entradas (19)
 1. Validação de campo "Nome do Produto" obrigatório
 2. Validação de campo "Unidade de Medida" obrigatório
 3. Validação de campo "Número do Lote" obrigatório
@@ -135,9 +134,8 @@ Sistema completo de gerenciamento de estoque com rastreamento de lotes, moviment
 17. Edição de entrada existente
 18. Validação de toast de sucesso
 19. Fechamento automático de modal de fornecedor
-20. Limpeza automática de dados de teste
 
-### Cenários de Teste - Saídas (13)
+### Cenários de Teste - Saídas (19)
 1. Exibição da tela de saídas
 2. Abertura de modal de nova saída
 3. Fechamento de modal ao clicar em cancelar
@@ -148,11 +146,17 @@ Sistema completo de gerenciamento de estoque com rastreamento de lotes, moviment
 8. Cadastro completo de saída
 9. Atualização de estoque ao cadastrar saída
 10. Reversão de estoque ao excluir saída
-11. Impedir saída maior que estoque disponível
-12. Validar quantidade zero ou negativa
-13. Validar formato de quantidade (apenas números)
+11. Processar múltiplas saídas do mesmo lote
+12. Exibir quantidade negativa em vermelho na tabela
+13. Exibir nome do produto na tabela de saídas
+14. Listar apenas lotes com estoque disponível no select
+15. Impedir saída maior que estoque disponível
+16. Validar quantidade zero ou negativa
+17. Validar formato de quantidade (apenas números)
+18. Atualização de estoque ao cadastrar saída
+19. Reversão de estoque ao excluir saída
 
-### Cenários de Teste - Fornecedores (20)
+### Cenários de Teste - Fornecedores (21)
 1. Exibição da tela de fornecedores
 2. Abrir modal de novo fornecedor
 3. Fechar modal ao clicar em cancelar
@@ -175,7 +179,7 @@ Sistema completo de gerenciamento de estoque com rastreamento de lotes, moviment
 20. Impedir cadastro de CNPJ duplicado
 21. Validar formato de email inválido
 
-### Cenários de Teste - Lotes (20)
+### Cenários de Teste - Lotes (21)
 1. Exibição da tela de lotes
 2. Exibição de tabela com colunas corretas
 3. Status "Válido" para lote com validade futura
