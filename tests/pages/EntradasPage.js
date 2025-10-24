@@ -19,6 +19,7 @@ class EntradasPage {
 
   async abrirModalNovaEntrada() {
     await this.novaEntradaButton.click();
+    await this.page.waitForTimeout(1000);
   }
 
   async preencherProduto(nome, categoria, unidade) {

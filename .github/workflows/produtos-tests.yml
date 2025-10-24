@@ -150,13 +150,6 @@ jobs:
         env:
           NUXT_PUBLIC_API_BASE: http://localhost:3000/api
 
-      - name: Debug - Verificar fornecedores
-        run: |
-          echo "Verificando fornecedores no banco:"
-          mysql -h 127.0.0.1 -u root -proot controle_estoque -e "SELECT * FROM fornecedores;"
-          echo "Testando API de fornecedores:"
-          curl -s http://localhost:3000/api/fornecedores || echo "Endpoint não encontrado"
-
       - name: Executar testes de produtos
         working-directory: ./tests
         run: npx playwright test produtos.spec.js
