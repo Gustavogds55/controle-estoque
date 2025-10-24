@@ -51,6 +51,66 @@ jobs:
         working-directory: ./tests
         run: npx playwright install --with-deps chromium
 
+      - name: Create Database Tables
+        run: |
+          mysql -h 127.0.0.1 -u root -proot controle_estoque <<EOF
+          CREATE TABLE IF NOT EXISTS usuarios (
+            id INT PRIMARY KEY AUTO_INCREMENT,
+            nome VARCHAR(255) NOT NULL,
+            email VARCHAR(255) UNIQUE NOT NULL,
+            senha VARCHAR(255) NOT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+          );
+          CREATE TABLE IF NOT EXISTS produtos (
+            id INT PRIMARY KEY AUTO_INCREMENT,
+            nome VARCHAR(255) NOT NULL,
+            categoria VARCHAR(255),
+            descricao TEXT,
+            unidade_medida VARCHAR(50),
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+          );
+          CREATE TABLE IF NOT EXISTS fornecedores (
+            id INT PRIMARY KEY AUTO_INCREMENT,
+            nome VARCHAR(255) NOT NULL,
+            cnpj VARCHAR(18) UNIQUE NOT NULL,
+            telefone VARCHAR(20),
+            email VARCHAR(255),
+            endereco TEXT,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+          );
+          CREATE TABLE IF NOT EXISTS lotes (
+            id INT PRIMARY KEY AUTO_INCREMENT,
+            produto_id INT NOT NULL,
+            numero_lote VARCHAR(255) NOT NULL,
+            quantidade_inicial DECIMAL(10,2) NOT NULL,
+            quantidade_atual DECIMAL(10,2) NOT NULL DEFAULT 0,
+            data_entrada DATE NOT NULL,
+            data_validade DATE NOT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+            FOREIGN KEY (produto_id) REFERENCES produtos(id) ON DELETE CASCADE
+          );
+          CREATE TABLE IF NOT EXISTS movimentacoes (
+            id INT PRIMARY KEY AUTO_INCREMENT,
+            lote_id INT NOT NULL,
+            usuario_id INT NOT NULL,
+            fornecedor_id INT,
+            tipo ENUM('ENTRADA', 'SAIDA') NOT NULL,
+            quantidade DECIMAL(10,2) NOT NULL,
+            numero_nf VARCHAR(255),
+            data_movimentacao DATETIME NOT NULL,
+            observacao TEXT,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (lote_id) REFERENCES lotes(id) ON DELETE CASCADE,
+            FOREIGN KEY (usuario_id) REFERENCES usuarios(id),
+            FOREIGN KEY (fornecedor_id) REFERENCES fornecedores(id)
+          );
+          INSERT IGNORE INTO usuarios (nome, email, senha) VALUES ('Admin', 'admin@estoque.com', '\$2b\$10\$rH8p5qZ9qZ9qZ9qZ9qZ9qeK5K5K5K5K5K5K5K5K5K5K5K5K5K5');
+          EOF
+
       - name: Start Backend
         working-directory: ./backend
         run: |
@@ -59,16 +119,16 @@ jobs:
           sed -i 's/DB_USER=.*/DB_USER=root/' .env
           sed -i 's/DB_PASSWORD=.*/DB_PASSWORD=root/' .env
           sed -i 's/DB_NAME=.*/DB_NAME=controle_estoque/' .env
-          npm run dev &
-          sleep 5
-        env:
-          NODE_ENV: test
+          nohup npm run dev > backend.log 2>&1 &
+          sleep 10
+          curl -f http://localhost:3000/api/auth/login || (cat backend.log && exit 1)
 
       - name: Start Frontend
         working-directory: ./frontend
         run: |
-          npm run dev &
-          sleep 10
+          nohup npm run dev > frontend.log 2>&1 &
+          sleep 15
+          curl -f http://localhost:3001 || (cat frontend.log && exit 1)
 
       - name: Run E2E Tests
         working-directory: ./tests
