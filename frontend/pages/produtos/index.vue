@@ -52,8 +52,9 @@
         
         <form @submit.prevent="saveProduto">
           <div class="mb-4">
-            <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">Nome</label>
-            <input v-model="form.nome" required class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="darkMode ? 'bg-gray-700 border-gray-600 text-white' : ''" />
+            <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">Nome <span class="text-red-500">*</span></label>
+            <input v-model="form.nome" @blur="validarCampo('nome')" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="[darkMode ? 'bg-gray-700 border-gray-600 text-white' : '', erros.nome ? 'border-red-500' : '']" />
+            <p v-if="erros.nome" class="text-red-500 text-sm mt-1">{{ erros.nome }}</p>
           </div>
           
           <div class="mb-4">
@@ -67,8 +68,9 @@
           </div>
           
           <div class="mb-4">
-            <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">Unidade de Medida</label>
-            <input v-model="form.unidade_medida" required class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="darkMode ? 'bg-gray-700 border-gray-600 text-white' : ''" />
+            <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">Unidade de Medida <span class="text-red-500">*</span></label>
+            <input v-model="form.unidade_medida" @blur="validarCampo('unidade_medida')" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="[darkMode ? 'bg-gray-700 border-gray-600 text-white' : '', erros.unidade_medida ? 'border-red-500' : '']" />
+            <p v-if="erros.unidade_medida" class="text-red-500 text-sm mt-1">{{ erros.unidade_medida }}</p>
           </div>
 
           <div class="flex justify-end space-x-3">
@@ -105,6 +107,7 @@ const loading = ref(true)
 const showModal = ref(false)
 const editMode = ref(false)
 const form = ref({ nome: '', categoria: '', descricao: '', unidade_medida: '' })
+const erros = ref({ nome: '', unidade_medida: '' })
 
 const loadProdutos = async () => {
   loading.value = true
@@ -117,7 +120,40 @@ const loadProdutos = async () => {
   }
 }
 
+const validarCampo = (campo) => {
+  if (campo === 'nome' && !form.value.nome.trim()) {
+    erros.value.nome = 'Este campo é obrigatório'
+  } else if (campo === 'nome') {
+    erros.value.nome = ''
+  }
+
+  if (campo === 'unidade_medida' && !form.value.unidade_medida.trim()) {
+    erros.value.unidade_medida = 'Este campo é obrigatório'
+  } else if (campo === 'unidade_medida') {
+    erros.value.unidade_medida = ''
+  }
+}
+
+const validarFormulario = () => {
+  erros.value = { nome: '', unidade_medida: '' }
+  let valido = true
+
+  if (!form.value.nome.trim()) {
+    erros.value.nome = 'Este campo é obrigatório'
+    valido = false
+  }
+
+  if (!form.value.unidade_medida.trim()) {
+    erros.value.unidade_medida = 'Este campo é obrigatório'
+    valido = false
+  }
+
+  return valido
+}
+
 const saveProduto = async () => {
+  if (!validarFormulario()) return
+
   try {
     if (editMode.value) {
       await api(`/produtos/${form.value.id}`, {
@@ -159,6 +195,7 @@ const closeModal = () => {
   showModal.value = false
   editMode.value = false
   form.value = { nome: '', categoria: '', descricao: '', unidade_medida: '' }
+  erros.value = { nome: '', unidade_medida: '' }
 }
 
 onMounted(() => {

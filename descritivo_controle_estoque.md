@@ -27,6 +27,9 @@ Empresas, comércios e profissionais que precisam gerenciar estoques de produtos
 ### 🗃️ Gestão de Produtos
 - Cadastro de produtos (nome, categoria, descrição, unidade de medida)
 - Criação automática durante entrada de mercadorias
+- Validações customizadas com mensagens "Este campo é obrigatório"
+- Asterisco (*) em campos obrigatórios (Nome, Unidade de Medida)
+- Edição completa de produtos com reflexão automática nos lotes
 - Registro de **lotes** com data de entrada e validade
 - Controle de **quantidade em estoque** em tempo real
 
@@ -120,7 +123,7 @@ Empresas, comércios e profissionais que precisam gerenciar estoques de produtos
 - **Estoque Sincronizado**: Quantidade sempre consistente entre Lotes, Entradas e Saídas
 - **Modais Padronizados**: Todos os modais com tamanho e comportamento uniformes
 - **Exclusão Inteligente**: Lotes deletados automaticamente quando sem movimentações
-- **Testes Automatizados**: 54 cenários E2E com Playwright (100% de sucesso)
+- **Testes Automatizados**: 122 cenários E2E com Playwright (100% de sucesso)
 - **Page Object Model**: Testes organizáveis e manteníveis
 - **Execução Paralela**: 4 workers para testes mais rápidos
 
@@ -129,13 +132,15 @@ Empresas, comércios e profissionais que precisam gerenciar estoques de produtos
 
 
 ## 🧪 Testes E2E
-- **87 cenários automatizados** com Playwright
+- **122 cenários automatizados** com Playwright
 - **Login**: 10 cenários (credenciais, validações, sessão)
 - **Dashboard**: 14 cenários (navegação, tema, ações rápidas)
+- **Produtos**: 15 cenários (validações customizadas, edição, integração com lotes)
 - **Entradas**: 20 cenários (validações, CRUD, fornecedores, estoque)
 - **Saídas**: 13 cenários (validações, CRUD, atualização de estoque, reversão)
 - **Lotes**: 20 cenários (status de validade, validações de modal, formatação, múltiplos lotes)
-- **Fornecedores**: 10 cenários (CRUD, formatação CPF/CNPJ, validações)
+- **Fornecedores**: 20 cenários (CRUD, formatação CPF/CNPJ, validações, integração)
+- **Integração**: 10 cenários (fluxos completos entre funcionalidades)
 - **Page Object Model** para organização e manutenibilidade
 - **Data-testid** para seletores estáveis
 - **Limpeza automática** de dados após testes

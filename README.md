@@ -1,7 +1,7 @@
 # Sistema de Controle de Estoque
 
 [![Status](https://img.shields.io/badge/status-concluído-success)](https://github.com)
-[![Testes](https://img.shields.io/badge/testes-107%20passando-brightgreen)](https://github.com)
+[![Testes](https://img.shields.io/badge/testes-122%20passando-brightgreen)](https://github.com)
 [![Cobertura](https://img.shields.io/badge/cobertura-E2E-blue)](https://github.com)
 
 Sistema completo de gerenciamento de estoque com rastreamento de lotes, movimentações, alertas de validade e testes automatizados end-to-end.
@@ -60,9 +60,10 @@ Sistema completo de gerenciamento de estoque com rastreamento de lotes, moviment
 
 ## 🧪 Testes E2E
 
-### Cobertura Total: 107 Cenários ✅
+### Cobertura Total: 122 Cenários ✅
 - **Login**: 10 cenários
 - **Dashboard**: 14 cenários
+- **Produtos**: 15 cenários
 - **Entradas**: 20 cenários
 - **Saídas**: 13 cenários
 - **Lotes**: 20 cenários
@@ -80,6 +81,23 @@ Sistema completo de gerenciamento de estoque com rastreamento de lotes, moviment
 8. Validação de token
 9. Mensagens de erro
 10. Interface responsiva
+
+### Cenários de Teste - Produtos (15)
+1. Exibição da tela de produtos
+2. Exibição de mensagem informativa sobre cadastro via Entradas
+3. Validar campo "Nome" obrigatório
+4. Validar campo "Unidade de Medida" obrigatório
+5. Validar campos vazios simultaneamente
+6. Validar asterisco em campos obrigatórios
+7. Exibição de tabela com colunas corretas
+8. Editar nome do produto
+9. Editar categoria do produto
+10. Editar unidade de medida do produto
+11. Editar descrição do produto
+12. Excluir produto com sucesso
+13. Cancelar edição de produto
+14. Fechar modal ao clicar fora dele
+15. Refletir edição de produto nos lotes (integração)
 
 ### Cenários de Teste - Dashboard (14)
 1. Exibição de cards de resumo
@@ -193,6 +211,9 @@ npx playwright test saidas.spec.js
 # Apenas lotes
 npx playwright test lotes.spec.js
 
+# Apenas produtos
+npx playwright test produtos.spec.js
+
 # Apenas fornecedores
 npx playwright test fornecedores.spec.js
 
@@ -292,12 +313,18 @@ controle-estoque/
 └── tests/
     ├── pages/
     │   ├── LoginPage.js
+    │   ├── DashboardPage.js
+    │   ├── ProdutosPage.js
     │   ├── EntradasPage.js
     │   ├── SaidasPage.js
     │   ├── LotesPage.js
     │   └── FornecedoresPage.js
+    ├── helpers/
+    │   ├── cleanup.js
+    │   └── limpar-produtos.js
     ├── login.spec.js
     ├── dashboard.spec.js
+    ├── produtos.spec.js
     ├── entradas.spec.js
     ├── saidas.spec.js
     ├── lotes.spec.js
