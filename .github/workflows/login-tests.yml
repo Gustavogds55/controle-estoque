@@ -69,7 +69,7 @@ jobs:
         run: |
           npm run dev &
           for i in {1..30}; do
-            if curl -s http://localhost:3001/health > /dev/null 2>&1; then
+            if curl -s http://localhost:3000/health > /dev/null 2>&1; then
               echo "Backend iniciado!"
               break
             fi
@@ -82,15 +82,16 @@ jobs:
           DB_PASSWORD: root
           DB_NAME: controle_estoque
           JWT_SECRET: test-secret-key
-          PORT: 3001
+          PORT: 3000
 
       - name: Iniciar frontend
         working-directory: ./frontend
         run: |
           npm run dev &
           for i in {1..60}; do
-            if curl -s http://localhost:3000 > /dev/null 2>&1; then
+            if curl -s http://localhost:3001 > /dev/null 2>&1; then
               echo "Frontend iniciado!"
+              sleep 5
               break
             fi
             echo "Aguardando frontend... ($i/60)"
