@@ -51,11 +51,6 @@ jobs:
         working-directory: ./tests
         run: npx playwright install --with-deps chromium
 
-      - name: Setup Database
-        working-directory: ./backend
-        run: |
-          mysql -h 127.0.0.1 -u root -proot controle_estoque < database/schema.sql
-
       - name: Start Backend
         working-directory: ./backend
         run: |
