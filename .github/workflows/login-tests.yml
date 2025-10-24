@@ -51,7 +51,10 @@ jobs:
 
       - name: Instalar dependências do frontend
         working-directory: ./frontend
-        run: npm install
+        run: |
+          rm -rf node_modules package-lock.json
+          npm install --legacy-peer-deps
+          npm install --legacy-peer-deps
 
       - name: Instalar dependências dos testes
         working-directory: ./tests
