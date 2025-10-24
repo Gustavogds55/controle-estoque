@@ -1,7 +1,7 @@
 # Sistema de Controle de Estoque
 
 [![Status](https://img.shields.io/badge/status-concluído-success)](https://github.com)
-[![Testes](https://img.shields.io/badge/testes-54%20passando-brightgreen)](https://github.com)
+[![Testes](https://img.shields.io/badge/testes-87%20passando-brightgreen)](https://github.com)
 [![Cobertura](https://img.shields.io/badge/cobertura-E2E-blue)](https://github.com)
 
 Sistema completo de gerenciamento de estoque com rastreamento de lotes, movimentações, alertas de validade e testes automatizados end-to-end.
@@ -60,11 +60,13 @@ Sistema completo de gerenciamento de estoque com rastreamento de lotes, moviment
 
 ## 🧪 Testes E2E
 
-### Cobertura Total: 54 Cenários ✅
+### Cobertura Total: 87 Cenários ✅
 - **Login**: 10 cenários
 - **Dashboard**: 14 cenários
 - **Entradas**: 20 cenários
-- **Saídas**: 10 cenários
+- **Saídas**: 13 cenários
+- **Lotes**: 20 cenários
+- **Fornecedores**: 10 cenários
 
 ### Cenários de Teste - Login (10)
 1. Login com credenciais válidas
@@ -116,7 +118,7 @@ Sistema completo de gerenciamento de estoque com rastreamento de lotes, moviment
 19. Fechamento automático de modal de fornecedor
 20. Limpeza automática de dados de teste
 
-### Cenários de Teste - Saídas (10)
+### Cenários de Teste - Saídas (13)
 1. Exibição da tela de saídas
 2. Abertura de modal de nova saída
 3. Fechamento de modal ao clicar em cancelar
@@ -127,6 +129,43 @@ Sistema completo de gerenciamento de estoque com rastreamento de lotes, moviment
 8. Cadastro completo de saída
 9. Atualização de estoque ao cadastrar saída
 10. Reversão de estoque ao excluir saída
+11. Impedir saída maior que estoque disponível
+12. Validar quantidade zero ou negativa
+13. Validar formato de quantidade (apenas números)
+
+### Cenários de Teste - Fornecedores (10)
+1. Exibição da tela de fornecedores
+2. Abrir modal de novo fornecedor
+3. Fechar modal ao clicar em cancelar
+4. Fechar modal ao clicar fora dele
+5. Validar campo "Nome" obrigatório
+6. Validar campo "CNPJ" obrigatório
+7. Cadastro completo de fornecedor
+8. Formatação automática de CNPJ
+9. Formatação automática de Telefone
+10. Excluir fornecedor com sucesso
+
+### Cenários de Teste - Lotes (20)
+1. Exibição da tela de lotes
+2. Exibição de tabela com colunas corretas
+3. Status "Válido" para lote com validade futura
+4. Status "Vencido" para lote com validade passada
+5. Status "Próximo ao vencimento" para lote vencendo em 30 dias
+6. Abrir modal de edição ao clicar em editar
+7. Editar lote com sucesso
+8. Excluir lote com sucesso
+9. Fechar modal ao clicar em cancelar
+10. Exibir quantidade atual atualizada após movimentações
+11. Validar formatação de data no formato dd/mm/yyyy
+12. Validar formatação de quantidade com 2 casas decimais
+13. Criar múltiplos lotes do mesmo produto com validades diferentes
+14. Editar data de validade e validar mudança de status
+15. Validar campo "Produto" obrigatório no modal de edição
+16. Validar campo "Número do Lote" obrigatório no modal de edição
+17. Validar campo "Quantidade Inicial" obrigatório no modal de edição
+18. Validar campo "Data de Entrada" obrigatório no modal de edição
+19. Validar campo "Data de Validade" obrigatório no modal de edição
+20. Validar quantidade negativa no modal de edição
 
 ### Execução
 ```bash
@@ -138,6 +177,9 @@ npx playwright test entradas.spec.js
 
 # Apenas saídas
 npx playwright test saidas.spec.js
+
+# Apenas lotes
+npx playwright test lotes.spec.js
 
 # Modo headed
 npx playwright test --headed
@@ -234,10 +276,15 @@ controle-estoque/
 │   └── layouts/
 └── tests/
     ├── pages/
+    │   ├── LoginPage.js
+    │   ├── EntradasPage.js
+    │   ├── SaidasPage.js
+    │   └── LotesPage.js
     ├── login.spec.js
     ├── dashboard.spec.js
     ├── entradas.spec.js
-    └── saidas.spec.js
+    ├── saidas.spec.js
+    └── lotes.spec.js
 ```
 
 ## 🤝 Contribuindo

@@ -62,38 +62,44 @@
         
         <form @submit.prevent="salvarLote">
           <div class="mb-4">
-            <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">Produto</label>
-            <select v-model="form.produto_id" required class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="darkMode ? 'bg-gray-700 border-gray-600 text-white' : ''">
+            <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">Produto *</label>
+            <select v-model="form.produto_id" @blur="validarCampo('produto_id')" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="[darkMode ? 'bg-gray-700 border-gray-600 text-white' : '', erros.produto_id ? 'border-red-500' : '']">
               <option value="">Selecione um produto</option>
               <option v-for="produto in produtos" :key="produto.id" :value="produto.id">
                 {{ produto.nome }}
               </option>
             </select>
+            <p v-if="erros.produto_id" class="text-red-500 text-sm mt-1">{{ erros.produto_id }}</p>
           </div>
 
           <div class="mb-4">
-            <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">Número do Lote</label>
-            <input v-model="form.numero_lote" type="text" required class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="darkMode ? 'bg-gray-700 border-gray-600 text-white' : ''" />
+            <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">Número do Lote *</label>
+            <input v-model="form.numero_lote" type="text" @blur="validarCampo('numero_lote')" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="[darkMode ? 'bg-gray-700 border-gray-600 text-white' : '', erros.numero_lote ? 'border-red-500' : '']" />
+            <p v-if="erros.numero_lote" class="text-red-500 text-sm mt-1">{{ erros.numero_lote }}</p>
           </div>
 
           <div class="mb-4">
-            <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">{{ loteEditando ? 'Quantidade Inicial' : 'Quantidade' }}</label>
-            <input v-model="form.quantidade_inicial" type="number" step="0.01" required class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="darkMode ? 'bg-gray-700 border-gray-600 text-white' : ''" />
+            <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">{{ loteEditando ? 'Quantidade Inicial' : 'Quantidade' }} *</label>
+            <input v-model="form.quantidade_inicial" type="number" step="0.01" @blur="validarCampo('quantidade_inicial')" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="[darkMode ? 'bg-gray-700 border-gray-600 text-white' : '', erros.quantidade_inicial ? 'border-red-500' : '']" />
+            <p v-if="erros.quantidade_inicial" class="text-red-500 text-sm mt-1">{{ erros.quantidade_inicial }}</p>
           </div>
 
           <div v-if="loteEditando" class="mb-4">
-            <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">Quantidade Atual</label>
-            <input v-model="form.quantidade_atual" type="number" step="0.01" required class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="darkMode ? 'bg-gray-700 border-gray-600 text-white' : ''" />
+            <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">Quantidade Atual *</label>
+            <input v-model="form.quantidade_atual" type="number" step="0.01" @blur="validarCampo('quantidade_atual')" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="[darkMode ? 'bg-gray-700 border-gray-600 text-white' : '', erros.quantidade_atual ? 'border-red-500' : '']" />
+            <p v-if="erros.quantidade_atual" class="text-red-500 text-sm mt-1">{{ erros.quantidade_atual }}</p>
           </div>
 
           <div class="mb-4">
-            <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">Data de Entrada</label>
-            <input v-model="form.data_entrada" type="date" required class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="darkMode ? 'bg-gray-700 border-gray-600 text-white' : ''" />
+            <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">Data de Entrada *</label>
+            <input v-model="form.data_entrada" type="date" @blur="validarCampo('data_entrada')" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="[darkMode ? 'bg-gray-700 border-gray-600 text-white' : '', erros.data_entrada ? 'border-red-500' : '']" />
+            <p v-if="erros.data_entrada" class="text-red-500 text-sm mt-1">{{ erros.data_entrada }}</p>
           </div>
 
           <div class="mb-4">
-            <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">Data de Validade</label>
-            <input v-model="form.data_validade" type="date" required class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="darkMode ? 'bg-gray-700 border-gray-600 text-white' : ''" />
+            <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">Data de Validade *</label>
+            <input v-model="form.data_validade" type="date" @blur="validarCampo('data_validade')" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="[darkMode ? 'bg-gray-700 border-gray-600 text-white' : '', erros.data_validade ? 'border-red-500' : '']" />
+            <p v-if="erros.data_validade" class="text-red-500 text-sm mt-1">{{ erros.data_validade }}</p>
           </div>
 
           <div class="flex justify-end space-x-3">
@@ -139,6 +145,43 @@ const form = ref({
   data_entrada: '',
   data_validade: ''
 })
+
+const erros = ref({
+  produto_id: '',
+  numero_lote: '',
+  quantidade_inicial: '',
+  quantidade_atual: '',
+  data_entrada: '',
+  data_validade: ''
+})
+
+const validarCampo = (campo) => {
+  if (!form.value[campo]) {
+    erros.value[campo] = 'Este campo é obrigatório'
+    return false
+  }
+  
+  if ((campo === 'quantidade_inicial' || campo === 'quantidade_atual') && form.value[campo] < 0) {
+    erros.value[campo] = 'A quantidade não pode ser negativa'
+    return false
+  }
+  
+  erros.value[campo] = ''
+  return true
+}
+
+const validarFormulario = () => {
+  let valido = true
+  valido = validarCampo('produto_id') && valido
+  valido = validarCampo('numero_lote') && valido
+  valido = validarCampo('quantidade_inicial') && valido
+  if (loteEditando.value) {
+    valido = validarCampo('quantidade_atual') && valido
+  }
+  valido = validarCampo('data_entrada') && valido
+  valido = validarCampo('data_validade') && valido
+  return valido
+}
 
 const carregarLotes = async () => {
   loading.value = true
@@ -188,9 +231,20 @@ const editarLote = (lote) => {
 const fecharModal = () => {
   mostrarModal.value = false
   loteEditando.value = null
+  erros.value = {
+    produto_id: '',
+    numero_lote: '',
+    quantidade_inicial: '',
+    quantidade_atual: '',
+    data_entrada: '',
+    data_validade: ''
+  }
 }
 
 const salvarLote = async () => {
+  if (!validarFormulario()) {
+    return
+  }
   try {
     if (loteEditando.value) {
       await api(`/lotes/${loteEditando.value.id}`, {

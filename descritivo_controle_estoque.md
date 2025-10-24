@@ -129,12 +129,14 @@ Empresas, comércios e profissionais que precisam gerenciar estoques de produtos
 
 
 ## 🧪 Testes E2E
-- **54 cenários automatizados** com Playwright
+- **87 cenários automatizados** com Playwright
 - **Login**: 10 cenários (credenciais, validações, sessão)
 - **Dashboard**: 14 cenários (navegação, tema, ações rápidas)
 - **Entradas**: 20 cenários (validações, CRUD, fornecedores, estoque)
-- **Saídas**: 10 cenários (validações, CRUD, atualização de estoque, reversão)
-- **Page Object Model** para organização
+- **Saídas**: 13 cenários (validações, CRUD, atualização de estoque, reversão)
+- **Lotes**: 20 cenários (status de validade, validações de modal, formatação, múltiplos lotes)
+- **Fornecedores**: 10 cenários (CRUD, formatação CPF/CNPJ, validações)
+- **Page Object Model** para organização e manutenibilidade
 - **Data-testid** para seletores estáveis
 - **Limpeza automática** de dados após testes
 - **CNPJ único** gerado por timestamp

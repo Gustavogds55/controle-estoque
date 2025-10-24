@@ -16,7 +16,7 @@ controle-estoque/
 
 ### 📅 Última Atualização
 **Data**: Janeiro 2025  
-**Fase**: Sistema Completo com UI/UX Otimizada + Testes E2E Implementados (54 cenários)
+**Fase**: Sistema Completo com UI/UX Otimizada + Testes E2E Implementados (87 cenários)
 
 ---
 
@@ -108,13 +108,20 @@ backend/
 - [x] Coluna Fornecedor na tabela de Entradas
 - [x] Sistema de Toast completo (success, error, warning, info)
 - [x] Toast em todas as funcionalidades (Produtos, Lotes, Entradas, Saídas, Fornecedores)
-- [x] Testes E2E com Playwright (54 cenários)
+- [x] Testes E2E com Playwright (87 cenários)
 - [x] Page Object Model para testes
 - [x] Validação de campos obrigatórios com mensagens customizadas
 - [x] Modal de fornecedor sem formulário aninhado
 - [x] Exclusão em cascata de lotes
-- [x] Testes E2E - Saídas (10 cenários)
+- [x] Testes E2E - Saídas (13 cenários)
 - [x] Validação customizada em Saídas
+- [x] Testes E2E - Lotes (20 cenários)
+- [x] Validação de status de validade (Válido/Vencido/Próximo ao vencimento)
+- [x] Validações de modal de edição de lotes (campos obrigatórios, quantidade negativa)
+- [x] Testes de formatação (data, quantidade com casas decimais)
+- [x] Testes de múltiplos lotes do mesmo produto
+- [x] Testes de edição de data de validade com mudança de status
+- [x] Limpeza automática de massa de teste
 - [ ] Filtros e buscas avançadas
 
 **Estrutura Implementada**:
@@ -206,11 +213,12 @@ frontend/
 ## 🚀 Próximos Passos
 
 ### Prioridade Alta:
-1. **Filtros e Buscas Avançadas** - Campos de busca nas tabelas
-2. **Integração Frontend com Alertas** - Usar endpoints de alertas no Dashboard
+1. **Validação de Data de Validade** - Impedir cadastro de produtos com data de validade já vencida (manter visualização de status "Vencido" para produtos que venceram após cadastro)
+2. **Filtros e Buscas Avançadas** - Campos de busca nas tabelas
+3. **Integração Frontend com Alertas** - Usar endpoints de alertas no Dashboard
 
 ### Prioridade Média:
-3. **Melhorias no Dashboard** - Gráficos e estatísticas avançadas
+4. **Melhorias no Dashboard** - Gráficos e estatísticas avançadas
 5. **Relatórios** - Exportação em PDF/Excel
 6. **Confirmação de Exclusão** - Modal de confirmação ao invés de confirm()
 7. **Paginação** - Implementar paginação nas tabelas
@@ -280,12 +288,24 @@ frontend/
 | Jan/2025 | Cadastro rápido de fornecedor em Entradas | Concluído |
 | Jan/2025 | Edição de movimentações (Entradas) | Concluído |
 | Jan/2025 | Correção de estoque duplicado | Concluído |
-| Jan/2025 | Sincronização de estoque entre funcionalidades | Concluído |
+| Jan/2025 | Sincronização de estoque Lotes/Entradas/Saídas | Concluído |
+| Jan/2025 | Testes E2E - Lotes (20 cenários) | Concluído |
+| Jan/2025 | Validações customizadas em Lotes | Concluído |
+| Jan/2025 | Testes de formatação e validação | Concluído |
+| Jan/2025 | Total de 87 testes E2E implementados | Concluído |ção de estoque entre funcionalidades | Concluído |
 | Jan/2025 | Coluna Fornecedor na tabela de Entradas | Concluído |
 | Jan/2025 | Ícones para ações (Editar/Excluir) | Concluído |
 | Jan/2025 | Sistema de Alertas Backend (API endpoints) | Concluído |
 | Jan/2025 | Toast em todas as funcionalidades | Concluído |
-| Jan/2025 | Melhorias nos Toasts (4 tipos, cores claras, largura) | Concluído |
+| Jan/2025 | Testes E2E - Login (10 cenários) | Concluído |
+| Jan/2025 | Testes E2E - Dashboard (14 cenários) | Concluído |
+| Jan/2025 | Testes E2E - Entradas (20 cenários) | Concluído |
+| Jan/2025 | Testes E2E - Saídas (13 cenários) | Concluído |
+| Jan/2025 | Testes E2E - Lotes (10 cenários) | Concluído |
+| Jan/2025 | Page Objects (LoginPage, EntradasPage, SaidasPage, LotesPage) | Concluído |
+| Jan/2025 | Validação de estoque insuficiente em Saídas | Concluído |
+| Jan/2025 | Validação de quantidade zero/negativa | Concluído |
+| Jan/2025 | Limpeza automática de massa de teste | Concluído |ts (4 tipos, cores claras, largura) | Concluído |
 | Jan/2025 | Testes E2E - Login (10 cenários) | Concluído |
 | Jan/2025 | Testes E2E - Dashboard (14 cenários) | Concluído |
 | Jan/2025 | Testes E2E - Entradas (20 cenários) | Concluído |
