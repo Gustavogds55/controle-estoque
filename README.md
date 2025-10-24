@@ -1,7 +1,7 @@
 # Sistema de Controle de Estoque
 
 [![Status](https://img.shields.io/badge/status-concluído-success)](https://github.com)
-[![Testes](https://img.shields.io/badge/testes-87%20passando-brightgreen)](https://github.com)
+[![Testes](https://img.shields.io/badge/testes-107%20passando-brightgreen)](https://github.com)
 [![Cobertura](https://img.shields.io/badge/cobertura-E2E-blue)](https://github.com)
 
 Sistema completo de gerenciamento de estoque com rastreamento de lotes, movimentações, alertas de validade e testes automatizados end-to-end.
@@ -60,13 +60,14 @@ Sistema completo de gerenciamento de estoque com rastreamento de lotes, moviment
 
 ## 🧪 Testes E2E
 
-### Cobertura Total: 87 Cenários ✅
+### Cobertura Total: 107 Cenários ✅
 - **Login**: 10 cenários
 - **Dashboard**: 14 cenários
 - **Entradas**: 20 cenários
 - **Saídas**: 13 cenários
 - **Lotes**: 20 cenários
-- **Fornecedores**: 10 cenários
+- **Fornecedores**: 20 cenários
+- **Integração**: 10 cenários
 
 ### Cenários de Teste - Login (10)
 1. Login com credenciais válidas
@@ -133,7 +134,7 @@ Sistema completo de gerenciamento de estoque com rastreamento de lotes, moviment
 12. Validar quantidade zero ou negativa
 13. Validar formato de quantidade (apenas números)
 
-### Cenários de Teste - Fornecedores (10)
+### Cenários de Teste - Fornecedores (20)
 1. Exibição da tela de fornecedores
 2. Abrir modal de novo fornecedor
 3. Fechar modal ao clicar em cancelar
@@ -141,9 +142,20 @@ Sistema completo de gerenciamento de estoque com rastreamento de lotes, moviment
 5. Validar campo "Nome" obrigatório
 6. Validar campo "CNPJ" obrigatório
 7. Cadastro completo de fornecedor
-8. Formatação automática de CNPJ
-9. Formatação automática de Telefone
-10. Excluir fornecedor com sucesso
+8. Formatação automática de CNPJ (14 dígitos)
+9. Formatação automática de CPF (11 dígitos)
+10. Formatação automática de Telefone
+11. Excluir fornecedor com sucesso
+12. Usar fornecedor cadastrado em uma entrada (integração)
+13. Editar nome do fornecedor
+14. Editar CNPJ do fornecedor
+15. Editar telefone do fornecedor
+16. Editar email do fornecedor
+17. Editar endereço do fornecedor
+18. Cadastrar fornecedor apenas com campos obrigatórios
+19. Exibir tabela com colunas corretas
+20. Impedir cadastro de CNPJ duplicado
+21. Validar formato de email inválido
 
 ### Cenários de Teste - Lotes (20)
 1. Exibição da tela de lotes
@@ -180,6 +192,9 @@ npx playwright test saidas.spec.js
 
 # Apenas lotes
 npx playwright test lotes.spec.js
+
+# Apenas fornecedores
+npx playwright test fornecedores.spec.js
 
 # Modo headed
 npx playwright test --headed
@@ -279,12 +294,14 @@ controle-estoque/
     │   ├── LoginPage.js
     │   ├── EntradasPage.js
     │   ├── SaidasPage.js
-    │   └── LotesPage.js
+    │   ├── LotesPage.js
+    │   └── FornecedoresPage.js
     ├── login.spec.js
     ├── dashboard.spec.js
     ├── entradas.spec.js
     ├── saidas.spec.js
-    └── lotes.spec.js
+    ├── lotes.spec.js
+    └── fornecedores.spec.js
 ```
 
 ## 🤝 Contribuindo

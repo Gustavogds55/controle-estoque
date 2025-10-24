@@ -56,15 +56,15 @@
         
         <form @submit.prevent="salvar">
           <div class="mb-4">
-            <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">Nome</label>
-            <input v-model="form.nome" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="darkMode ? 'bg-gray-700 border-gray-600 text-white' : ''" />
+            <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">Nome <span class="text-red-500">*</span></label>
+            <input v-model="form.nome" @blur="validarCampo('nome')" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="[darkMode ? 'bg-gray-700 border-gray-600 text-white' : '', erros.nome ? 'border-red-500' : '']" />
             <p v-if="erros.nome" class="text-red-500 text-sm mt-1">{{ erros.nome }}</p>
           </div>
 
           <div class="grid grid-cols-2 gap-3 mb-4">
             <div>
-              <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">CPF/CNPJ</label>
-              <input v-model="form.cnpj" @input="formatarCpfCnpj" maxlength="18" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="darkMode ? 'bg-gray-700 border-gray-600 text-white' : ''" />
+              <label class="block mb-2" :class="darkMode ? 'text-gray-300' : 'text-gray-700'">CPF/CNPJ <span class="text-red-500">*</span></label>
+              <input v-model="form.cnpj" @input="formatarCpfCnpj" @blur="validarCampo('cnpj')" maxlength="18" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-400" :class="[darkMode ? 'bg-gray-700 border-gray-600 text-white' : '', erros.cnpj ? 'border-red-500' : '']" />
               <p v-if="erros.cnpj" class="text-red-500 text-sm mt-1">{{ erros.cnpj }}</p>
             </div>
             <div>
@@ -164,17 +164,31 @@ const fecharModal = () => {
   fornecedorEditando.value = null
 }
 
+const validarCampo = (campo) => {
+  if (campo === 'nome' && !form.value.nome.trim()) {
+    erros.value.nome = 'Este campo é obrigatório'
+  } else if (campo === 'nome') {
+    erros.value.nome = ''
+  }
+
+  if (campo === 'cnpj' && !form.value.cnpj.trim()) {
+    erros.value.cnpj = 'Este campo é obrigatório'
+  } else if (campo === 'cnpj') {
+    erros.value.cnpj = ''
+  }
+}
+
 const validarFormulario = () => {
   erros.value = { nome: '', cnpj: '' }
   let valido = true
 
   if (!form.value.nome.trim()) {
-    erros.value.nome = 'Nome é obrigatório'
+    erros.value.nome = 'Este campo é obrigatório'
     valido = false
   }
 
   if (!form.value.cnpj.trim()) {
-    erros.value.cnpj = 'CPF/CNPJ é obrigatório'
+    erros.value.cnpj = 'Este campo é obrigatório'
     valido = false
   }
 
@@ -238,7 +252,7 @@ const formatarTelefone = (e) => {
 const deletarFornecedor = async (id) => {
   try {
     await api(`/fornecedores/${id}`, { method: 'DELETE' })
-    showToast('Fornecedor deletado com sucesso')
+    showToast('Fornecedor excluído com sucesso')
     await carregar()
   } catch (error) {
     console.error('Erro ao deletar fornecedor:', error)

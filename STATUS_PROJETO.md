@@ -16,7 +16,7 @@ controle-estoque/
 
 ### 📅 Última Atualização
 **Data**: Janeiro 2025  
-**Fase**: Sistema Completo com UI/UX Otimizada + Testes E2E Implementados (87 cenários)
+**Fase**: Sistema Completo com UI/UX Otimizada + Testes E2E Implementados (107 cenários)
 
 ---
 
@@ -108,11 +108,14 @@ backend/
 - [x] Coluna Fornecedor na tabela de Entradas
 - [x] Sistema de Toast completo (success, error, warning, info)
 - [x] Toast em todas as funcionalidades (Produtos, Lotes, Entradas, Saídas, Fornecedores)
-- [x] Testes E2E com Playwright (87 cenários)
+- [x] Testes E2E com Playwright (107 cenários)
 - [x] Page Object Model para testes
 - [x] Validação de campos obrigatórios com mensagens customizadas
 - [x] Modal de fornecedor sem formulário aninhado
 - [x] Exclusão em cascata de lotes
+- [x] Testes E2E - Login (10 cenários)
+- [x] Testes E2E - Dashboard (14 cenários)
+- [x] Testes E2E - Entradas (20 cenários)
 - [x] Testes E2E - Saídas (13 cenários)
 - [x] Validação customizada em Saídas
 - [x] Testes E2E - Lotes (20 cenários)
@@ -121,6 +124,13 @@ backend/
 - [x] Testes de formatação (data, quantidade com casas decimais)
 - [x] Testes de múltiplos lotes do mesmo produto
 - [x] Testes de edição de data de validade com mudança de status
+- [x] Testes E2E - Fornecedores (20 cenários)
+- [x] Testes de validação de campos obrigatórios (Nome, CNPJ)
+- [x] Testes de formatação automática (CNPJ 14 dígitos, CPF 11 dígitos, Telefone)
+- [x] Testes de edição de todos os campos (Nome, CNPJ, Telefone, Email, Endereço)
+- [x] Teste de integração Fornecedores → Entradas
+- [x] Teste de validação de CNPJ duplicado
+- [x] Teste de validação de email inválido
 - [x] Limpeza automática de massa de teste
 - [ ] Filtros e buscas avançadas
 
@@ -284,6 +294,12 @@ frontend/
 | Jan/2025 | Validação de campos obrigatórios | Concluído |
 | Jan/2025 | Integração Fornecedores com Entradas | Concluído |
 | Jan/2025 | Modais aumentados e melhorados | Concluído |
+| Jan/2025 | Testes E2E - Fornecedores (20 cenários) | Concluído |
+| Jan/2025 | Validações customizadas em Fornecedores | Concluído |
+| Jan/2025 | Testes de formatação CPF/CNPJ/Telefone | Concluído |
+| Jan/2025 | Testes de edição de fornecedores | Concluído |
+| Jan/2025 | Teste de integração Fornecedores-Entradas | Concluído |
+| Jan/2025 | Total de 107 testes E2E implementados | Concluído |
 | Jan/2025 | Atualização Postman Collection | Concluído |
 | Jan/2025 | Cadastro rápido de fornecedor em Entradas | Concluído |
 | Jan/2025 | Edição de movimentações (Entradas) | Concluído |

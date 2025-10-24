@@ -1,10 +1,16 @@
-export class EntradasPage {
+class EntradasPage {
   constructor(page) {
     this.page = page;
     this.novaEntradaButton = page.getByRole('button', { name: '+ Nova Entrada' });
     this.modalTitle = page.getByRole('heading', { name: 'Nova Entrada' });
     this.cancelarButton = page.getByRole('button', { name: 'Cancelar' });
     this.cadastrarButton = page.getByRole('button', { name: 'Cadastrar' });
+  }
+
+  async navigate() {
+    await this.page.getByRole('link', { name: 'Entradas', exact: true }).click();
+    await this.page.waitForLoadState('networkidle');
+    await this.page.waitForSelector('h2:has-text("Entrada de Mercadorias")');
   }
 
   async goto() {
@@ -41,4 +47,47 @@ export class EntradasPage {
   async cancelar() {
     await this.cancelarButton.click();
   }
+
+  async preencherNomeProduto(nome) {
+    await this.page.getByTestId('produto-nome').fill(nome);
+  }
+
+  async selecionarCategoria(categoria) {
+    await this.page.getByTestId('produto-categoria').fill(categoria);
+  }
+
+  async selecionarUnidadeMedida(unidade) {
+    await this.page.getByTestId('produto-unidade').fill(unidade);
+  }
+
+  async preencherNumeroLote(numeroLote) {
+    await this.page.getByTestId('numero-lote').fill(numeroLote);
+  }
+
+  async preencherDataValidade(dataValidade) {
+    await this.page.getByTestId('data-validade').fill(dataValidade);
+  }
+
+  async preencherNumeroNF(numeroNF) {
+    await this.page.getByTestId('numero-nf').fill(numeroNF);
+  }
+
+  async selecionarFornecedor(nomeFornecedor) {
+    await this.page.getByTestId('fornecedor-select').selectOption({ label: nomeFornecedor });
+  }
+
+  async preencherQuantidade(quantidade) {
+    await this.page.getByTestId('quantidade').fill(quantidade);
+  }
+
+  async preencherDataHora(dataHora) {
+    await this.page.getByTestId('data-hora').fill(dataHora);
+  }
+
+  async excluirEntrada(nomeProduto) {
+    const entradaRow = this.page.locator('tr', { hasText: nomeProduto });
+    await entradaRow.locator('button[title="Excluir"]').click();
+  }
 }
+
+module.exports = { EntradasPage }
