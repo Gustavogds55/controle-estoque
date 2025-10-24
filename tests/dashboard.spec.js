@@ -88,10 +88,10 @@ test.describe('Dashboard', () => {
     
     await expect(page.getByText('Registrar Saídas')).toBeVisible();
     
-    await page.goto('/login');
+    await page.goto('http://localhost:3001/login');
     await page.waitForLoadState('networkidle');
     await loginPage.login('admin@estoque.com', '123456');
-    await page.waitForURL('/dashboard');
+    await page.waitForURL('http://localhost:3001/dashboard');
     await page.waitForLoadState('domcontentloaded');
     
     await expect(page.getByText('Registrar Saídas')).toBeVisible();

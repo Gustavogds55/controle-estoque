@@ -41,7 +41,7 @@ jobs:
           );
 
           INSERT INTO usuarios (nome, email, senha) 
-          VALUES ('Admin', 'admin@estoque.com', '$2b$10$t/EFQT/77PjJz0/kLKIgveqYYmprH/XtIr0RvsArM48NA5/.O1jeG')
+          VALUES ('Administrador', 'admin@estoque.com', '$2b$10$t/EFQT/77PjJz0/kLKIgveqYYmprH/XtIr0RvsArM48NA5/.O1jeG')
           ON DUPLICATE KEY UPDATE nome=nome;
           EOF
 
