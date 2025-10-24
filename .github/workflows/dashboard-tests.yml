@@ -1,0 +1,114 @@
+name: Dashboard Tests
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  test-dashboard:
+    runs-on: ubuntu-latest
+    
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: controle_estoque
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Criar tabelas do banco
+        run: |
+          mysql -h 127.0.0.1 -u root -proot controle_estoque << 'EOF'
+          CREATE TABLE IF NOT EXISTS usuarios (
+            id INT PRIMARY KEY AUTO_INCREMENT,
+            nome VARCHAR(100) NOT NULL,
+            email VARCHAR(100) UNIQUE NOT NULL,
+            senha VARCHAR(255) NOT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+          );
+
+          INSERT INTO usuarios (nome, email, senha) 
+          VALUES ('Admin', 'admin@estoque.com', '$2b$10$t/EFQT/77PjJz0/kLKIgveqYYmprH/XtIr0RvsArM48NA5/.O1jeG')
+          ON DUPLICATE KEY UPDATE nome=nome;
+          EOF
+
+      - name: Instalar dependências do backend
+        working-directory: ./backend
+        run: npm install
+
+      - name: Instalar dependências do frontend
+        working-directory: ./frontend
+        run: |
+          rm -rf node_modules package-lock.json
+          npm install --legacy-peer-deps
+          npm install --legacy-peer-deps
+
+      - name: Instalar dependências dos testes
+        working-directory: ./tests
+        run: npm install
+
+      - name: Instalar Playwright
+        working-directory: ./tests
+        run: npx playwright install chromium
+
+      - name: Iniciar backend
+        working-directory: ./backend
+        run: |
+          npm run dev &
+          for i in {1..30}; do
+            if curl -s http://localhost:3000/health > /dev/null 2>&1; then
+              echo "Backend iniciado!"
+              break
+            fi
+            echo "Aguardando backend... ($i/30)"
+            sleep 2
+          done
+        env:
+          DB_HOST: 127.0.0.1
+          DB_USER: root
+          DB_PASSWORD: root
+          DB_NAME: controle_estoque
+          JWT_SECRET: test-secret-key
+          JWT_EXPIRES_IN: 24h
+          PORT: 3000
+
+      - name: Iniciar frontend
+        working-directory: ./frontend
+        run: |
+          npm run dev &
+          for i in {1..60}; do
+            if curl -s http://localhost:3001 > /dev/null 2>&1; then
+              echo "Frontend iniciado!"
+              sleep 5
+              break
+            fi
+            echo "Aguardando frontend... ($i/60)"
+            sleep 2
+          done
+        env:
+          NUXT_PUBLIC_API_BASE: http://localhost:3000/api
+
+      - name: Executar testes de dashboard
+        working-directory: ./tests
+        run: npx playwright test dashboard.spec.js
+
+      - name: Upload dos resultados
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-dashboard
+          path: tests/playwright-report/
+          retention-days: 7
