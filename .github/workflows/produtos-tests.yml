@@ -49,8 +49,48 @@ jobs:
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
           );
 
+          CREATE TABLE IF NOT EXISTS fornecedores (
+            id INT PRIMARY KEY AUTO_INCREMENT,
+            nome VARCHAR(100) NOT NULL,
+            cnpj VARCHAR(18) UNIQUE NOT NULL,
+            telefone VARCHAR(15),
+            email VARCHAR(100),
+            endereco TEXT,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+          );
+
+          CREATE TABLE IF NOT EXISTS lotes (
+            id INT PRIMARY KEY AUTO_INCREMENT,
+            produto_id INT NOT NULL,
+            numero_lote VARCHAR(50) NOT NULL,
+            quantidade_inicial DECIMAL(10,2) NOT NULL,
+            quantidade_atual DECIMAL(10,2) DEFAULT 0,
+            data_entrada DATE NOT NULL,
+            data_validade DATE NOT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (produto_id) REFERENCES produtos(id) ON DELETE CASCADE
+          );
+
+          CREATE TABLE IF NOT EXISTS movimentacoes (
+            id INT PRIMARY KEY AUTO_INCREMENT,
+            lote_id INT NOT NULL,
+            tipo ENUM('entrada', 'saida') NOT NULL,
+            quantidade DECIMAL(10,2) NOT NULL,
+            numero_nf VARCHAR(50),
+            fornecedor_id INT,
+            data_hora DATETIME NOT NULL,
+            observacoes TEXT,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (lote_id) REFERENCES lotes(id) ON DELETE CASCADE,
+            FOREIGN KEY (fornecedor_id) REFERENCES fornecedores(id)
+          );
+
           INSERT INTO usuarios (nome, email, senha) 
           VALUES ('Administrador', 'admin@estoque.com', '$2b$10$t/EFQT/77PjJz0/kLKIgveqYYmprH/XtIr0RvsArM48NA5/.O1jeG')
+          ON DUPLICATE KEY UPDATE nome=nome;
+
+          INSERT INTO fornecedores (nome, cnpj, telefone, email) 
+          VALUES ('Fornecedor Teste', '12.345.678/0001-90', '(11) 98765-4321', 'fornecedor@teste.com')
           ON DUPLICATE KEY UPDATE nome=nome;
           EOF
 
@@ -109,6 +149,13 @@ jobs:
           done
         env:
           NUXT_PUBLIC_API_BASE: http://localhost:3000/api
+
+      - name: Debug - Verificar fornecedores
+        run: |
+          echo "Verificando fornecedores no banco:"
+          mysql -h 127.0.0.1 -u root -proot controle_estoque -e "SELECT * FROM fornecedores;"
+          echo "Testando API de fornecedores:"
+          curl -s http://localhost:3000/api/fornecedores || echo "Endpoint não encontrado"
 
       - name: Executar testes de produtos
         working-directory: ./tests
