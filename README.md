@@ -3,6 +3,7 @@
 [![Status](https://img.shields.io/badge/status-concluído-success)](https://github.com)
 [![Testes](https://img.shields.io/badge/testes-119%20passando-brightgreen)](https://github.com)
 [![Cobertura](https://img.shields.io/badge/cobertura-E2E-blue)](https://github.com)
+[![Execução](https://img.shields.io/badge/execução-local-orange)](https://github.com)
 
 Sistema completo de gerenciamento de estoque com rastreamento de lotes, movimentações, alertas de validade e testes automatizados end-to-end.
 

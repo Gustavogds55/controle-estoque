@@ -16,7 +16,8 @@ controle-estoque/
 
 ### 📅 Última Atualização
 **Data**: Janeiro 2025  
-**Fase**: Sistema Completo com UI/UX Otimizada + Testes E2E Implementados (119 cenários)
+**Fase**: Sistema Completo com UI/UX Otimizada + Testes E2E Implementados (119 cenários)  
+**Execução**: Testes rodando localmente via Playwright
 
 ---
 
